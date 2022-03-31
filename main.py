@@ -1,3 +1,4 @@
+from player import Player
 from windows import window
 import pygame
 import sys
@@ -40,6 +41,9 @@ if __name__ == "__main__":
     display = pygame.Surface(window.rect.size)
     pygame.display.set_caption("Activate: Agility")
     clock = pygame.time.Clock()
+
+    # Player
+    player = Player()
 
     # Execute
     game_loop()

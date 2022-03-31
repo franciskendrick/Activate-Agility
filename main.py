@@ -8,6 +8,9 @@ import sys
 def redraw_game():
     display.fill((235, 235, 245))
 
+    # Player
+    player.draw(display)
+
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
     win.blit(resized_display, (0, 0))
@@ -24,7 +27,7 @@ def game_loop():
                 run = False
 
         redraw_game()
-        clock.tick()
+        clock.tick(window.framerate)
 
     pygame.quit()
     sys.exit()

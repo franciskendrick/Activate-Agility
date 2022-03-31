@@ -1,9 +1,16 @@
 from windows import window
 import pygame
+import sys
 
 
 # Redraw
 def redraw_game():
+    display.fill((235, 235, 245))
+
+    # Blit to Screen ---------------------------------------------- #
+    resized_display = pygame.transform.scale(display, win_size)
+    win.blit(resized_display, (0, 0))
+
     pygame.display.update()
 
 
@@ -17,6 +24,9 @@ def game_loop():
 
         redraw_game()
         clock.tick()
+
+    pygame.quit()
+    sys.exit()
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+from windows import window
 import pygame
 
 
@@ -22,9 +23,11 @@ if __name__ == "__main__":
     pygame.init()
 
     # Window
-    win_size = (640 * 2, 360 * 2)
+    win_size = (
+        window.rect.width * window.enlarge,
+        window.rect.height * window.enlarge)
     win = pygame.display.set_mode(win_size)
-    display = pygame.Surface((640, 360))
+    display = pygame.Surface(window.rect.size)
     pygame.display.set_caption("Activate: Agility")
     clock = pygame.time.Clock()
 

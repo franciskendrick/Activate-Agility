@@ -1,4 +1,4 @@
-from functions import clip_set_to_list_on_xaxis
+from functions import clip_set_to_list_on_xaxis, edge_collision
 import pygame
 import time
 import os
@@ -67,13 +67,13 @@ class Player:
 
         # Movement
         if keys[pygame.K_a]:  # left
-            self.rect.x -= vel
+            self.move_x(-vel)
         if keys[pygame.K_d]:  # right
-            self.rect.x += vel
+            self.move_x(vel)
         if keys[pygame.K_w]:  # up
-            self.rect.y -= vel
+            self.move_y(-vel)
         if keys[pygame.K_s]:  # down
-            self.rect.y += vel
+            self.move_y(vel)
 
     # Functions --------------------------------------------------- #
     # Movement
@@ -101,3 +101,15 @@ class Player:
                 self.last_sprint = time.perf_counter()
             
         return vel
+
+    def move_x(self, vel):
+        handle_rect = self.rect.copy()
+        handle_rect.x += vel
+        if not edge_collision(handle_rect):
+            self.rect.x += vel
+
+    def move_y(self, vel):
+        handle_rect = self.rect.copy()
+        handle_rect.y += vel
+        if not edge_collision(handle_rect):
+            self.rect.y += vel

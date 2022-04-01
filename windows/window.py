@@ -11,5 +11,8 @@ class Window:
         # Framerate
         self.framerate = 30
 
+        # Room
+        self.room_rect = pygame.Rect(32, 60, 576, 272)
+
 
 window = Window()

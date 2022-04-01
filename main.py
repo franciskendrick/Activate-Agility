@@ -1,12 +1,13 @@
 from player import Player
-from windows import window
+from windows import window, background
 import pygame
 import sys
 
 
 # Redraw
 def redraw_game():
-    display.fill((235, 235, 245))
+    display.fill(background.color)
+    background.draw_walls(display)
 
     # Player
     player.draw(display)

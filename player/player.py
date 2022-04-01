@@ -52,4 +52,23 @@ class Player:
 
     # Update ------------------------------------------------------ #
     def update(self):
-        pass
+        self.movement()
+
+    # Movement
+    def movement(self):
+        keys = pygame.key.get_pressed()
+
+        # Sprint
+        vel = self.walk_vel
+
+        # Movement
+        if keys[pygame.K_a]:  # left
+            self.rect.x -= vel
+        if keys[pygame.K_d]:  # right
+            self.rect.x += vel
+        if keys[pygame.K_w]:  # up
+            self.rect.y -= vel
+        if keys[pygame.K_s]:  # down
+            self.rect.y += vel
+
+    # Functions --------------------------------------------------- #

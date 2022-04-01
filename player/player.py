@@ -35,7 +35,11 @@ class Player:
         # Time 
         self.last_sprint = time.perf_counter()
         self.stamina_degenerate = 250  # milliseconds
-        self.stamina_regenerate = 250  # milliseconds
+        self.stamina_regenerate = 500  # milliseconds
+
+        # Stamina
+        self.maximum_stamina = 20
+        self.stamina = 20
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
@@ -59,7 +63,7 @@ class Player:
         keys = pygame.key.get_pressed()
 
         # Sprint
-        vel = self.walk_vel
+        vel = self.get_velocity()
 
         # Movement
         if keys[pygame.K_a]:  # left
@@ -72,3 +76,28 @@ class Player:
             self.rect.y += vel
 
     # Functions --------------------------------------------------- #
+    # Movement
+    def get_velocity(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LSHIFT]:  # shift is down
+            if self.stamina > 0:  # still has stamina
+                vel = self.sprint_vel
+
+                # Update Stamina Stat
+                dt = time.perf_counter() - self.last_sprint
+                if dt * 1000 >= self.stamina_degenerate:
+                    self.stamina -= 1
+                    self.last_sprint = time.perf_counter()
+            else:  # no stamina
+                vel = self.walk_vel
+        else:  # shift is up
+            vel = self.walk_vel
+
+            # Update Stamina Stat
+            dt = time.perf_counter() - self.last_sprint
+            if dt * 1000 >= self.stamina_regenerate:
+                if self.stamina < 20:
+                    self.stamina += 1
+                self.last_sprint = time.perf_counter()
+            
+        return vel

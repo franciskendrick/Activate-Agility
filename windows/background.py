@@ -14,7 +14,7 @@ class Background:
 
     # Draw -------------------------------------------------------- #
     def draw_walls(self, display):
-        display.blit(self.walls, (0, 0))
+        display.blit(self.walls, (26, 54))
 
 
 background = Background()

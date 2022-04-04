@@ -1,5 +1,5 @@
 from player import Player
-from windows import window, background
+from windows import window, background, tiles
 import pygame
 import sys
 

@@ -8,6 +8,7 @@ import sys
 def redraw_game():
     display.fill(background.color)
     background.draw_walls(display)
+    tiles.draw(display)
 
     # Player
     player.draw(display)

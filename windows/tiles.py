@@ -26,12 +26,18 @@ class Tiles:
 
     def init_tiles(self):
         self.tiles = [
-            [("on", 0) for x in range(36)] for y in range(17)
+            [(("off", 0), (32 + x*16, 60 + y*16)) for x in range(36)] for y in range(17)
         ]
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        for row in self.tiles:
+            for ((toggle, color), (x, y)) in row:
+                if toggle == "on":
+                    img = self.images[toggle][color]
+                else:
+                    img = self.images[toggle]
+                display.blit(img, (x, y))
 
 
 tiles = Tiles()

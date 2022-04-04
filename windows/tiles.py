@@ -10,6 +10,7 @@ class Tiles:
     # Initialize -------------------------------------------------- #
     def __init__(self):
         self.init_images()
+        self.init_tiles()
 
     def init_images(self):
         # Spriteset
@@ -23,9 +24,10 @@ class Tiles:
             "off": clip_set_to_list_on_xaxis(sets[1])
         }
 
-        # Types
-        self.toggle = "on"
-        self.color = 0
+    def init_tiles(self):
+        self.tiles = [
+            [("on", 0) for x in range(36)] for y in range(17)
+        ]
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

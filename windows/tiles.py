@@ -1,5 +1,6 @@
 from functions import separate_sets_from_yaxis, clip_set_to_list_on_xaxis
 import pygame
+import random
 import os
 
 pygame.init()
@@ -25,19 +26,30 @@ class Tiles:
         }
 
     def init_tiles(self):
-        self.tiles = [
-            [(("off", 0), (32 + x*16, 60 + y*16)) for x in range(36)] for y in range(17)
-        ]
+        offset = (32, 60)
+        self.tiles = []
+        for x in range(36):
+            for y in range(17):
+                # Image
+                toggle = random.choices(["on", "off"], weights=(75, 25))[0]
+                if toggle == "on":
+                    color = random.randint(0, 5)
+                    image = self.images[toggle][color]
+                else:
+                    image = self.images[toggle]
+
+                # Position
+                xpos = offset[0] + x*16
+                ypos = offset[1] + y*16
+
+                # Append
+                tile = (image, (xpos, ypos))
+                self.tiles.append(tile)
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        for row in self.tiles:
-            for ((toggle, color), (x, y)) in row:
-                if toggle == "on":
-                    img = self.images[toggle][color]
-                else:
-                    img = self.images[toggle]
-                display.blit(img, (x, y))
+        for (image, pos) in self.tiles:
+            display.blit(image, pos)
 
 
 tiles = Tiles()

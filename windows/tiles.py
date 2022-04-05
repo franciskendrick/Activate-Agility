@@ -31,7 +31,8 @@ class Tiles:
         for x in range(36):
             for y in range(17):
                 # Image
-                toggle = random.choices(["on", "off"], weights=(75, 25))[0]
+                # toggle = random.choices(["on", "off"], weights=(75, 25))[0]
+                toggle = "off"  # !!!
                 if toggle == "on":
                     color = random.randint(0, 5)
                     image = self.images[toggle][color]

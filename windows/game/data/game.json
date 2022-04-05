@@ -1,0 +1,24 @@
+{
+    "playergauge_position": {
+        "icon": {
+            "health": [16, 3],
+            "mana": [9, 12],
+            "stamina": [18, 35]
+        },
+        "bar": {
+            "health": [30, 3],
+            "mana": [30, 19],
+            "stamina": [30, 36]
+        },
+        "gauge": {
+            "health": [33, 5],
+            "mana": [33, 21],
+            "stamina": [33, 38]
+        },
+        "spacing": {
+            "health": 2,
+            "mana": 1,
+            "stamina": 1
+        }
+    }
+}

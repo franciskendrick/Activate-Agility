@@ -1,15 +1,21 @@
 from functions import separate_sets_from_yaxis, clip_set_to_list_on_xaxis
 import pygame
+import json
 import os
 
 pygame.init()
 path = os.path.dirname(os.path.realpath(__file__))
 
+# Json
+with open(f"{path}/data/game.json") as json_file:
+    game_data = json.load(json_file)
+
 
 class PlayerGauge:
     # Initialize -------------------------------------------------- #
     def __init__(self):
-        pass
+        self.init_images()
+        self.init_positions()
 
     def init_images(self):
         spriteset = pygame.image.load(
@@ -22,6 +28,9 @@ class PlayerGauge:
         for name, separated_set in zip(order, separated_sets):
             image = clip_set_to_list_on_xaxis(separated_set)
             self.images[name] = image
+
+    def init_positions(self):
+        self.positions = game_data["playergauge_position"]
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

@@ -1,6 +1,6 @@
 from player import Player
 from windows import window, background, tiles
-from windows.game import player_gauge
+from windows.game import PlayerGauge, player_gauge
 import pygame
 import sys
 
@@ -57,6 +57,9 @@ if __name__ == "__main__":
 
     # Player
     player = Player()
+
+    # Windows
+    player_gauge = PlayerGauge(player.maximum_stats)
 
     # Execute
     game_loop()

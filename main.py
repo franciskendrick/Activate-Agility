@@ -1,14 +1,19 @@
 from player import Player
 from windows import window, background, tiles
+from windows.game import player_gauge
 import pygame
 import sys
 
 
 # Redraw
 def redraw_game():
+    # Background
     display.fill(background.color)
     background.draw_walls(display)
     tiles.draw(display)
+
+    # Player Gauge
+    player_gauge.draw(display)
 
     # Player
     player.draw(display)

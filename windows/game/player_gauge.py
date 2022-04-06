@@ -34,8 +34,21 @@ class PlayerGauge:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        keys = ["health", "mana", "stamina"]
+        for idx, key in enumerate(keys):
+            # Icon
+            icon = self.images["icon"][idx]
+            display.blit(icon, self.positions["icon"][key])
+
+            # Bar
+            bar = self.images["bar"]
+            display.blit(bar, self.positions["bar"][key])
+
+            # Gauge
 
     # Update ------------------------------------------------------ #
     def update(self):
         pass
+
+
+player_gauge = PlayerGauge()

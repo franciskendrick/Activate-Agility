@@ -48,6 +48,12 @@ class PlayerGauge:
             display.blit(bar, self.positions["bar"][key])
 
             # Gauge
+            x, y = self.positions["gauge"][key]
+            gauge_images = self.images["gauge"][key]
+            for (toggle, img_on, img_off) in gauge_images:
+                img = img_on if toggle else img_off
+                display.blit(img, (x, y))
+                x += game_data["playergauge_position"]["spacing"][key]
 
     # Update ------------------------------------------------------ #
     def update(self):
@@ -59,13 +65,13 @@ class PlayerGauge:
         gauge_images = {}
 
         order = ["health", "mana", "stamina"]
-        for name in order:
+        for idx, name in enumerate(order):
             images = []
             for _ in range(maximum_status[name]):
                 gauge = [
                     True,  # toggle
-                    self.images["on_gauge"],  # on image 
-                    self.images["off_gauge"]]  # off image
+                    self.images["on_gauge"][idx],  # on image 
+                    self.images["off_gauge"][idx]]  # off image
                 images.append(gauge)
             gauge_images[name] = images
 

@@ -16,9 +16,9 @@
             "stamina": [33, 38]
         },
         "spacing": {
-            "health": 2,
-            "mana": 1,
-            "stamina": 1
+            "health": 47,
+            "mana": 28,
+            "stamina": 7
         }
     }
 }

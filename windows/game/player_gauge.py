@@ -56,8 +56,12 @@ class PlayerGauge:
                 x += game_data["playergauge_position"]["spacing"][key]
 
     # Update ------------------------------------------------------ #
-    def update(self):
-        pass
+    def update(self, player_status):
+        status_items = list(player_status.items())
+        for (key, stat) in status_items:
+            gauge_images = self.images["gauge"][key]
+            for idx, data in enumerate(gauge_images):
+                data[0] = True if stat > idx else False
 
     # Functions --------------------------------------------------- #
     def gauge_images(self, maximum_status):

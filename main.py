@@ -12,7 +12,7 @@ def redraw_game():
     background.draw_walls(display)
     tiles.draw(display)
 
-    # Player Gauge
+    # Status Bar
     player_gauge.draw(display)
 
     # Player
@@ -36,6 +36,10 @@ def game_loop():
         # Player
         player.update()
 
+        # Player Gauge
+        player_gauge.update(player.stats)
+
+        # Update
         redraw_game()
         clock.tick(window.framerate)
 
@@ -58,7 +62,7 @@ if __name__ == "__main__":
     # Player
     player = Player()
 
-    # Windows
+    # Player Gauge
     player_gauge = PlayerGauge(player.maximum_stats)
 
     # Execute

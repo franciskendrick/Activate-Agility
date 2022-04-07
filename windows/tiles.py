@@ -11,6 +11,7 @@ class Tiles:
     # Initialize -------------------------------------------------- #
     def __init__(self):
         self.init_images()
+        self.init_speicaltiles()
         self.init_tiles()
 
     def init_images(self):
@@ -25,19 +26,27 @@ class Tiles:
             "off": clip_set_to_list_on_xaxis(sets[1])
         }
 
+    def init_speicaltiles(self):
+        self.specialtiles_color = random.randint(0, 5)
+        self.specialtiles_position = self.get_speicaltiles_position()
+
     def init_tiles(self):
         offset = (32, 60)
         self.tiles = []
         for x in range(36):
             for y in range(17):
                 # Image
-                # toggle = random.choices(["on", "off"], weights=(75, 25))[0]
-                toggle = "off"  # !!!
-                if toggle == "on":
-                    color = random.randint(0, 5)
-                    image = self.images[toggle][color]
-                else:
-                    image = self.images[toggle]
+                if (x, y) in self.specialtiles_position:  # special tile
+                    image = self.images["on"][self.specialtiles_color]
+                else:  # normal tile
+                    # toggle = random.choices(["on", "off"], weights=(75, 25))[0]
+                    toggle = "off"  # !!!
+                    if toggle == "on":
+                        color = random.randint(
+                            [i for i in range(5) if not self.specialtiles_color])
+                        image = self.images[toggle][color]
+                    else:
+                        image = self.images[toggle]
 
                 # Position
                 xpos = offset[0] + x*16
@@ -51,6 +60,22 @@ class Tiles:
     def draw(self, display):
         for (image, pos) in self.tiles:
             display.blit(image, pos)
+
+    # Functions --------------------------------------------------- #
+    def get_speicaltiles_position(self):
+        special_tiles = []
+        xs = []
+        ys = []
+        for _ in range(3):
+            x_choices = [num for num in range(36) if num not in xs]
+            y_choices = [num for num in range(17) if num not in ys]
+            tile_position = (
+                random.choice(x_choices), 
+                random.choice(y_choices))
+
+            special_tiles.append(tile_position)
+
+        return special_tiles
 
 
 tiles = Tiles()

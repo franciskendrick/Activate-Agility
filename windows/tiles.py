@@ -1,4 +1,4 @@
-from functions import separate_sets_from_yaxis, clip_set_to_list_on_xaxis
+from functions import clip_set_to_list_on_xaxis
 import pygame
 import random
 import os
@@ -15,16 +15,9 @@ class Tiles:
         self.init_tiles()
 
     def init_images(self):
-        # Spriteset
         spriteset = pygame.image.load(
             f"{path}/assets/tiles.png")
-
-        # Images
-        sets = separate_sets_from_yaxis(spriteset, (255, 0, 0))
-        self.images = {
-            "on": clip_set_to_list_on_xaxis(sets[0]),
-            "off": clip_set_to_list_on_xaxis(sets[1])
-        }
+        self.images = clip_set_to_list_on_xaxis(spriteset)
 
     def init_speicaltiles(self):
         self.specialtiles_color = random.randint(0, 5)
@@ -37,16 +30,11 @@ class Tiles:
             for y in range(17):
                 # Image
                 if (x, y) in self.specialtiles_position:  # special tile
-                    image = self.images["on"][self.specialtiles_color]
+                    image = self.images[self.specialtiles_color]
                 else:  # normal tile
-                    # toggle = random.choices(["on", "off"], weights=(75, 25))[0]
-                    toggle = "off"  # !!!
-                    if toggle == "on":
-                        color = random.randint(
-                            [i for i in range(5) if not self.specialtiles_color])
-                        image = self.images[toggle][color]
-                    else:
-                        image = self.images[toggle]
+                    color = random.choice(
+                        [i for i in range(7) if i != self.specialtiles_color])
+                    image = self.images[color]
 
                 # Position
                 xpos = offset[0] + x*16

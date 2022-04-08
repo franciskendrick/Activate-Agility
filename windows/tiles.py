@@ -24,7 +24,10 @@ class Tiles:
         self.specialtiles_position = self.get_speicaltiles_position()
 
     def init_tiles(self):
+        color_counter = {i:0 for i in range(7) if i != self.specialtiles_color}
+        blacklisted_colors = [self.specialtiles_color]
         offset = (32, 60)
+        
         self.tiles = []
         for x in range(36):
             for y in range(17):
@@ -32,9 +35,18 @@ class Tiles:
                 if (x, y) in self.specialtiles_position:  # special tile
                     image = self.images[self.specialtiles_color]
                 else:  # normal tile
+                    # Append Images
                     color = random.choice(
-                        [i for i in range(7) if i != self.specialtiles_color])
+                        [i for i in range(7) if i not in blacklisted_colors])
                     image = self.images[color]
+
+                    # Update Color Counter
+                    color_counter[color] += 1
+
+                    # Blacklist Overpopulated Color
+                    for (color, length) in color_counter.items():
+                        if length >= 102:
+                            blacklisted_colors.append(color)
 
                 # Position
                 xpos = offset[0] + x*16

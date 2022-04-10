@@ -1,6 +1,7 @@
 from player import Player
 from windows import window, background, tiles
 from windows.game import PlayerGauge, player_gauge
+from windows.menu import menu
 import pygame
 import sys
 

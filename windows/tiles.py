@@ -26,7 +26,6 @@ class Tiles:
     def init_tiles(self):
         color_counter = {i:0 for i in range(7) if i != self.specialtiles_color}
         blacklisted_colors_all = [self.specialtiles_color]  # a blacklist applied to all tiles
-        offset = (32, 60)
         
         self.tiles = []
         for x in range(36):
@@ -38,36 +37,15 @@ class Tiles:
                 else:  # normal tile
                     # (current only) Blacklist Neighboring Tiles
                     blacklisted_colors_current = []
-                    try:
-                        blacklisted_colors_current.append(self.tiles[x+1][y][0])  # right color
-                    except IndexError:
-                        pass
-            
-                    try:
-                        blacklisted_colors_current.append(self.tiles[x-1][y][0])  # left color
-                    except IndexError:
-                        pass
-
-                    try:
-                        blacklisted_colors_current.append(self.tiles[x][y+1][0])  # bottom color
-                    except IndexError:   
-                        pass
-                                            
-                    try:                        
-                        blacklisted_colors_current.append(self.tiles[x][y-1][0])  # top color
-                    except IndexError:
-                        pass
+                    self.blacklist_neighboring_tiles(
+                        blacklisted_colors_current, x, y)
 
                     # Get Blacklist
-                    blacklist = blacklisted_colors_all + blacklisted_colors_current
-                    blacklist = list(dict.fromkeys(blacklist))
-                    blacklist.sort()
+                    blacklist = self.get_full_blacklist(
+                        blacklisted_colors_all, blacklisted_colors_current)
 
                     # Get Choices
-                    if blacklist == [i for i in range(7)]:
-                        choices = [i for i in range(7) if i != self.specialtiles_color]
-                    else:
-                        choices = [i for i in range(7) if i not in blacklist]
+                    choices = self.get_choices(blacklist)
 
                     # Append Images
                     color = random.choice(choices)
@@ -77,17 +55,16 @@ class Tiles:
                     color_counter[color] += 1
 
                     # (all) Blacklist Overpopulated Color
-                    for (blacklist_color, length) in color_counter.items():
-                        if length >= 102 and blacklist_color not in blacklisted_colors_all:
-                            blacklisted_colors_all.append(blacklist_color)
+                    self.blacklist_overpopulated_color(blacklisted_colors_all, color_counter)
 
-                # Position
-                xpos = offset[0] + x*16
-                ypos = offset[1] + y*16
+                # Get Position
+                position = self.get_tile_position(x, y)
 
                 # Append
-                tile = (color, image, (xpos, ypos))
+                tile = (color, image, position)
                 self.tiles[x].append(tile)
+
+        print(color_counter)
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
@@ -96,6 +73,7 @@ class Tiles:
                 display.blit(image, pos)
 
     # Functions --------------------------------------------------- #
+    # Initialize Special Tiles
     def get_speicaltiles_position(self):
         special_tiles = []
         xs = []
@@ -111,5 +89,41 @@ class Tiles:
 
         return special_tiles
 
+    # Initialize Tiles
+    def blacklist_neighboring_tiles(self, blacklisted_colors, x, y):
+        blacklisting_coordinates = [
+            (x+1, y),  # right
+            (x-1, y),  # left
+            (x, y+1),  # bottom
+            (x, y-1)]  # top
+
+        for (x, y) in blacklisting_coordinates:
+            try:
+                blacklisted_colors.append(self.tiles[x][y][0])
+            except IndexError:
+                pass
+
+    def get_full_blacklist(self, blacklist_all, blacklist_current):
+        blacklist = blacklist_all + blacklist_current
+        blacklist = list(dict.fromkeys(blacklist))
+
+        return blacklist
+
+    def get_choices(self, blacklist):
+        if len(blacklist) >= 7:
+            choices = [i for i in range(7) if i != self.specialtiles_color]
+        else:
+            choices = [i for i in range(7) if i not in blacklist]
+
+        return choices
+
+    def blacklist_overpopulated_color(self, blacklisted_colors, color_counter):
+        for (color, length) in color_counter.items():
+            if length >= 102 and color not in blacklisted_colors:
+                blacklisted_colors.append(color)
+
+    def get_tile_position(self, x, y):
+        offset = (32, 60)
+        return (offset[0] + x*16, offset[1] + y*16)
 
 tiles = Tiles()

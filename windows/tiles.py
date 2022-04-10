@@ -45,7 +45,8 @@ class Tiles:
                         blacklisted_colors_all, blacklisted_colors_current)
 
                     # Get Choices
-                    choices = self.get_choices(blacklist)
+                    choices = self.get_choices(
+                        blacklist, blacklisted_colors_current)
 
                     # Append Images
                     color = random.choice(choices)
@@ -55,7 +56,8 @@ class Tiles:
                     color_counter[color] += 1
 
                     # (all) Blacklist Overpopulated Color
-                    self.blacklist_overpopulated_color(blacklisted_colors_all, color_counter)
+                    self.blacklist_overpopulated_color(
+                        blacklisted_colors_all, color_counter)
 
                 # Get Position
                 position = self.get_tile_position(x, y)
@@ -63,8 +65,6 @@ class Tiles:
                 # Append
                 tile = (color, image, position)
                 self.tiles[x].append(tile)
-
-        print(color_counter)
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
@@ -91,12 +91,24 @@ class Tiles:
 
     # Initialize Tiles
     def blacklist_neighboring_tiles(self, blacklisted_colors, x, y):
+        # Get Number of Neighboring Coordinates to be Blacklisted (6-8)
+        limit = random.randint(6, 8)
+
+        # Get 6-8 Neighboring Coordinates (according to the variable: limit) to Be Blacklisted
         blacklisting_coordinates = [
             (x+1, y),  # right
             (x-1, y),  # left
             (x, y+1),  # bottom
-            (x, y-1)]  # top
+            (x, y-1),  # top
+            (x+1, y-1),  # top right
+            (x-1, y-1),  # top left
+            (x+1, y+1),  # bottom right
+            (x-1, y+1)  # bottom left
+        ]
+        if limit < 8:
+            blacklisting_coordinates.pop(random.randint(0, limit))
 
+        # Blacklist Tiles in Blaclisting Coordinates List
         for (x, y) in blacklisting_coordinates:
             try:
                 blacklisted_colors.append(self.tiles[x][y][0])
@@ -109,9 +121,12 @@ class Tiles:
 
         return blacklist
 
-    def get_choices(self, blacklist):
+    def get_choices(self, blacklist, blacklist_current):
         if len(blacklist) >= 7:
-            choices = [i for i in range(7) if i != self.specialtiles_color]
+            choices = [
+                i for i in range(7) 
+                    if i != self.specialtiles_color
+                    and i not in blacklist_current]
         else:
             choices = [i for i in range(7) if i not in blacklist]
 
@@ -125,5 +140,6 @@ class Tiles:
     def get_tile_position(self, x, y):
         offset = (32, 60)
         return (offset[0] + x*16, offset[1] + y*16)
+
 
 tiles = Tiles()

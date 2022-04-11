@@ -45,8 +45,7 @@ class Tiles:
                         blacklisted_colors_all, blacklisted_colors_current)
 
                     # Get Choices
-                    choices = self.get_choices(
-                        blacklist, blacklisted_colors_current)
+                    choices = self.get_choices(blacklist)
 
                     # Append Images
                     color = random.choice(choices)
@@ -91,10 +90,10 @@ class Tiles:
 
     # Initialize Tiles
     def blacklist_neighboring_tiles(self, blacklisted_colors, x, y):
-        # Get Number of Neighboring Coordinates to be Blacklisted (6-8)
-        limit = random.randint(6, 8)
+        # Get Number of Neighboring Coordinates to be Blacklisted (4-8)
+        limit = random.randint(4, 8)
 
-        # Get 6-8 Neighboring Coordinates (according to the variable: limit) to Be Blacklisted
+        # Get 4-8 Neighboring Coordinates (according to the variable: limit) to Be Blacklisted
         blacklisting_coordinates = [
             (x+1, y),  # right
             (x-1, y),  # left
@@ -121,15 +120,17 @@ class Tiles:
 
         return blacklist
 
-    def get_choices(self, blacklist, blacklist_current):
+    def get_choices(self, blacklist):
+        # Remove a Random Number in Blacklist
         if len(blacklist) >= 7:
-            choices = [
-                i for i in range(7) 
-                    if i != self.specialtiles_color
-                    and i not in blacklist_current]
-        else:
-            choices = [i for i in range(7) if i not in blacklist]
+            color = random.choice(
+                [i for i in range(7) if i != self.specialtiles_color])
+            blacklist.pop(blacklist.index(color))
 
+        # Get Choices but Exclude the Blacklisted Colors
+        choices = [i for i in range(7) if i not in blacklist]
+
+        # Return Choices
         return choices
 
     def blacklist_overpopulated_color(self, blacklisted_colors, color_counter):

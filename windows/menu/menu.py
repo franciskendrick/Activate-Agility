@@ -6,11 +6,22 @@ path = os.path.dirname(os.path.realpath(__file__))
 
 
 class Title:
+    # Initialize -------------------------------------------------- #
     def __init__(self):
-        pass
+        self.init_board()
 
+    def init_board(self):
+        img = pygame.image.load(
+            f"{path}/assets/title_background.png")
+        rect = pygame.Rect(164, 74, *img.get_rect())
+        self.board = [img, rect]
+
+    # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        self.draw_board(display)
+
+    def draw_board(self, display):
+        display.blit(*self.board)
 
 
 class Buttons:

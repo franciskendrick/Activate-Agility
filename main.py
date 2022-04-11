@@ -26,6 +26,17 @@ def redraw_game():
     pygame.display.update()
 
 
+def redraw_menu():
+    # Menu
+    menu.draw(display)
+
+    # Blit to Screen ---------------------------------------------- #
+    resized_display = pygame.transform.scale(display, win_size)
+    win.blit(resized_display, (0, 0))
+
+    pygame.display.update()
+
+
 # Loop
 def game_loop():
     run = True
@@ -42,6 +53,21 @@ def game_loop():
 
         # Update
         redraw_game()
+        clock.tick(window.framerate)
+
+    pygame.quit()
+    sys.exit()
+
+
+def menu_loop():
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        
+        # Update
+        redraw_menu()
         clock.tick(window.framerate)
 
     pygame.quit()
@@ -67,4 +93,4 @@ if __name__ == "__main__":
     player_gauge = PlayerGauge(player.maximum_stats)
 
     # Execute
-    game_loop()
+    menu_loop()

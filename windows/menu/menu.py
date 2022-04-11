@@ -1,5 +1,6 @@
 from windows import window
 import pygame
+import json
 import os
 
 pygame.init()
@@ -11,6 +12,10 @@ win_size = (
     window.rect.height * window.enlarge)
 win = pygame.display.set_mode(win_size)
 
+# Json
+with open(f"{path}/data/menu.json") as json_file:
+    menu_data = json.load(json_file)
+
 
 class Title:
     # Initialize -------------------------------------------------- #
@@ -18,9 +23,13 @@ class Title:
         self.init_board()
 
     def init_board(self):
+        # Initialize
         img = pygame.image.load(
             f"{path}/assets/title_background.png")
-        rect = pygame.Rect(82, 37, *img.get_rect().size)
+        rect = pygame.Rect(
+            menu_data["board_position"], img.get_rect().size)
+
+        # Append
         self.board = [img, rect]
 
     # Draw -------------------------------------------------------- #

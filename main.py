@@ -38,7 +38,7 @@ def redraw_menu():
 
 
 # Loop
-def game_loop():
+def game_loop():    
     run = True
     while run:
         for event in pygame.event.get():

@@ -65,6 +65,9 @@ def menu_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+        # Menu Buttons
+        menu.handle_mousemotion(event)
         
         # Update
         redraw_menu()

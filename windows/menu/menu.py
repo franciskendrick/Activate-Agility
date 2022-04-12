@@ -122,7 +122,11 @@ class Buttons:
             self.buttons[name] = button
 
     def draw(self, display):
-        pass
+        for button in self.buttons.values():
+            is_hovered, orig_img, hover_img, img_rect, _ = button
+            img = hover_img if is_hovered else orig_img
+
+            display.blit(img, img_rect)  # image
 
 
 class Menu:
@@ -140,6 +144,7 @@ class Menu:
 
         # Menu
         self.title.draw(self.display)
+        self.buttons.draw(self.display)
 
         # Blit to Display
         resized_display = pygame.transform.scale(

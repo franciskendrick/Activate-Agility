@@ -1,4 +1,8 @@
 {
     "board_position": [82, 37],
-    "title_position": [87, 42]
+    "title_position": [87, 42],
+    "buttons_position": {
+        "play": [133, 117],
+        "options": [117, 141]
+    }
 }

@@ -1,4 +1,4 @@
-from functions import clip_set_to_list_on_yaxis
+from functions import clip_set_to_list_on_yaxis, palette_swap
 from windows import window
 import pygame
 import json
@@ -81,7 +81,45 @@ class Title:
 
 class Buttons:
     def __init__(self):
-        pass
+        spriteset = pygame.image.load(
+            f"{path}/assets/buttons.png")
+        order = ["play", "options"]
+        images = clip_set_to_list_on_yaxis(spriteset)
+        enlarge = 2 * window.enlarge
+
+        # Palette
+        hover_palette = {
+            (232, 193, 112): (231, 213, 179),
+            (222, 158, 65): (232, 193, 112),
+            (190, 119, 43): (222, 158, 65),
+            (9, 10, 20): (16, 20, 31)}
+
+        # Buttons
+        self.buttons = {}
+        for name, img in zip(order, images):
+            # Initialize
+            hover_img = palette_swap(img.convert(), hover_palette)
+            img_rect = pygame.Rect(
+                menu_data["buttons_position"][name], img.get_rect().size)
+            hitbox = pygame.Rect(
+                img_rect.x * enlarge, img_rect.y * enlarge,
+                img_rect.width * 2 * enlarge, img_rect.height * 2 * enlarge)
+
+            # Resize
+            wd, ht = img.get_size()
+            size = (wd * 2, ht * 2)
+            img = pygame.transform.scale(img, size)
+            hover_img = pygame.transform.scale(hover_img, size)
+
+            # Append
+            button = [
+                False,  # is hovered
+                img,  # orig image
+                hover_img,  # hover image
+                img_rect,  # image rect
+                hitbox  # hitbox
+            ]
+            self.buttons[name] = button
 
     def draw(self, display):
         pass
@@ -95,6 +133,7 @@ class Menu:
         self.rect = pygame.Rect((0, 0), self.display.get_size())
 
         self.title = Title()
+        self.buttons = Buttons()
 
     def draw(self, display):
         self.display.fill((0, 0, 0, 0))

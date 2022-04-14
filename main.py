@@ -31,6 +31,9 @@ def redraw_game():
 
 
 def redraw_menu():
+    # Background
+    display.fill(background.color)
+
     # Menu
     menu.draw(display)
 

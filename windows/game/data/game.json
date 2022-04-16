@@ -20,5 +20,6 @@
             "mana": 28,
             "stamina": 7
         }
-    }
+    },
+    "coloridentifier_position": [7, 60]
 }

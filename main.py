@@ -1,6 +1,6 @@
 from player import Player
 from windows import window, background, tiles
-from windows.game import PlayerGauge, player_gauge
+from windows.game import PlayerGauge, player_gauge, speicalcolor_visual_identifier
 from windows.menu import menu
 import pygame
 import sys
@@ -112,4 +112,4 @@ if __name__ == "__main__":
     player_gauge = PlayerGauge(player.maximum_stats)
 
     # Execute
-    menu_loop()
+    game_loop()

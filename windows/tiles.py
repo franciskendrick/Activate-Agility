@@ -20,20 +20,20 @@ class Tiles:
         self.images = clip_set_to_list_on_xaxis(spriteset)
 
     def init_speicaltiles(self):
-        self.specialtiles_color = random.randint(0, 5)
-        self.specialtiles_position = self.get_speicaltiles_position()
+        self.specialtile_color = random.randint(0, 5)
+        self.specialtile_position = self.get_speicaltiles_position()
 
     def init_tiles(self):
-        color_counter = {i:0 for i in range(7) if i != self.specialtiles_color}
-        blacklisted_colors_all = [self.specialtiles_color]  # a blacklist applied to all tiles
+        color_counter = {i:0 for i in range(7) if i != self.specialtile_color}
+        blacklisted_colors_all = [self.specialtile_color]  # a blacklist applied to all tiles
         
         self.tiles = []
         for x in range(36):
             self.tiles.append([])  # add new row
             for y in range(17):
                 # Image
-                if (x, y) in self.specialtiles_position:  # special tile
-                    image = self.images[self.specialtiles_color]
+                if (x, y) in self.specialtile_position:  # special tile
+                    image = self.images[self.specialtile_color]
                 else:  # normal tile
                     # (current only) Blacklist Neighboring Tiles
                     blacklisted_colors_current = []
@@ -124,7 +124,7 @@ class Tiles:
         # Remove a Random Number in Blacklist
         if len(blacklist) >= 7:
             color = random.choice(
-                [i for i in range(7) if i != self.specialtiles_color])
+                [i for i in range(7) if i != self.specialtile_color])
             blacklist.pop(blacklist.index(color))
 
         # Get Choices but Exclude the Blacklisted Colors

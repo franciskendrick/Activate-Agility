@@ -32,12 +32,12 @@ class SpecialColorVisualIdentifier:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        indicator = self.indicators[self.specialtile_index]
+        display.blit(indicator, self.position)
 
     # Update ------------------------------------------------------ #
     def update_colorindex(self, special_idx):
         self.specialtile_index = special_idx
-        print(self.specialtile_index)
 
 
 speicalcolor_visual_identifier = SpecialColorVisualIdentifier()

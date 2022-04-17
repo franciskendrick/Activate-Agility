@@ -17,8 +17,9 @@ def redraw_game():
     background.draw_walls(display)
     tiles.draw(display)
 
-    # Status Bar
+    # Windows.Game
     player_gauge.draw(display)
+    speicalcolor_visual_identifier.draw(display)
 
     # Player
     player.draw(display)

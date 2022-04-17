@@ -56,7 +56,7 @@ def game_loop():
             # !!!
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:  # loss
-                    pass
+                    tiles.lost = True
 
                 if event.key == pygame.K_e:  # win
                     tiles.update_tiles_to_winstate()
@@ -64,8 +64,10 @@ def game_loop():
         # Player
         player.update()
 
-        # Player Gauge
+        # Windows.Game
         player_gauge.update(player.stats)
+        if tiles.lost:
+            tiles.update_tiles_to_lossdissipation()
 
         # Update
         redraw_game()

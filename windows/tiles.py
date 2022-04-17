@@ -13,6 +13,8 @@ class Tiles:
         self.init_images()
         self.init_speicaltiles()
         self.init_tiles()
+        self.init_lossdissipation()
+        self.lost = None
 
     def init_images(self):
         spriteset = pygame.image.load(
@@ -65,11 +67,61 @@ class Tiles:
                 tile = (color, image, position)
                 self.tiles[x].append(tile)
 
+    def init_lossdissipation(self):
+        self.coordinates = [
+            (x, y) 
+            for x in range(0, 36) 
+                for y in range(0, 17) 
+                    if (x, y) not in self.specialtile_position]
+
     # Draw -------------------------------------------------------- #
     def draw(self, display):
         for row in self.tiles:
             for (_, image, pos) in row:
                 display.blit(image, pos)
+
+    # Update ------------------------------------------------------ #
+    def update_tiles_to_lossdissipation(self):
+        for _ in range(12):
+            # Get Random Tile Coordinates
+            (x, y) = random.choice(self.coordinates)
+
+            # Get Position
+            _, _, position = self.tiles[x][y]
+
+            # Get Images
+            image = self.images[self.specialtile_color]
+
+            # Append
+            self.tiles[x][y] = (self.specialtile_color, image, position)
+
+            # Remove Tile Coordinates from List
+            self.coordinates.remove((x, y))
+
+            # Stop if Coordinates List is Empty
+            if len(self.coordinates) <= 0:
+                self.lost = False
+                break
+
+    # Win State
+    def update_tiles_to_winstate(self):
+        # Turn All Tiles to Special Color
+        for x, row in enumerate(self.tiles):
+            for y, (_, _, pos) in enumerate(row):
+                image = self.images[self.specialtile_color]
+                self.tiles[x][y] = (self.specialtile_color, image, pos)
+
+        # Update Special Tile to Black
+        color = 6
+        for (x, y) in self.specialtile_position:
+            # Get Position
+            _, _, position = self.tiles[x][y]
+            
+            # Get Image
+            image = self.images[color]
+
+            # Append
+            self.tiles[x][y] = (color, image, position)
 
     # Functions --------------------------------------------------- #
     # Initialize Special Tiles
@@ -141,26 +193,6 @@ class Tiles:
     def get_tile_position(self, x, y):
         offset = (32, 60)
         return (offset[0] + x*16, offset[1] + y*16)
-
-    # Win State
-    def update_tiles_to_winstate(self):
-        # Turn All Tiles to Special Color
-        for x, row in enumerate(self.tiles):
-            for y, (_, _, pos) in enumerate(row):
-                image = self.images[self.specialtile_color]
-                self.tiles[x][y] = (self.specialtile_color, image, pos)
-
-        # Update Special Tile to Black
-        color = 6
-        for (x, y) in self.specialtile_position:
-            # Get Position
-            _, _, position = self.tiles[x][y]
-            
-            # Get Image
-            image = self.images[color]
-
-            # Append
-            self.tiles[x][y] = (color, image, position)
 
 
 tiles = Tiles()

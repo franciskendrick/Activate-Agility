@@ -46,12 +46,20 @@ def redraw_menu():
 
 
 # Loop
-def game_loop():    
+def game_loop():
     run = True
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+            # !!!
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:  # loss
+                    pass
+
+                if event.key == pygame.K_e:  # win
+                    tiles.update_tiles_to_winstate()
 
         # Player
         player.update()

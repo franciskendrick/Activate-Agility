@@ -142,5 +142,25 @@ class Tiles:
         offset = (32, 60)
         return (offset[0] + x*16, offset[1] + y*16)
 
+    # Win State
+    def update_tiles_to_winstate(self):
+        # Turn All Tiles to Special Color
+        for x, row in enumerate(self.tiles):
+            for y, (_, _, pos) in enumerate(row):
+                image = self.images[self.specialtile_color]
+                self.tiles[x][y] = (self.specialtile_color, image, pos)
+
+        # Update Special Tile to Black
+        color = 6
+        for (x, y) in self.specialtile_position:
+            # Get Position
+            _, _, position = self.tiles[x][y]
+            
+            # Get Image
+            image = self.images[color]
+
+            # Append
+            self.tiles[x][y] = (color, image, position)
+
 
 tiles = Tiles()

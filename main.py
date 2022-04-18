@@ -1,6 +1,6 @@
 from player import Player
 from windows import window, background, tiles
-from windows.game import PlayerGauge, player_gauge, speicalcolor_visual_identifier
+from windows.game import PlayerGauge, speicalcolor_visual_identifier, countdown
 from windows.menu import menu
 import pygame
 import sys
@@ -21,6 +21,7 @@ def redraw_game():
     # Windows.Game
     player_gauge.draw(display)
     speicalcolor_visual_identifier.draw(display)
+    countdown.draw(display)
 
     # Player
     player.draw(display)

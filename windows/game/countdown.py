@@ -54,7 +54,11 @@ class Countdown:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        # Title
+        display.blit(*self.title)
+
+        # Numbers
+        display.blit(*self.numbers[5])
 
 
 countdown = Countdown()

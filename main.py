@@ -66,9 +66,12 @@ def game_loop():
         # Player
         player.update()
 
+        # Windows
+        tiles.update()
+
         # Windows.Game
         player_gauge.update(player.stats)
-        tiles.update()
+        countdown.update()
 
         # Update
         redraw_game()

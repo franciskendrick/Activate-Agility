@@ -1,6 +1,7 @@
 from functions import separate_sets_from_yaxis, clip_set_to_list_on_xaxis
 import pygame
 import json
+import time
 import os
 
 pygame.init()
@@ -23,6 +24,9 @@ class Countdown:
         # Images
         self.init_title(title_set)
         self.init_numbers(numbers_set)
+
+        # Time Remaining
+        self.init_time()
 
     def init_title(self, set):
         # Initialize
@@ -52,13 +56,25 @@ class Countdown:
             # Append
             self.numbers[num] = [resized_image, rect]
 
+    def init_time(self):
+        self.time_remaining = 5
+        self.last_count = time.perf_counter()
+
     # Draw -------------------------------------------------------- #
     def draw(self, display):
         # Title
         display.blit(*self.title)
 
         # Numbers
-        display.blit(*self.numbers[5])
+        display.blit(*self.numbers[self.time_remaining])
+
+    # Update ------------------------------------------------------ #
+    def update(self):
+        dt = time.perf_counter() - self.last_count
+        # time is more than 0 AND cooldown of 1 second
+        if self.time_remaining > 0 and dt * 1000 >= 1000:  
+            self.time_remaining -= 1
+            self.last_count = time.perf_counter()
 
 
 countdown = Countdown()

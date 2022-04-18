@@ -21,5 +21,16 @@
             "stamina": 7
         }
     },
-    "coloridentifier_position": [7, 60]
+    "coloridentifier_position": [7, 60],
+    "countdown_position": {
+        "title": [180, 4],
+        "numbers": {
+            "5": [204, 13],
+            "4": [204, 13],
+            "3": [204, 13],
+            "2": [204, 13],
+            "1": [207, 13],
+            "0": [204, 13]
+        }
+    }
 }

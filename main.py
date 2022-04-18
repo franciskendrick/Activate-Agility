@@ -5,6 +5,7 @@ from windows.menu import menu
 import pygame
 import sys
 
+
 # Functions
 def placeholder():  # !!!   
     pass

@@ -66,8 +66,7 @@ def game_loop():
 
         # Windows.Game
         player_gauge.update(player.stats)
-        if tiles.lost:
-            tiles.update_tiles_to_lossdissipation()
+        tiles.update()
 
         # Update
         redraw_game()

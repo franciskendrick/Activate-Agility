@@ -81,6 +81,11 @@ class Tiles:
                 display.blit(image, pos)
 
     # Update ------------------------------------------------------ #
+    def update(self):
+        if self.lost:
+            self.update_tiles_to_lossdissipation()
+
+    # Lost Dissipation
     def update_tiles_to_lossdissipation(self):
         for _ in range(12):
             # Get Random Tile Coordinates

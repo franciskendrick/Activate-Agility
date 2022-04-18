@@ -31,10 +31,15 @@ class Countdown:
         images = clip_set_to_list_on_xaxis(separated_sets[1])
         numbers = [i for i in range(5, -1, -1)]
         for num, image in zip(numbers, images):
+            wd, ht = image.get_rect().size
+
+            resized_image = pygame.transform.scale(
+                image, (wd * 6, ht * 6))
             rect = pygame.Rect(
                 game_data["countdown_position"]["numbers"][str(num)],
                 image.get_rect().size)
-            self.numbers[num] = [image, rect]
+
+            self.numbers[num] = [resized_image, rect]
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

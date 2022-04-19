@@ -1,6 +1,6 @@
 from player import Player
 from windows import window, background, tiles
-from windows.game import PlayerGauge, speicalcolor_visual_identifier, countdown
+from windows.game import PlayerGauge, Countdown, speicalcolor_visual_identifier
 from windows.menu import menu
 import pygame
 import sys
@@ -49,6 +49,9 @@ def redraw_menu():
 
 # Loop
 def game_loop():
+    global countdown
+    countdown = Countdown()
+
     run = True
     while run:
         for event in pygame.event.get():
@@ -127,4 +130,4 @@ if __name__ == "__main__":
     player_gauge = PlayerGauge(player.maximum_stats)
 
     # Execute
-    game_loop()
+    menu_loop()

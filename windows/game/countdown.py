@@ -75,6 +75,3 @@ class Countdown:
         if self.time_remaining > 0 and dt * 1000 >= 1000:  
             self.time_remaining -= 1
             self.last_count = time.perf_counter()
-
-
-countdown = Countdown()

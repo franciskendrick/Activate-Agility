@@ -38,6 +38,3 @@ class SpecialColorVisualIdentifier:
     # Update ------------------------------------------------------ #
     def update_colorindex(self, special_idx):
         self.specialtile_index = special_idx
-
-
-speicalcolor_visual_identifier = SpecialColorVisualIdentifier()

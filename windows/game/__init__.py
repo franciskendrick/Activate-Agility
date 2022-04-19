@@ -1,3 +1,3 @@
 from .player_gauge import PlayerGauge
-from .color_visual_identifier import speicalcolor_visual_identifier
+from .color_visual_identifier import SpecialColorVisualIdentifier
 from .countdown import Countdown

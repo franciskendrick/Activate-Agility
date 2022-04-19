@@ -15,6 +15,9 @@ with open(f"{path}/data/game.json") as json_file:
 class Countdown:
     # Initialize -------------------------------------------------- #
     def __init__(self):
+        # Game
+        self.start_of_game = None
+
         # Spriteset
         spriteset = pygame.image.load(
             f"{path}/assets/countdown.png")
@@ -58,6 +61,7 @@ class Countdown:
 
     def init_time(self):
         self.time_remaining = 5
+        self.time_visible = False
         self.last_count = time.perf_counter()
 
     # Draw -------------------------------------------------------- #
@@ -66,12 +70,23 @@ class Countdown:
         display.blit(*self.title)
 
         # Numbers
-        display.blit(*self.numbers[self.time_remaining])
+        if self.time_visible:
+            display.blit(*self.numbers[self.time_remaining])
 
     # Update ------------------------------------------------------ #
     def update(self):
-        dt = time.perf_counter() - self.last_count
-        # time is more than 0 AND cooldown of 1 second
-        if self.time_remaining > 0 and dt * 1000 >= 1000:  
+        self.update_timevisibility()
+        self.update_timeremaining()
+
+    def update_timevisibility(self):
+        dt = time.perf_counter() - self.start_of_game
+        if not self.time_visible and dt * 1000 >= 2000:
+            self.time_visible = True
+
+    def update_timeremaining(self):
+        count_dt = time.perf_counter() - self.last_count
+        game_dt = time.perf_counter() - self.start_of_game
+        # one second cooldown that starts one second after time is visible and stops if time hits zero
+        if game_dt * 1000 >= 3000 and self.time_remaining > 0 and count_dt * 1000 >= 1000:
             self.time_remaining -= 1
             self.last_count = time.perf_counter()

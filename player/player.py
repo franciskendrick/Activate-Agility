@@ -38,6 +38,9 @@ class Player:
         self.stamina_degenerate = 250  # milliseconds
         self.stamina_regenerate = 500  # milliseconds
 
+    def init_winningstate(self):
+        self.on_speicaltile = False
+
     def init_status(self):
         self.maximum_stats = {
             "health": 3,
@@ -59,8 +62,9 @@ class Player:
         self.idx += 1
 
     # Update ------------------------------------------------------ #
-    def update(self):
+    def update(self, specialtile_rects):
         self.movement()
+        self.specialtile_collision(specialtile_rects)
 
     # Movement
     def movement(self):
@@ -78,6 +82,12 @@ class Player:
             self.move_y(-vel)
         if keys[pygame.K_s]:  # down
             self.move_y(vel)
+
+    # Speical Tile Collision
+    def specialtile_collision(self, specialtile_rects):
+        for tile_rect in specialtile_rects:
+            if self.rect.colliderect(tile_rect):
+                self.on_speicaltile = True
 
     # Functions --------------------------------------------------- #
     # Movement

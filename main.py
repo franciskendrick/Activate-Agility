@@ -76,7 +76,7 @@ def game_loop():
                     tiles.update_tiles_to_winstate()
 
         # Player
-        player.update()
+        player.update(tiles.speicaltile_rects)
 
         # Windows
         tiles.update()

@@ -23,7 +23,7 @@ class Tiles:
 
     def init_speicaltiles(self):
         self.specialtile_color = random.randint(0, 5)
-        self.specialtile_position = self.get_speicaltiles_position()
+        self.specialtile_rects = self.get_speicaltiles_rect()
 
     def init_tiles(self):
         color_counter = {i:0 for i in range(7) if i != self.specialtile_color}
@@ -34,7 +34,7 @@ class Tiles:
             self.tiles.append([])  # add new row
             for y in range(17):
                 # Image
-                if (x, y) in self.specialtile_position:  # special tile
+                if (x, y) in self.get_speicaltiles_positions():  # special tile
                     image = self.images[self.specialtile_color]
                 else:  # normal tile
                     # (current only) Blacklist Neighboring Tiles
@@ -60,11 +60,11 @@ class Tiles:
                     self.blacklist_overpopulated_color(
                         blacklisted_colors_all, color_counter)
 
-                # Get Position
-                position = self.get_tile_position(x, y)
+                # Get Rectangle
+                rect = self.get_tile_rect(x, y)
 
                 # Append
-                tile = (color, image, position)
+                tile = (color, image, rect)
                 self.tiles[x].append(tile)
 
     def init_lossdissipation(self):
@@ -72,7 +72,7 @@ class Tiles:
             (x, y) 
             for x in range(0, 36) 
                 for y in range(0, 17) 
-                    if (x, y) not in self.specialtile_position]
+                    if (x, y) not in self.get_speicaltiles_positions()]
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
@@ -130,22 +130,36 @@ class Tiles:
 
     # Functions --------------------------------------------------- #
     # Initialize Special Tiles
-    def get_speicaltiles_position(self):
+    def get_speicaltiles_rect(self):
         special_tiles = []
-        xs = []
-        ys = []
+        x_blacklist = []
+        y_blacklist = []
         for _ in range(3):
-            x_choices = [num for num in range(36) if num not in xs]
-            y_choices = [num for num in range(17) if num not in ys]
-            tile_position = (
-                random.choice(x_choices), 
-                random.choice(y_choices))
+            # Position Choices
+            x_choices = [num for num in range(36) if num not in x_blacklist]
+            y_choices = [num for num in range(17) if num not in y_blacklist]
 
-            special_tiles.append(tile_position)
+            # Get Position
+            x = random.choice(x_choices)
+            y = random.choice(y_choices)
+
+            # Get Rectangle
+            rect = pygame.Rect(x, y, 16, 16)
+
+            # Append
+            special_tiles.append(rect)
 
         return special_tiles
 
     # Initialize Tiles
+    def get_speicaltiles_positions(self):
+        positions = []
+        for rect in self.specialtile_rects:
+            pos = (rect.x, rect.y)
+            positions.append(pos)
+
+        return positions
+
     def blacklist_neighboring_tiles(self, blacklisted_colors, x, y):
         # Get Number of Neighboring Coordinates to be Blacklisted (4-8)
         limit = random.randint(4, 8)
@@ -195,9 +209,13 @@ class Tiles:
             if length >= 102 and color not in blacklisted_colors:
                 blacklisted_colors.append(color)
 
-    def get_tile_position(self, x, y):
+    def get_tile_rect(self, x, y):
         offset = (32, 60)
-        return (offset[0] + x*16, offset[1] + y*16)
+        rect = pygame.Rect(
+            offset[0] + x*16, offset[1] + y*16,
+            16, 16)
+        
+        return rect
 
 
 tiles = Tiles()

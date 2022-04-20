@@ -58,6 +58,7 @@ def game_loop():
     
     # Start of Game
     start_of_game = time.perf_counter()
+    speicalcolor_visual_identifier.start_of_game = start_of_game
     countdown.start_of_game = start_of_game
 
     run = True
@@ -82,6 +83,7 @@ def game_loop():
 
         # Windows.Game
         player_gauge.update(player.stats)
+        speicalcolor_visual_identifier.update()
         countdown.update()
 
         # Update

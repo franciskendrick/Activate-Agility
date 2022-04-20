@@ -61,7 +61,7 @@ class Countdown:
 
     def init_time(self):
         self.time_remaining = 5
-        self.time_visible = False
+        self.time_is_visible = False
         self.last_count = time.perf_counter()
 
     # Draw -------------------------------------------------------- #
@@ -70,23 +70,23 @@ class Countdown:
         display.blit(*self.title)
 
         # Numbers
-        if self.time_visible:
+        if self.time_is_visible:
             display.blit(*self.numbers[self.time_remaining])
 
     # Update ------------------------------------------------------ #
     def update(self):
-        self.update_timevisibility()
+        self.update_visibility()
         self.update_timeremaining()
 
-    def update_timevisibility(self):
+    def update_visibility(self):
         dt = time.perf_counter() - self.start_of_game
-        if not self.time_visible and dt * 1000 >= 2000:
-            self.time_visible = True
+        if not self.time_is_visible and dt * 1000 >= 2000:
+            self.time_is_visible = True
 
     def update_timeremaining(self):
         count_dt = time.perf_counter() - self.last_count
         game_dt = time.perf_counter() - self.start_of_game
         # one second cooldown that starts one second after time is visible and stops if time hits zero
-        if game_dt * 1000 >= 3000 and self.time_remaining > 0 and count_dt * 1000 >= 1000:
+        if game_dt * 1000 >= 2000+1000 and self.time_remaining > 0 and count_dt * 1000 >= 1000:
             self.time_remaining -= 1
             self.last_count = time.perf_counter()

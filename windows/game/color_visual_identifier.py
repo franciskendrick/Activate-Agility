@@ -1,6 +1,7 @@
 from windows import tiles
 import pygame
 import json
+import time
 import os
 
 pygame.init()
@@ -14,6 +15,9 @@ with open(f"{path}/data/game.json") as json_file:
 class SpecialColorVisualIdentifier:
     # Initialize -------------------------------------------------- #
     def __init__(self):
+        # Game
+        self.start_of_game = None
+
         # Images
         self.indicators = []
         for i in range(1, 7):
@@ -30,11 +34,23 @@ class SpecialColorVisualIdentifier:
         # Color Index
         self.update_colorindex(tiles.specialtile_color)
 
+        # Visibility
+        self.is_visible = False
+
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        indicator = self.indicators[self.specialtile_index]
-        display.blit(indicator, self.position)
+        if self.is_visible:
+            indicator = self.indicators[self.specialtile_index]
+            display.blit(indicator, self.position)
 
     # Update ------------------------------------------------------ #
+    def update(self):
+        self.update_visibility()
+
+    def update_visibility(self):
+        dt = time.perf_counter() - self.start_of_game
+        if not self.is_visible and dt * 1000 >= 1000:
+            self.is_visible = True
+
     def update_colorindex(self, special_idx):
         self.specialtile_index = special_idx

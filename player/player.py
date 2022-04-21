@@ -13,6 +13,7 @@ class Player:
         self.init_images()
         self.init_rect()
         self.init_movement()
+        self.init_winningstate()
         self.init_status()
 
     def init_images(self):

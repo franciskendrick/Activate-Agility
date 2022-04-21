@@ -84,7 +84,7 @@ def game_loop():
         # Windows.Game
         player_gauge.update(player.stats)
         speicalcolor_visual_identifier.update()
-        countdown.update()
+        countdown.update(player.on_speicaltile)
 
         # Update
         redraw_game()

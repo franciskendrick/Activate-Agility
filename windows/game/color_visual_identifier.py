@@ -1,4 +1,3 @@
-from windows import tiles
 import pygame
 import json
 import time
@@ -14,7 +13,7 @@ with open(f"{path}/data/game.json") as json_file:
 
 class SpecialColorVisualIdentifier:
     # Initialize -------------------------------------------------- #
-    def __init__(self):
+    def __init__(self, speicaltile_color):
         # Game
         self.start_of_game = None
 
@@ -32,7 +31,7 @@ class SpecialColorVisualIdentifier:
         self.position = game_data["coloridentifier_position"]
 
         # Color Index
-        self.update_colorindex(tiles.specialtile_color)
+        self.update_colorindex(speicaltile_color)
 
         # Visibility
         self.is_visible = False

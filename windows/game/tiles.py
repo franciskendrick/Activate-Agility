@@ -210,6 +210,3 @@ class Tiles:
             16, 16)
         
         return rect
-
-
-tiles = Tiles()

@@ -1,6 +1,6 @@
 from player import Player
-from windows import window, background, tiles
-from windows.game import PlayerGauge, Countdown, SpecialColorVisualIdentifier
+from windows import window, background
+from windows.game import Tiles, PlayerGauge, Countdown, SpecialColorVisualIdentifier
 from windows.menu import menu
 import pygame
 import time
@@ -50,10 +50,12 @@ def redraw_menu():
 
 # Loop
 def game_loop():
-    global speicalcolor_visual_identifier, countdown
+    global tiles, speicalcolor_visual_identifier, countdown
 
     # Initialize Game Variables
-    speicalcolor_visual_identifier = SpecialColorVisualIdentifier()
+    tiles = Tiles()
+    speicalcolor_visual_identifier = SpecialColorVisualIdentifier(
+        tiles.specialtile_color)
     countdown = Countdown()
     
     # Start of Game

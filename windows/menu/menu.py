@@ -1,5 +1,5 @@
 from functions import clip_set_to_list_on_yaxis, palette_swap
-from windows import window, background, tiles
+from windows import window, background
 import pygame
 import json
 import os
@@ -142,7 +142,6 @@ class Menu:
     def draw(self, display):
         # Background
         background.draw_walls(display)
-        tiles.draw(display)
 
         # Menu
         self.title.draw(self.display)

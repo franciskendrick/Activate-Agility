@@ -13,8 +13,7 @@ class Tiles:
         self.init_images()
         self.init_speicaltiles()
         self.init_tiles()
-        self.init_lossdissipation()
-        self.lost = None
+        self.init_winlossstates()
 
     def init_images(self):
         spriteset = pygame.image.load(
@@ -69,12 +68,14 @@ class Tiles:
                 tile = (color, image, rect)
                 self.tiles[x].append(tile)
 
-    def init_lossdissipation(self):
+    def init_winlossstates(self):
         self.coordinates = [
             (x, y) 
             for x in range(0, 36) 
                 for y in range(0, 17) 
                     if (x, y) not in self.specialtile_position]
+
+        self.winstate_ing = False
         self.dissipated = False
 
     # Draw -------------------------------------------------------- #
@@ -84,13 +85,10 @@ class Tiles:
                 display.blit(image, pos)
 
     # Update ------------------------------------------------------ #
-    def update(self):
-        if self.lost:
-            self.update_tiles_to_lossdissipation()
-
     # Lost Dissipation
     def update_tiles_to_lossdissipation(self):
         if not self.dissipated:
+            # Dissipate Tiles 12 at a Time
             for _ in range(12):
                 # Get Random Tile Coordinates
                 (x, y) = random.choice(self.coordinates)

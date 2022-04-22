@@ -63,10 +63,9 @@ class Player:
         self.idx += 1
 
     # Update ------------------------------------------------------ #
-    def update(self, specialtile_rects, tiles_dissipated, time_remaining):
+    def update(self, specialtile_rects, time_remaining):
         self.movement()
-        self.specialtile_collision(
-            specialtile_rects, tiles_dissipated, time_remaining)
+        self.specialtile_collision(specialtile_rects, time_remaining)
 
     # Movement
     def movement(self):
@@ -86,12 +85,13 @@ class Player:
             self.move_y(vel)
 
     # Speical Tile Collision
-    def specialtile_collision(self, specialtile_rects, tiles_dissipated, time_remaining):
+    def specialtile_collision(self, specialtile_rects, time_remaining):
         # Detect if Player is on Special Tile on Time Remaining: 0
-        if time_remaining == 0 and not tiles_dissipated:  # time remaining is at zero AND tiles has not yet dissipated
+        if time_remaining == 0:  # time remaining is at zero
             for tile_rect in specialtile_rects:  # loop through all rects of speical tiles
                 if self.rect.colliderect(tile_rect):  # check of player and tile collision
-                    self.on_speicaltile = True  
+                    self.on_speicaltile = True 
+            specialtile_rects.clear()
 
     # Functions --------------------------------------------------- #
     # Movement

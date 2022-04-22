@@ -72,23 +72,21 @@ def game_loop():
         # Player
         player.update(
             tiles.speicaltile_rects,
-            tiles.dissipated,
             countdown.time_remaining)
-
-        # Windows
-        tiles.update()
 
         # Windows.Game
         player_gauge.update(player.stats)
         speicalcolor_visual_identifier.update()
         countdown.update()
 
+        print(len(tiles.speicaltile_rects))
+
         # Win-Loss State
         if countdown.time_remaining == 0:
-            if player.on_speicaltile and not tiles.lost:  # win
+            if player.on_speicaltile:  # win
                 tiles.update_tiles_to_winstate()
             else:  # loss
-                tiles.lost = True
+                tiles.update_tiles_to_lossdissipation()
 
         # Update
         redraw_game()

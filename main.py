@@ -85,7 +85,7 @@ def game_loop():
 
         # Win-Loss State
         if countdown.time_remaining == 0:
-            if player.on_speicaltile:  # win
+            if player.on_speicaltile and not tiles.lost:  # win
                 tiles.update_tiles_to_winstate()
             else:  # loss
                 tiles.lost = True

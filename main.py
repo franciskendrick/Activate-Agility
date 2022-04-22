@@ -76,7 +76,9 @@ def game_loop():
                     tiles.update_tiles_to_winstate()
 
         # Player
-        player.update(tiles.speicaltile_rects)
+        player.update(
+            tiles.speicaltile_rects, 
+            countdown.time_remaining)
 
         # Windows
         tiles.update()
@@ -84,7 +86,7 @@ def game_loop():
         # Windows.Game
         player_gauge.update(player.stats)
         speicalcolor_visual_identifier.update()
-        countdown.update(player.on_speicaltile)
+        countdown.update()
 
         # Update
         redraw_game()

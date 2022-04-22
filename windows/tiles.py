@@ -75,6 +75,7 @@ class Tiles:
             for x in range(0, 36) 
                 for y in range(0, 17) 
                     if (x, y) not in self.specialtile_position]
+        self.dissipated = False
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
@@ -89,26 +90,27 @@ class Tiles:
 
     # Lost Dissipation
     def update_tiles_to_lossdissipation(self):
-        for _ in range(12):
-            # Get Random Tile Coordinates
-            (x, y) = random.choice(self.coordinates)
+        if not self.dissipated:
+            for _ in range(12):
+                # Get Random Tile Coordinates
+                (x, y) = random.choice(self.coordinates)
 
-            # Get Position
-            _, _, position = self.tiles[x][y]
+                # Get Position
+                _, _, position = self.tiles[x][y]
 
-            # Get Images
-            image = self.images[self.specialtile_color]
+                # Get Images
+                image = self.images[self.specialtile_color]
 
-            # Append
-            self.tiles[x][y] = (self.specialtile_color, image, position)
+                # Append
+                self.tiles[x][y] = (self.specialtile_color, image, position)
 
-            # Remove Tile Coordinates from List
-            self.coordinates.remove((x, y))
+                # Remove Tile Coordinates from List
+                self.coordinates.remove((x, y))
 
-            # Stop if Coordinates List is Empty
-            if len(self.coordinates) <= 0:
-                self.lost = False
-                break
+                # Stop if Coordinates List is Empty
+                if len(self.coordinates) <= 0:
+                    self.dissipated = True
+                    break
 
     # Win State
     def update_tiles_to_winstate(self):

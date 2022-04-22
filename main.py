@@ -67,17 +67,10 @@ def game_loop():
             if event.type == pygame.QUIT:
                 run = False
 
-            # !!!
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:  # loss
-                    tiles.lost = True
-
-                if event.key == pygame.K_e:  # win
-                    tiles.update_tiles_to_winstate()
-
         # Player
         player.update(
-            tiles.speicaltile_rects, 
+            tiles.speicaltile_rects,
+            tiles.dissipated,
             countdown.time_remaining)
 
         # Windows
@@ -87,6 +80,13 @@ def game_loop():
         player_gauge.update(player.stats)
         speicalcolor_visual_identifier.update()
         countdown.update()
+
+        # Win-Loss State
+        if countdown.time_remaining == 0:
+            if player.on_speicaltile:  # win
+                tiles.update_tiles_to_winstate()
+            else:  # loss
+                tiles.lost = True
 
         # Update
         redraw_game()

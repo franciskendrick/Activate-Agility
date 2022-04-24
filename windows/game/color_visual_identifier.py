@@ -48,7 +48,7 @@ class SpecialColorVisualIdentifier:
 
     def update_visibility(self, start_of_game):
         dt = time.perf_counter() - start_of_game
-        if not self.is_visible and dt * 1000 >= 1000:
+        if not self.is_visible and dt * 1000 >= 500:
             self.is_visible = True
 
     def update_colorindex(self, special_idx):

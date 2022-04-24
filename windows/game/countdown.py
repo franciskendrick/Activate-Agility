@@ -44,7 +44,7 @@ class Countdown:
     def init_numbers(self, set):
         self.numbers = {}
         images = clip_set_to_list_on_xaxis(set)
-        numbers = [i for i in range(5, -1, -1)]
+        numbers = [i for i in range(3, -1, -1)]
         for num, image in zip(numbers, images):
             # Get Image Size
             wd, ht = image.get_rect().size
@@ -60,7 +60,7 @@ class Countdown:
             self.numbers[num] = [resized_image, rect]
 
     def init_time(self):
-        self.time_remaining = 5
+        self.time_remaining = 3
         self.time_is_visible = False
         self.last_count = time.perf_counter()
 
@@ -80,14 +80,14 @@ class Countdown:
 
     def update_visibility(self, start_of_game):
         dt = time.perf_counter() - start_of_game
-        if not self.time_is_visible and dt * 1000 >= 2000:
+        if not self.time_is_visible and dt * 1000 >= 1000:
             self.time_is_visible = True
 
     def update_timeremaining(self, start_of_game):
         count_dt = time.perf_counter() - self.last_count
         game_dt = time.perf_counter() - start_of_game
         # one second cooldown that starts one second after time is visible and stops if time hits zero
-        if game_dt * 1000 >= 2000+1000 and self.time_remaining > 0 and count_dt * 1000 >= 1000:
+        if game_dt * 1000 >= 1000+1000 and self.time_remaining > 0 and count_dt * 1000 >= 1000:
             # Update Time Value
             self.time_remaining -= 1
 

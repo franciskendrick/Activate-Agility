@@ -31,13 +31,19 @@ class Player:
 
     def init_movement(self):
         # Velocities
-        self.walk_vel = 3
-        self.sprint_vel = 5
+        self.walk_vel = 2
+        self.sprint_vel = 4
 
-        # Time 
+        # Sprint Time 
         self.last_sprint = time.perf_counter()
-        self.stamina_degenerate = 250  # milliseconds
-        self.stamina_regenerate = 500  # milliseconds
+        self.sprint_stamina_degenerate = 125  # milliseconds
+
+        # Walk Time
+        self.last_walk = time.perf_counter()
+        self.walk_stamina_degenerate = 1000  # milliseconds
+
+        # Regeneration Time
+        self.stamina_regenerate = 1000  # milliseconds
 
     def init_winningstate(self):
         self.on_speicaltile = False
@@ -75,14 +81,38 @@ class Player:
         vel = self.get_velocity()
 
         # Movement
+        is_walking = False
         if keys[pygame.K_a]:  # left
             self.move_x(-vel)
+            is_walking = True
         if keys[pygame.K_d]:  # right
             self.move_x(vel)
+            is_walking = True
         if keys[pygame.K_w]:  # up
             self.move_y(-vel)
+            is_walking = True
         if keys[pygame.K_s]:  # down
             self.move_y(vel)
+            is_walking = True
+
+        # Degenerate Stamina (walk)
+        if is_walking:
+            dt = time.perf_counter() - self.last_walk
+            if dt * 1000 >= self.walk_stamina_degenerate:
+                self.stats["stamina"] -= 1
+                self.last_walk = time.perf_counter()
+
+        else:
+            walk_dt = time.perf_counter() - self.last_walk
+            sprint_dt = time.perf_counter() - self.last_sprint
+            if walk_dt * 1000 >= self.stamina_regenerate:
+                if self.stats["stamina"] < self.maximum_stats["stamina"]:
+                    self.stats["stamina"] += 1
+                self.last_walk = time.perf_counter()
+            elif sprint_dt * 1000 >= self.stamina_regenerate:
+                if self.stats["stamina"] < self.maximum_stats["stamina"]:
+                    self.stats["stamina"] += 1
+                self.last_sprint = time.perf_counter()
 
     # Speical Tile Collision
     def specialtile_collision(self, specialtile_rects, time_remaining):
@@ -97,27 +127,17 @@ class Player:
     # Movement
     def get_velocity(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LSHIFT]:  # shift is down
-            if self.stats["stamina"] > 0:  # still has stamina
-                vel = self.sprint_vel
+        if keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:  # shift is down AND still has stamina
+            vel = self.sprint_vel
 
-                # Update Stamina Stat
-                dt = time.perf_counter() - self.last_sprint
-                if dt * 1000 >= self.stamina_degenerate:
-                    self.stats["stamina"] -= 1
-                    self.last_sprint = time.perf_counter()
-            else:  # no stamina
-                vel = self.walk_vel
-        else:  # shift is up
+            # Degenerate Stamina (sprint)
+            dt = time.perf_counter() - self.last_sprint
+            if dt * 1000 >= self.sprint_stamina_degenerate:
+                self.stats["stamina"] -= 1
+                self.last_sprint = time.perf_counter()
+        else:  # shift is up OR no stamina
             vel = self.walk_vel
 
-            # Update Stamina Stat
-            dt = time.perf_counter() - self.last_sprint
-            if dt * 1000 >= self.stamina_regenerate:
-                if self.stats["stamina"] < self.maximum_stats["stamina"]:
-                    self.stats["stamina"] += 1
-                self.last_sprint = time.perf_counter()
-            
         return vel
 
     def move_x(self, vel):

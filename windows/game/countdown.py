@@ -60,9 +60,15 @@ class Countdown:
             self.numbers[num] = [resized_image, rect]
 
     def init_time(self):
+        # Time Remaining
         self.time_remaining = 3
-        self.time_is_visible = False
+
+        # Time Countdown
         self.last_count = time.perf_counter()
+
+        # Time Visibility
+        self.time_is_visible = False
+        self.visible_delay = 1000  # milliseconds
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
@@ -80,14 +86,25 @@ class Countdown:
 
     def update_visibility(self, start_of_game):
         dt = time.perf_counter() - start_of_game
-        if not self.time_is_visible and dt * 1000 >= 1000:
+        if not self.time_is_visible and dt * 1000 >= self.visible_delay:
             self.time_is_visible = True
 
     def update_timeremaining(self, start_of_game):
+        # Delta Time
         count_dt = time.perf_counter() - self.last_count
         game_dt = time.perf_counter() - start_of_game
-        # one second cooldown that starts one second after time is visible and stops if time hits zero
-        if game_dt * 1000 >= 1000+1000 and self.time_remaining > 0 and count_dt * 1000 >= 1000:
+
+        # Visibility Delay
+        visibility_delay = game_dt * 1000 >= self.visible_delay+1000
+
+        # Time Remaining is More than Zero
+        time_morethan_zero = self.time_remaining > 0
+
+        # Time Countdown
+        time_countdown = count_dt * 1000 >= 1000
+
+        # Update 
+        if visibility_delay and time_morethan_zero and time_countdown:
             # Update Time Value
             self.time_remaining -= 1
 

@@ -85,6 +85,26 @@ class Tiles:
                 display.blit(image, pos)
 
     # Update ------------------------------------------------------ #
+    # Win State
+    def update_tiles_to_winstate(self):
+        # Turn All Tiles to Special Color
+        for x, row in enumerate(self.tiles):
+            for y, (_, _, pos) in enumerate(row):
+                image = self.images[self.specialtile_color]
+                self.tiles[x][y] = (self.specialtile_color, image, pos)
+
+        # Update Special Tile to Black
+        color = 6
+        for (x, y) in self.specialtile_position:
+            # Get Position
+            _, _, position = self.tiles[x][y]
+            
+            # Get Image
+            image = self.images[color]
+
+            # Append
+            self.tiles[x][y] = (color, image, position)
+
     # Lost Dissipation
     def update_tiles_to_lossdissipation(self):
         if not self.dissipated:
@@ -109,26 +129,6 @@ class Tiles:
                 if len(self.coordinates) <= 0:
                     self.dissipated = True
                     break
-
-    # Win State
-    def update_tiles_to_winstate(self):
-        # Turn All Tiles to Special Color
-        for x, row in enumerate(self.tiles):
-            for y, (_, _, pos) in enumerate(row):
-                image = self.images[self.specialtile_color]
-                self.tiles[x][y] = (self.specialtile_color, image, pos)
-
-        # Update Special Tile to Black
-        color = 6
-        for (x, y) in self.specialtile_position:
-            # Get Position
-            _, _, position = self.tiles[x][y]
-            
-            # Get Image
-            image = self.images[color]
-
-            # Append
-            self.tiles[x][y] = (color, image, position)
 
     # Functions --------------------------------------------------- #
     # Initialize Special Tiles

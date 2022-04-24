@@ -12,6 +12,24 @@ def placeholder():  # !!!
     pass
 
 
+def init_game():
+    global tiles, speicalcolor_visual_identifier, countdown
+    global start_of_game, end_of_game
+
+    # Initialize Game Variables
+    tiles = Tiles()
+    speicalcolor_visual_identifier = SpecialColorVisualIdentifier(
+        tiles.specialtile_color)
+    countdown = Countdown()
+    
+    # Player
+    player.on_speicaltile = False
+
+    # Time
+    start_of_game = time.perf_counter()
+    end_of_game = None
+
+
 # Redraw
 def redraw_game():
     # Background
@@ -50,18 +68,8 @@ def redraw_menu():
 
 # Loop
 def game_loop():
-    global tiles, speicalcolor_visual_identifier, countdown
-
-    # Initialize Game Variables
-    tiles = Tiles()
-    speicalcolor_visual_identifier = SpecialColorVisualIdentifier(
-        tiles.specialtile_color)
-    countdown = Countdown()
-    
-    # Start of Game
-    start_of_game = time.perf_counter()
-    speicalcolor_visual_identifier.start_of_game = start_of_game
-    countdown.start_of_game = start_of_game
+    global end_of_game
+    init_game()
 
     run = True
     while run:
@@ -76,17 +84,26 @@ def game_loop():
 
         # Windows.Game
         player_gauge.update(player.stats)
-        speicalcolor_visual_identifier.update()
-        countdown.update()
-
-        print(len(tiles.speicaltile_rects))
+        speicalcolor_visual_identifier.update(start_of_game)
+        countdown.update(start_of_game)
 
         # Win-Loss State
         if countdown.time_remaining == 0:
+            # Update Tiles' State
             if player.on_speicaltile:  # win
                 tiles.update_tiles_to_winstate()
+                if end_of_game == None:
+                    end_of_game = time.perf_counter()
             else:  # loss
                 tiles.update_tiles_to_lossdissipation()
+                if tiles.dissipated and end_of_game == None:
+                    end_of_game = time.perf_counter()
+
+            # Restart Game
+            if end_of_game != None:
+                dt = time.perf_counter() - end_of_game
+                if dt * 1000 >= 1000:
+                    init_game()
 
         # Update
         redraw_game()

@@ -100,29 +100,10 @@ class Player:
 
         # Degenerate Stamina (walk)
         if is_walking:
-            dt = time.perf_counter() - self.last_walk
-            if dt * 1000 >= self.walk_stamina_degenerate:
-                self.stats["stamina"] -= 1
-                self.last_walk = time.perf_counter()
+            self.degenerate_stamina_onwalk()
         # Regenerate Stamina (stand)
         else:
-            # Get Delta Time
-            walk_dt = time.perf_counter() - self.last_walk
-            sprint_dt = time.perf_counter() - self.last_sprint
-
-            # Get Conditions
-            regen_on_walk = walk_dt * 1000 >= self.stamina_regenerate
-            regen_on_sprint = sprint_dt * 1000 >= self.stamina_regenerate
-
-            # If Statement
-            if regen_on_walk or regen_on_sprint:
-                # Update Player Stamina Stat
-                if self.stats["stamina"] < self.maximum_stats["stamina"]:
-                    self.stats["stamina"] += 1
-
-                # Update Walk and Sprint Time
-                self.last_walk = time.perf_counter()
-                self.last_sprint = time.perf_counter()
+            self.regenerate_stamina()
                 
     # Speical Tile Collision
     def specialtile_collision(self, specialtile_rects, time_remaining):
@@ -141,13 +122,11 @@ class Player:
             vel = self.sprint_vel
 
             # Degenerate Stamina (sprint)
-            dt = time.perf_counter() - self.last_sprint
-            if dt * 1000 >= self.sprint_stamina_degenerate:
-                self.stats["stamina"] -= 1
-                self.last_sprint = time.perf_counter()
+            self.degenerate_stamina_onsprint()
         else:  # shift is up OR no stamina
             vel = self.walk_vel
 
+        # Return Velocity
         return vel
 
     def move_x(self, vel):
@@ -161,3 +140,35 @@ class Player:
         handle_rect.y += vel
         if not edge_collision(handle_rect):
             self.rect.y += vel
+
+    # Stamina Status
+    def degenerate_stamina_onwalk(self):
+        dt = time.perf_counter() - self.last_walk
+        if dt * 1000 >= self.walk_stamina_degenerate:
+            self.stats["stamina"] -= 1
+            self.last_walk = time.perf_counter()
+
+    def degenerate_stamina_onsprint(self):
+        dt = time.perf_counter() - self.last_sprint
+        if dt * 1000 >= self.sprint_stamina_degenerate:
+            self.stats["stamina"] -= 1
+            self.last_sprint = time.perf_counter()
+
+    def regenerate_stamina(self):
+        # Get Delta Time
+        walk_dt = time.perf_counter() - self.last_walk
+        sprint_dt = time.perf_counter() - self.last_sprint
+
+        # Get Conditions
+        regen_on_walk = walk_dt * 1000 >= self.stamina_regenerate
+        regen_on_sprint = sprint_dt * 1000 >= self.stamina_regenerate
+
+        # If Statement
+        if regen_on_walk or regen_on_sprint:
+            # Update Player Stamina Stat
+            if self.stats["stamina"] < self.maximum_stats["stamina"]:
+                self.stats["stamina"] += 1
+
+            # Update Walk and Sprint Time
+            self.last_walk = time.perf_counter()
+            self.last_sprint = time.perf_counter()

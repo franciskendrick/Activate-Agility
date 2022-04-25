@@ -34,6 +34,9 @@ class Player:
         self.walk_vel = 3
         self.sprint_vel = 5
 
+        # State
+        self.state = "standing"
+
         # Sprint Time 
         self.last_sprint = time.perf_counter()
         self.sprint_stamina_degenerate = 125  # milliseconds
@@ -80,29 +83,55 @@ class Player:
     def movement(self):
         keys = pygame.key.get_pressed()
 
-        # Sprint
-        vel = self.get_velocity()
-
         # Movement
-        is_walking = False
-        if keys[pygame.K_a]:  # left
-            self.move_x(-vel)
-            is_walking = True
-        if keys[pygame.K_d]:  # right
-            self.move_x(vel)
-            is_walking = True
-        if keys[pygame.K_w]:  # up
-            self.move_y(-vel)
-            is_walking = True
-        if keys[pygame.K_s]:  # down
-            self.move_y(vel)
-            is_walking = True
+        if not keys[pygame.K_a]:  # left
+            self.state = "standing"
+        elif not keys[pygame.K_d]:  # right
+            self.state = "standing"
+        elif not keys[pygame.K_w]:  # up
+            self.state = "standing"
+        elif not keys[pygame.K_s]:  # down
+            self.state = "standing"
 
-        # Degenerate Stamina (walk)
-        if is_walking:
+        if keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:  # sprinting
+            if keys[pygame.K_a]:  # left
+                self.move_x(-self.sprint_vel)
+                self.state = "sprinting"
+            if keys[pygame.K_d]:  # right
+                self.move_x(self.sprint_vel)
+                self.state = "sprinting"
+            if keys[pygame.K_w]:  # up
+                self.move_y(-self.sprint_vel)
+                self.state = "sprinting"
+            if keys[pygame.K_s]:  # down
+                self.move_y(self.sprint_vel)
+                self.state = "sprinting"
+        elif not keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:  # walking
+            if keys[pygame.K_a]:  # left
+                self.move_x(-self.walk_vel)
+                self.state = "walking"
+            if keys[pygame.K_d]:  # right
+                self.move_x(self.walk_vel)
+                self.state = "walking"
+            if keys[pygame.K_w]:  # up
+                self.move_y(-self.walk_vel)
+                self.state = "walking"
+            if keys[pygame.K_s]:  # down
+                self.move_y(self.walk_vel)
+                self.state = "walking"
+        elif self.stats["stamina"] <= 0:
+            self.state = "standing"
+
+        # Degenerate Stamina (walking)
+        if self.state == "walking":
             self.degenerate_stamina_onwalk()
+
+        # Degenerate Stamina (sprinting)
+        elif self.state == "sprinting":
+            self.degenerate_stamina_onsprint()
+
         # Regenerate Stamina (stand)
-        else:
+        elif self.state == "standing":
             self.regenerate_stamina()
                 
     # Speical Tile Collision
@@ -116,27 +145,6 @@ class Player:
 
     # Functions --------------------------------------------------- #
     # Movement
-    def get_velocity(self):
-        keys = pygame.key.get_pressed()
-
-        # Sprint (shift is down AND still has stamina)
-        if keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:
-            vel = self.sprint_vel
-
-            # Degenerate Stamina (sprint)
-            self.degenerate_stamina_onsprint()
-
-        # Walk (shift is up AND still has stamina)
-        elif not keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:
-            vel = self.walk_vel
-
-        # Stand (no stamina)
-        elif self.stats["stamina"] <= 0:
-            vel = 0
-
-        # Return Velocity
-        return vel
-
     def move_x(self, vel):
         handle_rect = self.rect.copy()
         handle_rect.x += vel

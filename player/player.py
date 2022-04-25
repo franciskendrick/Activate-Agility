@@ -118,13 +118,21 @@ class Player:
     # Movement
     def get_velocity(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:  # shift is down AND still has stamina
+
+        # Sprint (shift is down AND still has stamina)
+        if keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:
             vel = self.sprint_vel
 
             # Degenerate Stamina (sprint)
             self.degenerate_stamina_onsprint()
-        else:  # shift is up OR no stamina
+
+        # Walk (shift is up AND still has stamina)
+        elif not keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:
             vel = self.walk_vel
+
+        # Stand (no stamina)
+        elif self.stats["stamina"] <= 0:
+            vel = 0
 
         # Return Velocity
         return vel
@@ -145,13 +153,15 @@ class Player:
     def degenerate_stamina_onwalk(self):
         dt = time.perf_counter() - self.last_walk
         if dt * 1000 >= self.walk_stamina_degenerate:
-            self.stats["stamina"] -= 1
+            if self.stats["stamina"] > 0:
+                self.stats["stamina"] -= 1
             self.last_walk = time.perf_counter()
 
     def degenerate_stamina_onsprint(self):
         dt = time.perf_counter() - self.last_sprint
         if dt * 1000 >= self.sprint_stamina_degenerate:
-            self.stats["stamina"] -= 1
+            if self.stats["stamina"] > 0:
+                self.stats["stamina"] -= 1
             self.last_sprint = time.perf_counter()
 
     def regenerate_stamina(self):

@@ -87,17 +87,27 @@ def game_loop():
         speicalcolor_visual_identifier.update(start_of_game)
         countdown.update(start_of_game)
 
-        # Win-Loss State
+        # Win or Loss
         if countdown.time_remaining == 0:
-            # Update Tiles' State
-            if player.on_speicaltile:  # win
+            # Win
+            if player.on_speicaltile:
+                # Update Tiles' State
                 tiles.update_tiles_to_winstate()
+
                 if end_of_game == None:
+                    # Update End of Game Time
                     end_of_game = time.perf_counter()
-            else:  # loss
+            # Loss
+            else: 
+                # Update Tiles' State
                 tiles.update_tiles_to_lossdissipation()
+
                 if tiles.dissipated and end_of_game == None:
+                    # Update End of Game Time
                     end_of_game = time.perf_counter()
+
+                    # Update Player Health Stat
+                    player.stats["health"] -= 1
 
             # Restart Game
             if end_of_game != None:

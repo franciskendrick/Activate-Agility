@@ -53,7 +53,10 @@ class Player:
             "health": 3,
             "mana": 5,
             "stamina": 20}
-        self.stats = self.maximum_stats.copy()
+        self.stats = {
+            "health": 3,
+            "mana": 0,
+            "stamina": 20}
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

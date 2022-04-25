@@ -97,6 +97,10 @@ def game_loop():
                 if end_of_game == None:
                     # Update End of Game Time
                     end_of_game = time.perf_counter()
+
+                    # Update Player Mana Stat
+                    if player.stats["mana"] < player.maximum_stats["mana"]:
+                        player.stats["mana"] += 1
             # Loss
             else: 
                 # Update Tiles' State
@@ -109,11 +113,16 @@ def game_loop():
                     # Update Player Health Stat
                     player.stats["health"] -= 1
 
+                    # Update Player Mana Stat
+                    player.stats["mana"] = 0
+
             # Restart Game
             if end_of_game != None:
                 dt = time.perf_counter() - end_of_game
                 if dt * 1000 >= 1000:
                     init_game()
+
+            print(player.stats)
 
         # Update
         redraw_game()

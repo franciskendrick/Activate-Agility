@@ -40,7 +40,7 @@ class Player:
 
         # Walk Time
         self.last_walk = time.perf_counter()
-        self.walk_stamina_degenerate = 1000  # milliseconds
+        self.walk_stamina_degenerate = 800  # milliseconds
 
         # Regeneration Time
         self.stamina_regenerate = 1000  # milliseconds
@@ -104,19 +104,26 @@ class Player:
             if dt * 1000 >= self.walk_stamina_degenerate:
                 self.stats["stamina"] -= 1
                 self.last_walk = time.perf_counter()
-
+        # Regenerate Stamina (stand)
         else:
+            # Get Delta Time
             walk_dt = time.perf_counter() - self.last_walk
             sprint_dt = time.perf_counter() - self.last_sprint
-            if walk_dt * 1000 >= self.stamina_regenerate:
-                if self.stats["stamina"] < self.maximum_stats["stamina"]:
-                    self.stats["stamina"] += 1
-                self.last_walk = time.perf_counter()
-            elif sprint_dt * 1000 >= self.stamina_regenerate:
-                if self.stats["stamina"] < self.maximum_stats["stamina"]:
-                    self.stats["stamina"] += 1
-                self.last_sprint = time.perf_counter()
 
+            # Get Conditions
+            regen_on_walk = walk_dt * 1000 >= self.stamina_regenerate
+            regen_on_sprint = sprint_dt * 1000 >= self.stamina_regenerate
+
+            # If Statement
+            if regen_on_walk or regen_on_sprint:
+                # Update Player Stamina Stat
+                if self.stats["stamina"] < self.maximum_stats["stamina"]:
+                    self.stats["stamina"] += 1
+
+                # Update Walk and Sprint Time
+                self.last_walk = time.perf_counter()
+                self.last_sprint = time.perf_counter()
+                
     # Speical Tile Collision
     def specialtile_collision(self, specialtile_rects, time_remaining):
         # Detect if Player is on Special Tile on Time Remaining: 0

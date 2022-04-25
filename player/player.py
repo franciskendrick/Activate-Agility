@@ -31,8 +31,8 @@ class Player:
 
     def init_movement(self):
         # Velocities
-        self.walk_vel = 2
-        self.sprint_vel = 4
+        self.walk_vel = 3
+        self.sprint_vel = 5
 
         # Sprint Time 
         self.last_sprint = time.perf_counter()

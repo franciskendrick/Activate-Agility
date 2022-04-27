@@ -122,8 +122,6 @@ def game_loop():
                 if dt * 1000 >= 1000:
                     init_game()
 
-        # print(player.stats)
-
         # Update
         redraw_game()
         clock.tick(window.framerate)

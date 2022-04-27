@@ -34,12 +34,15 @@ class Countdown:
     def init_title(self, set):
         # Initialize
         image = clip_set_to_list_on_xaxis(set)
+        wd, ht = image.get_rect().size
+        resized_image = pygame.transform.scale(
+            image, (wd * 2, ht * 2))
         rect = pygame.Rect(
             game_data["countdown_position"]["title"], 
-            image.get_rect().size)
+            resized_image.get_rect().size)
 
         # Append
-        self.title = [image, rect]
+        self.title = [resized_image, rect]
 
     def init_numbers(self, set):
         self.numbers = {}
@@ -51,10 +54,10 @@ class Countdown:
 
             # Initialize
             resized_image = pygame.transform.scale(
-                image, (wd * 6, ht * 6))
+                image, (wd * 5, ht * 5))
             rect = pygame.Rect(
                 game_data["countdown_position"]["numbers"][str(num)],
-                image.get_rect().size)
+                resized_image.get_rect().size)
 
             # Append
             self.numbers[num] = [resized_image, rect]

@@ -1,24 +1,24 @@
 {
     "playergauge_position": {
         "icon": {
-            "health": [16, 5],
-            "mana": [18, 20],
-            "stamina": [18, 37]
+            "health": [13, 35],
+            "mana": [221, 34],
+            "stamina": [427, 34]
         },
         "bar": {
-            "health": [30, 5],
-            "mana": [30, 21],
-            "stamina": [30, 38]
+            "health": [29, 34],
+            "mana": [235, 34],
+            "stamina": [441, 34]
         },
         "gauge": {
-            "health": [33, 7],
-            "mana": [33, 23],
-            "stamina": [33, 40]
+            "health": [33, 37],
+            "mana": [239, 37],
+            "stamina": [445, 37]
         },
         "spacing": {
-            "health": 47,
-            "mana": 28,
-            "stamina": 7
+            "health": 60,
+            "mana": 36,
+            "stamina": 9
         }
     },
     "coloridentifier_position": [7, 60],

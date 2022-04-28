@@ -1,4 +1,4 @@
-from functions import separate_sets_from_yaxis, clip_set_to_list_on_xaxis
+from .number_font import NumberFont
 import pygame
 import json
 import time
@@ -12,31 +12,30 @@ with open(f"{path}/data/game.json") as json_file:
     game_data = json.load(json_file)
 
 
-class Countdown:
+class Countdown(NumberFont):
     # Initialize -------------------------------------------------- #
     def __init__(self):
+        super().__init__()
+
         # Game
         self.start_of_game = None
 
         # Spriteset
-        spriteset = pygame.image.load(
+        title_image = pygame.image.load(
             f"{path}/assets/countdown.png")
-        title_set, numbers_set = separate_sets_from_yaxis(
-            spriteset, (255, 0, 0))
 
         # Images
-        self.init_title(title_set)
-        self.init_numbers(numbers_set)
+        self.init_title(title_image)
+        self.init_numbers()
 
         # Time Remaining
         self.init_time()
 
-    def init_title(self, set):
+    def init_title(self, title_image):
         # Initialize
-        image = clip_set_to_list_on_xaxis(set)
-        wd, ht = image.get_rect().size
+        wd, ht = title_image.get_rect().size
         resized_image = pygame.transform.scale(
-            image, (wd * 2, ht * 2))
+            title_image, (wd * 2, ht * 2))
         rect = pygame.Rect(
             game_data["countdown_position"]["title"], 
             resized_image.get_rect().size)
@@ -44,24 +43,13 @@ class Countdown:
         # Append
         self.title = [resized_image, rect]
 
-    def init_numbers(self, set):
-        self.numbers = {}
-        images = clip_set_to_list_on_xaxis(set)
+    def init_numbers(self):
+        self.number_positions = {}
         numbers = [i for i in range(3, -1, -1)]
-        for num, image in zip(numbers, images):
-            # Get Image Size
-            wd, ht = image.get_rect().size
-
-            # Initialize
-            resized_image = pygame.transform.scale(
-                image, (wd * 5, ht * 5))
-            rect = pygame.Rect(
-                game_data["countdown_position"]["numbers"][str(num)],
-                resized_image.get_rect().size)
-
-            # Append
-            self.numbers[num] = [resized_image, rect]
-
+        for num in numbers:
+            pos = game_data["countdown_position"]["numbers"][str(num)]
+            self.number_positions[num] = pos
+        
     def init_time(self):
         # Time Remaining
         self.time_remaining = 3
@@ -80,7 +68,9 @@ class Countdown:
 
         # Numbers
         if self.time_is_visible:
-            display.blit(*self.numbers[self.time_remaining])
+            text = list(str(self.time_remaining))
+            pos = self.number_positions[self.time_remaining]
+            self.render_font(display, text, pos, 5)
 
     # Update ------------------------------------------------------ #
     def update(self, start_of_game):

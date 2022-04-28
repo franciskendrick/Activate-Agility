@@ -28,3 +28,6 @@ def clip_font_to_dict(font_set, order, separator_color=(255, 0, 0, 255)):
         else:
             # Update Variables
             character_wd += 1
+
+    # Return
+    return characters

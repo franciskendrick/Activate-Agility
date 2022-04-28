@@ -40,7 +40,7 @@ class NumberFont:
                     character, (wd * enlarge, ht * enlarge))
 
                 # Blit to Screen
-                display.blit(character, (x + x_offset, y))
+                display.blit(resized_character, (x + x_offset, y))
 
                 # Add to Offset Width of Resized Character + Spacing
                 x_offset += resized_character.get_width() + self.character_spacing

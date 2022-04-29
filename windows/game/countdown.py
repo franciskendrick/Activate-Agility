@@ -20,18 +20,18 @@ class Countdown(NumberFont):
         # Game
         self.start_of_game = None
 
-        # Spriteset
-        title_image = pygame.image.load(
-            f"{path}/assets/countdown.png")
-
         # Images
-        self.init_title(title_image)
+        self.init_title()
         self.init_numbers()
 
         # Time Remaining
         self.init_time()
 
-    def init_title(self, title_image):
+    def init_title(self):
+        # Spriteset
+        title_image = pygame.image.load(
+            f"{path}/assets/countdown.png")
+
         # Initialize
         wd, ht = title_image.get_rect().size
         resized_image = pygame.transform.scale(

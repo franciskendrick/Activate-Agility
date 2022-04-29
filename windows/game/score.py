@@ -1,4 +1,5 @@
 from functions import clip_set_to_list_on_xaxis
+from .number_font import NumberFont
 import pygame
 import json
 import os
@@ -16,11 +17,14 @@ titles = pygame.image.load(
 score_title, highscore_title = clip_set_to_list_on_xaxis(titles)
 
 
-class Score:
+class Score(NumberFont):
     # Initialize -------------------------------------------------- #
     def __init__(self):
+        super().__init__()
+
         self.init_title()
         self.init_numbers()
+        self.score = 0
 
     def init_title(self):
         # Initialize
@@ -39,7 +43,12 @@ class Score:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        # Title
+        display.blit(*self.title)
+
+        # Numbers
+        self.render_font(
+            display, str(self.score), self.number_position)
 
 
 class HighScore:

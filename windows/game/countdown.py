@@ -68,7 +68,7 @@ class Countdown(NumberFont):
 
         # Numbers
         if self.time_is_visible:
-            text = list(str(self.time_remaining))
+            text = str(self.time_remaining)
             pos = self.number_positions[self.time_remaining]
             self.render_font(display, text, pos, 5)
 

@@ -34,5 +34,9 @@
     "score": {
         "title": [259, 3],
         "numbers": [271, 19]
+    },
+    "highscore": {
+        "title": [431, 3],
+        "numbers": [443, 19]
     }
 }

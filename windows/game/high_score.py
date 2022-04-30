@@ -18,7 +18,7 @@ class HighScore(NumberFont):
 
         self.init_title()
         self.init_numbers()
-        self.highscore = game_data["highscore_value"]
+        self.value = game_data["highscore_value"]
 
     def init_title(self):
         # Image
@@ -46,4 +46,4 @@ class HighScore(NumberFont):
 
         # Numbers
         self.render_font(
-            display, str(self.highscore), self.number_position)
+            display, str(self.value), self.number_position)

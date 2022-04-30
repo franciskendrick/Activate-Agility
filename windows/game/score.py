@@ -18,7 +18,7 @@ class Score(NumberFont):
 
         self.init_title()
         self.init_numbers()
-        self.score = 0
+        self.value = 0
 
     def init_title(self):
         # Image
@@ -46,4 +46,4 @@ class Score(NumberFont):
 
         # Numbers
         self.render_font(
-            display, str(self.score), self.number_position)
+            display, str(self.value), self.number_position)

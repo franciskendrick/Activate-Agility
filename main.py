@@ -1,6 +1,6 @@
 from player import Player
 from windows import window, background
-from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore, high_score
+from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
 from windows.menu import menu
 import pygame
 import time
@@ -105,7 +105,11 @@ def game_loop():
                         player.stats["mana"] += 1
 
                     # Add to Score
-                    score.score += 1
+                    score.value += 1
+
+                    # Add to Highscore
+                    if score.value > high_score.value:
+                        high_score.value = score.value
             # Loss
             else: 
                 # Update Tiles' State

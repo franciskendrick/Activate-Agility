@@ -1,5 +1,8 @@
 import pygame
-import 
+import os
+
+pygame.init()
+path = os.path.dirname(os.path.realpath(__file__))
 
 
 class HighScore:

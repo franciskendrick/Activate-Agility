@@ -49,13 +49,3 @@ class Score(NumberFont):
         # Numbers
         self.render_font(
             display, str(self.score), self.number_position)
-
-
-class HighScore:
-    # Initialize -------------------------------------------------- #
-    def __init__(self):
-        pass
-
-    # Draw -------------------------------------------------------- #
-    def draw(self, display):
-        pass

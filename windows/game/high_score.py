@@ -15,6 +15,7 @@ class HighScore:
     def __init__(self):
         self.init_title()
         self.init_numbers()
+        self.highscore = game_data["highscore_value"]
 
     def init_title(self):
         # Image
@@ -26,14 +27,14 @@ class HighScore:
         resized_image = pygame.transform.scale(
             title, (wd * 2, ht * 2))
         rect = pygame.Rect(
-            game_data["highscore"]["title"],
+            game_data["highscore_positions"]["title"],
             resized_image.get_rect().size)
 
         # Append
         self.title = [resized_image, rect]
 
     def init_numbers(self):
-        self.number_position = game_data["highscore"]["numbers"]
+        self.number_position = game_data["highscore_positions"]["numbers"]
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

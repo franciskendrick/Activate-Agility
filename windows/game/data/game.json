@@ -31,12 +31,13 @@
             "0": [192, 2]
         }
     },
-    "score": {
+    "score_positions": {
         "title": [259, 3],
         "numbers": [271, 19]
     },
-    "highscore": {
+    "highscore_positions": {
         "title": [431, 3],
         "numbers": [443, 19]
-    }
+    },
+    "highscore_value": 0
 }

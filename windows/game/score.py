@@ -30,14 +30,14 @@ class Score(NumberFont):
         resized_image = pygame.transform.scale(
             title, (wd * 2, ht * 2))
         rect = pygame.Rect(
-            game_data["score"]["title"], 
+            game_data["score_positions"]["title"], 
             resized_image.get_rect().size)
 
         # Append
         self.title = [resized_image, rect]
 
     def init_numbers(self):
-        self.number_position = game_data["score"]["numbers"]
+        self.number_position = game_data["score_positions"]["numbers"]
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

@@ -1,3 +1,4 @@
+from .number_font import NumberFont
 import pygame
 import json
 import os
@@ -10,9 +11,11 @@ with open(f"{path}/data/game.json") as json_file:
     game_data = json.load(json_file)
 
 
-class HighScore:
+class HighScore(NumberFont):
     # Initialize -------------------------------------------------- #
     def __init__(self):
+        super().__init__()
+
         self.init_title()
         self.init_numbers()
         self.highscore = game_data["highscore_value"]
@@ -38,4 +41,9 @@ class HighScore:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        # Title
+        display.blit(*self.title)
+
+        # Numbers
+        self.render_font(
+            display, str(self.highscore), self.number_position)

@@ -1,6 +1,6 @@
 from player import Player
 from windows import window, background
-from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
+from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore, high_score
 from windows.menu import menu
 import pygame
 import time
@@ -42,6 +42,7 @@ def redraw_game():
     speicalcolor_visual_identifier.draw(display)
     countdown.draw(display)
     score.draw(display)
+    high_score.draw(display)
 
     # Player
     player.draw(display)
@@ -181,6 +182,7 @@ if __name__ == "__main__":
 
     # Score
     score = Score()
+    high_score = HighScore()
 
     # Execute
     menu_loop()

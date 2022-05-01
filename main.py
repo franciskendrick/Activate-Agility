@@ -2,6 +2,7 @@ from player import Player
 from windows import window, background
 from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
 from windows.menu import menu
+from windows.gameover import gameover
 import pygame
 import time
 import sys

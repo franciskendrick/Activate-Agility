@@ -70,7 +70,17 @@ def redraw_menu():
 
 
 def redraw_gameover():
-    pass
+    # Background
+    display.fill(background.color)
+
+    # GameOver
+    gameover.draw(display)
+
+    # Blit to Screen ---------------------------------------------- #
+    resized_display = pygame.transform.scale(display, win_size)
+    win.blit(resized_display, (0, 0))
+
+    pygame.display.update()
 
 
 # Loop

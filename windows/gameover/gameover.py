@@ -1,5 +1,5 @@
 from windows import window
-from .background import Window
+from .background import Background
 import pygame
 import os
 
@@ -16,7 +16,7 @@ class GameOver:
         self.rect = pygame.Rect((
             0, 0), self.display.get_size())
 
-        self.background = Window()
+        self.background = Background()
 
     def draw(self, display):
         pass

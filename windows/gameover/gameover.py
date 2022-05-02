@@ -1,4 +1,4 @@
-from windows import window
+from windows import window, background
 from .background import Background
 import pygame
 import os
@@ -19,7 +19,12 @@ class GameOver:
         self.background = Background()
 
     def draw(self, display):
-        pass
+        # Background
+        self.background.draw(self.display)
 
+        # Blit to Display
+        resized_display = pygame.transform.scale(
+            self.display, display.get_size())
+        display.blit(resized_display, self.rect)
 
 gameover = GameOver()

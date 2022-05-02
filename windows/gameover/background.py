@@ -21,4 +21,4 @@ class Background:
         self.background = [img, rect]
 
     def draw(self, display):
-        pass 
+        display.blit(*self.background)

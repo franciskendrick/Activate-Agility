@@ -221,4 +221,4 @@ if __name__ == "__main__":
     high_score = HighScore()
 
     # Execute
-    menu_loop()
+    gameover_loop()

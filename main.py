@@ -69,6 +69,10 @@ def redraw_menu():
     pygame.display.update()
 
 
+def redraw_gameover():
+    pass
+
+
 # Loop
 def game_loop():
     global end_of_game
@@ -167,6 +171,21 @@ def menu_loop():
     sys.exit()
 
 
+def gameover_loop():
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        # Update
+        redraw_gameover()
+        clock.tick(window.framerate)
+
+    pygame.quit()
+    sys.exit()
+
+
 if __name__ == "__main__":
     pygame.init()
 
@@ -190,4 +209,4 @@ if __name__ == "__main__":
     high_score = HighScore()
 
     # Execute
-    menu_loop()
+    gameover_loop()

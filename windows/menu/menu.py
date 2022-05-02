@@ -11,9 +11,11 @@ path = os.path.dirname(os.path.realpath(__file__))
 class Menu:
     def __init__(self):
         wd, ht = window.rect.size
-        self.display = pygame.Surface((wd // 2, ht // 2), pygame.SRCALPHA)
+        self.display = pygame.Surface(
+            (wd // 2, ht // 2), pygame.SRCALPHA)
         self.display.convert_alpha()
-        self.rect = pygame.Rect((0, 0), self.display.get_size())
+        self.rect = pygame.Rect((
+            0, 0), self.display.get_size())
 
         self.title = Title()
         self.buttons = Buttons()

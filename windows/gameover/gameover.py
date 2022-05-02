@@ -1,3 +1,5 @@
+from windows import window
+from .background import Window
 import pygame
 import os
 
@@ -7,7 +9,14 @@ path = os.path.dirname(os.path.realpath(__file__))
 
 class GameOver:
     def __init__(self):
-        pass
+        wd, ht = window.rect.size
+        self.display = pygame.Surface(
+            (wd // 3, ht // 3), pygame.SRCALPHA)
+        self.display.convert_alpha()
+        self.rect = pygame.Rect((
+            0, 0), self.display.get_size())
+
+        self.background = Window()
 
     def draw(self, display):
         pass

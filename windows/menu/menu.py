@@ -1,4 +1,4 @@
-from windows import window, background
+from windows import window
 from .title import Title
 from .buttons import Buttons
 import pygame
@@ -21,9 +21,6 @@ class Menu:
         self.buttons = Buttons()
 
     def draw(self, display):
-        # Background
-        background.draw_walls(display)
-
         # Menu
         self.title.draw(self.display)
         self.buttons.draw(self.display)

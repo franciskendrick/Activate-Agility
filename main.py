@@ -58,6 +58,7 @@ def redraw_game():
 def redraw_menu():
     # Background
     display.fill(background.color)
+    background.draw_walls(display)
 
     # Menu
     menu.draw(display)
@@ -72,6 +73,7 @@ def redraw_menu():
 def redraw_gameover():
     # Background
     display.fill(background.color)
+    background.draw_walls(display)
 
     # GameOver
     gameover.draw(display)
@@ -219,4 +221,4 @@ if __name__ == "__main__":
     high_score = HighScore()
 
     # Execute
-    gameover_loop()
+    menu_loop()

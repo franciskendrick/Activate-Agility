@@ -1,4 +1,4 @@
-from windows import window, background
+from windows import window
 from .background import Background
 import pygame
 import os
@@ -26,5 +26,6 @@ class GameOver:
         resized_display = pygame.transform.scale(
             self.display, display.get_size())
         display.blit(resized_display, self.rect)
+
 
 gameover = GameOver()

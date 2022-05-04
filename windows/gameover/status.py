@@ -21,4 +21,4 @@ class Status:
         self.status = [img, rect]
 
     def draw(self, display):
-        pass
+        display.blit(*self.status)

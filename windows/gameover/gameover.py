@@ -29,6 +29,7 @@ class GameOver:
         self.background.draw(self.display)
         self.title.draw(self.display)
         self.status.draw(self.display)
+        self.buttons.draw(self.display)
 
         # Blit to Display
         resized_display = pygame.transform.scale(

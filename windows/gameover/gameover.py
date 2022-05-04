@@ -2,6 +2,7 @@ from windows import window
 from .background import Background
 from .title import Title
 from .status import Status
+from .buttons import Buttons
 import pygame
 import os
 
@@ -21,6 +22,7 @@ class GameOver:
         self.background = Background()
         self.title = Title()
         self.status = Status()
+        self.buttons = Buttons()
 
     def draw(self, display):
         # Background

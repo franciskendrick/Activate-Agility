@@ -1,4 +1,5 @@
 {
     "background_position": [48, 26],
-    "title_position": [55, 32]
+    "title_position": [55, 32],
+    "status_position": [54, 48]
 }

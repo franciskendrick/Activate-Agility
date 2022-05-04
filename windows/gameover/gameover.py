@@ -1,5 +1,6 @@
 from windows import window
 from .background import Background
+from .title import Title
 import pygame
 import os
 
@@ -17,10 +18,12 @@ class GameOver:
             0, 0), self.display.get_size())
 
         self.background = Background()
+        self.title = Title()
 
     def draw(self, display):
         # Background
         self.background.draw(self.display)
+        self.title.draw(self.display)
 
         # Blit to Display
         resized_display = pygame.transform.scale(

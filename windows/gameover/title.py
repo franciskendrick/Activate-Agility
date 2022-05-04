@@ -7,7 +7,7 @@ pygame.init()
 path = os.path.dirname(os.path.realpath(__file__))
 
 # Json
-with open(f"{path}/data/menu.json") as json_file:
+with open(f"{path}/data/gameover.json") as json_file:
     gameover_data = json.load(json_file)
 
 
@@ -33,5 +33,14 @@ class Title:
             slide = [img, rect]
             self.frames.append(slide)
 
-    def draw(self):
-        pass
+    def draw(self, display):
+        # Reset
+        if self.idx >= len(self.frames) * 5:
+            self.idx = 0
+
+        # Draw
+        img, rect = self.frames[self.idx // 5]
+        display.blit(img, rect)
+
+        # Update
+        self.idx += 1

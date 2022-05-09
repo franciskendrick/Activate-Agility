@@ -9,6 +9,7 @@ path = os.path.dirname(os.path.realpath(__file__))
 
 
 class Menu:
+    # Initialize
     def __init__(self):
         wd, ht = window.rect.size
         self.display = pygame.Surface(
@@ -20,6 +21,7 @@ class Menu:
         self.title = Title()
         self.buttons = Buttons()
 
+    # Draw
     def draw(self, display):
         # Menu
         self.title.draw(self.display)
@@ -30,6 +32,7 @@ class Menu:
             self.display, display.get_size())
         display.blit(resized_display, self.rect)
 
+    # Functions
     def get_button_pressed(self, event):
         if event.type == pygame.MOUSEBUTTONUP:
             for (name, button) in self.buttons.buttons.items():

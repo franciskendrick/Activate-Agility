@@ -169,12 +169,12 @@ def menu_loop():
             if event.type == pygame.QUIT:
                 run = False
 
-        # Menu Buttons
-        btn_pressed = menu.get_button_pressed(event)
-        for function in btn_switchcase[btn_pressed]:
-            function()
-        menu.handle_mousemotion(event)
-        
+            # Menu Buttons
+            btn_pressed = menu.get_button_pressed(event)
+            for function in btn_switchcase[btn_pressed]:
+                function()
+            menu.handle_mousemotion(event)
+            
         # Update
         redraw_menu()
         clock.tick(window.framerate)
@@ -184,14 +184,23 @@ def menu_loop():
 
 
 def gameover_loop():
+    btn_switchcase = {
+        "play": [game_loop],
+        "options": [placeholder],
+        "menu": [menu_loop],
+        None: [placeholder]
+    }
     run = True
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
 
-        # GameOver Buttons
-        gameover.handle_mousemotion(event)
+            # GameOver Buttons
+            btn_pressed = gameover.get_button_pressed(event)
+            for function in btn_switchcase[btn_pressed]:
+                function()
+            gameover.handle_mousemotion(event)
 
         # Update
         redraw_gameover()

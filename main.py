@@ -190,6 +190,9 @@ def gameover_loop():
             if event.type == pygame.QUIT:
                 run = False
 
+        # GameOver Buttons
+        gameover.handle_mousemotion(event)
+
         # Update
         redraw_gameover()
         clock.tick(window.framerate)

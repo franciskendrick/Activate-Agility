@@ -19,6 +19,7 @@ class Buttons:
             f"{path}/assets/buttons.png")
         order = ["play", "options", "menu"]
         images = clip_set_to_list_on_xaxis(spriteset)
+        enlarge = 3 * window.enlarge
 
         # Palette
         hover_palette = {
@@ -40,19 +41,23 @@ class Buttons:
             rect = pygame.Rect(
                 gameover_data["buttons_position"][name],
                 img.get_rect().size)
+            hitbox = pygame.Rect(
+                rect.x * enlarge, rect.y * enlarge,
+                rect.width * enlarge, rect.height * enlarge)
 
             # Append
             button = [
                 False,  # is_hovered
                 img,  # orig image
                 hover_img,  # hover image
-                rect  # rect
+                rect,  # rect
+                hitbox  # hitbox
             ]
             self.buttons[name] = button
 
     def draw(self, display):
         for button in self.buttons.values():
-            is_hovered, orig_img, hover_img, rect = button
+            is_hovered, orig_img, hover_img, rect, _ = button
             img = hover_img if is_hovered else orig_img
 
             display.blit(img, rect)

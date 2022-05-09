@@ -142,6 +142,10 @@ def game_loop():
                     # Update Player Mana Stat
                     player.stats["mana"] = 0
 
+                    # Move to GameOver Loop
+                    if player.stats["health"] == 0:
+                        gameover_loop()
+
             # Restart Game
             if end_of_game != None:
                 dt = time.perf_counter() - end_of_game

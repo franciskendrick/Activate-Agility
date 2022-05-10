@@ -11,7 +11,7 @@ resources_path = os.path.abspath(
         "resources", "player"
         )
     )
-print(f"{resources_path}/player.png")
+
 
 class Player:
     # Initialize -------------------------------------------------- #

@@ -1,4 +1,4 @@
-from .number_font import NumberFont
+from fonts import NumberFont
 import pygame
 import json
 import time

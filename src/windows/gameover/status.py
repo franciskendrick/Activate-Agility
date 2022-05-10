@@ -1,3 +1,4 @@
+from fonts import NumberFont
 import pygame
 import json
 import os
@@ -16,15 +17,22 @@ with open(f"{resources_path}/gameover.json") as json_file:
     gameover_data = json.load(json_file)
 
 
-class Status:
+class Status(NumberFont):
+    # Initialize
     def __init__(self):
+        super().__init__()
+
+        self.init_board()
+
+    def init_board(self):
         img = pygame.image.load(
             f"{resources_path}/status.png")
         rect = pygame.Rect(
-            gameover_data["status_position"],
+            gameover_data["status_positions"]["board"],
             img.get_rect().size)
 
-        self.status = [img, rect]
+        self.status_board = [img, rect]
 
+    # Draw
     def draw(self, display):
-        display.blit(*self.status)
+        display.blit(*self.status_board)

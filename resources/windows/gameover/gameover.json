@@ -1,7 +1,12 @@
 {
     "background_position": [48, 26],
     "title_position": [55, 32],
-    "status_position": [54, 48],
+    "status_positions": {
+        "board": [54, 48],
+        "score": [116, 50],
+        "highscore": [114, 59],
+        "endtime": [103, 68]
+    },
     "buttons_position": {
         "play": [74, 78],
         "options": [97, 78],

@@ -52,4 +52,4 @@ class Score(NumberFont):
 
         # Numbers
         self.render_font(
-            display, str(self.value), self.number_position)
+            display, f"{self.value:,}", self.number_position)

@@ -23,6 +23,7 @@ class Status(NumberFont):
         super().__init__()
 
         self.init_board()
+        self.init_stats()
 
     def init_board(self):
         img = pygame.image.load(
@@ -32,6 +33,20 @@ class Status(NumberFont):
             img.get_rect().size)
 
         self.status_board = [img, rect]
+
+    def init_stats(self, score, highscore, endtime):
+        self.score = {
+            "text": f"{score:,}",
+            "pos": gameover_data["status_positions"]["score"]
+        }
+        self.high_score = {
+            "text": f"{highscore:,}",
+            "pos": gameover_data["status_positions"]["highscore"]
+        }
+        self.end_time = {
+            "text": f"{endtime}",
+            "pos": gameover_data["status_positions"]["endtime"]
+        }
 
     # Draw
     def draw(self, display):

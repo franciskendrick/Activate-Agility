@@ -1,8 +1,9 @@
 from player import Player
+from windows import gameover
 from windows.windows import window, background
 from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
-from windows.menu import menu
-from windows.gameover import gameover
+from windows.menu import Menu
+from windows.gameover import GameOver
 import pygame
 import time
 import sys
@@ -161,6 +162,9 @@ def game_loop():
 
 
 def menu_loop():
+    global menu
+    
+    menu = Menu()
     btn_switchcase = {
         "play": [game_loop],
         "options": [placeholder],
@@ -188,12 +192,17 @@ def menu_loop():
 
 
 def gameover_loop():
+    global gameover
+
+    gameover = GameOver(
+        score.value, high_score.value, 0)
     btn_switchcase = {
         "play": [game_loop],
         "options": [placeholder],
         "menu": [menu_loop],
         None: [placeholder]
     }
+    
     run = True
     while run:
         for event in pygame.event.get():
@@ -237,4 +246,4 @@ if __name__ == "__main__":
     high_score = HighScore()
 
     # Execute
-    gameover_loop()
+    menu_loop()

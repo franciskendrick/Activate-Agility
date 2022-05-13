@@ -10,7 +10,7 @@ pygame.init()
 
 class GameOver:
     # Initialize
-    def __init__(self):
+    def __init__(self, score, highscore, endtime):
         wd, ht = window.rect.size
         self.display = pygame.Surface(
             (wd // 3, ht // 3), pygame.SRCALPHA)
@@ -20,7 +20,7 @@ class GameOver:
 
         self.background = Background()
         self.title = Title()
-        self.status = Status()
+        self.status = Status(score, highscore, endtime)
         self.buttons = Buttons()
 
     # Draw
@@ -53,6 +53,3 @@ class GameOver:
 
                 mouse_pos = pygame.mouse.get_pos()
                 button[0] = True if hitbox.collidepoint(mouse_pos) else False
-
-
-gameover = GameOver()

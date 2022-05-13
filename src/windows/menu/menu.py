@@ -47,6 +47,3 @@ class Menu:
 
                 mouse_pos = pygame.mouse.get_pos()
                 button[0] = True if hitbox.collidepoint(mouse_pos) else False
-
-
-menu = Menu()

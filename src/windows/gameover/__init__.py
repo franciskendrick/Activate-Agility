@@ -1,1 +1,1 @@
-from .gameover import gameover
+from .gameover import GameOver

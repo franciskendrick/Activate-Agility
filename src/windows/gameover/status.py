@@ -19,11 +19,11 @@ with open(f"{resources_path}/gameover.json") as json_file:
 
 class Status(NumberFont):
     # Initialize
-    def __init__(self):
+    def __init__(self, score, highscore, endtime):
         super().__init__()
 
         self.init_board()
-        self.init_stats()
+        self.init_stats(score, highscore, endtime)
 
     def init_board(self):
         img = pygame.image.load(
@@ -50,4 +50,26 @@ class Status(NumberFont):
 
     # Draw
     def draw(self, display):
+        # Board
         display.blit(*self.status_board)
+        
+        # Score
+        self.render_font(
+            display, 
+            self.score["text"], 
+            self.score["pos"],
+            enlarge=1)
+
+        # HighScore
+        self.render_font(
+            display, 
+            self.high_score["text"], 
+            self.high_score["pos"],
+            enlarge=1)
+
+        # EndTime
+        self.render_font(
+            display,
+            self.end_time["text"], 
+            self.end_time["pos"],
+            enlarge=1)

@@ -38,6 +38,7 @@ def init_game():
 
 
 def restart_game():
+    global player
     global start_of_game, end_of_game
 
     # Reset Game Variables
@@ -46,7 +47,7 @@ def restart_game():
     countdown.init()
 
     # Player
-    player.on_speicaltile = False
+    player.on_specialtile = False
 
     # Time
     start_of_game = time.perf_counter()

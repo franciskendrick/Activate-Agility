@@ -9,7 +9,7 @@ pygame.init()
 
 
 class GameOver:
-    # Initialize
+    # Initialize -------------------------------------------------- #
     def __init__(self, score, highscore, endtime):
         wd, ht = window.rect.size
         self.display = pygame.Surface(
@@ -23,7 +23,7 @@ class GameOver:
         self.status = Status(score, highscore, endtime)
         self.buttons = Buttons()
 
-    # Draw
+    # Draw -------------------------------------------------------- #
     def draw(self, display):
         # Background
         self.background.draw(self.display)
@@ -36,7 +36,7 @@ class GameOver:
             self.display, display.get_size())
         display.blit(resized_display, self.rect)
 
-    # Functions
+    # Functions --------------------------------------------------- #
     def get_button_pressed(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             for (name, button) in self.buttons.buttons.items():

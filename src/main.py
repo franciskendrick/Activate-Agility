@@ -1,7 +1,7 @@
 from player import Player
 from windows import gameover
 from windows.windows import window, background
-from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
+from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore, tiles
 from windows.menu import Menu
 from windows.gameover import GameOver
 import pygame
@@ -9,21 +9,42 @@ import time
 import sys
 
 
-# Functions
+# Functions ------------------------------------------------------- #
 def placeholder():  # !!!
     pass
 
 
 def init_game():
-    global tiles, speicalcolor_visual_identifier, countdown
+    global player
+    global tiles, speicalcolor_visual_identifier
+    global countdown, player_gauge, score, high_score
     global start_of_game, end_of_game
+
+    # Initialize Player
+    player = Player()
 
     # Initialize Game Variables
     tiles = Tiles()
     speicalcolor_visual_identifier = SpecialColorVisualIdentifier(
         tiles.specialtile_color)
     countdown = Countdown()
-    
+    player_gauge = PlayerGauge(player.maximum_stats)
+    score = Score()
+    high_score = HighScore()
+
+    # Time 
+    start_of_game = time.perf_counter()
+    end_of_game = None
+
+
+def restart_game():
+    global start_of_game, end_of_game
+
+    # Reset Game Variables
+    tiles.init()
+    speicalcolor_visual_identifier.init(tiles.specialtile_color)
+    countdown.init()
+
     # Player
     player.on_speicaltile = False
 
@@ -32,7 +53,7 @@ def init_game():
     end_of_game = None
 
 
-# Redraw
+# Redraws --------------------------------------------------------- #
 def redraw_game():
     # Background
     display.fill(background.color)
@@ -86,7 +107,7 @@ def redraw_gameover():
     pygame.display.update()
 
 
-# Loop
+# Loops ----------------------------------------------------------- #
 def game_loop():
     global end_of_game
     init_game()
@@ -109,8 +130,7 @@ def game_loop():
 
         # Win or Loss
         if countdown.time_remaining == 0:
-            # Win
-            if player.on_speicaltile:
+            if player.on_specialtile:  # win
                 # Update Tiles' State
                 tiles.update_tiles_to_winstate()
 
@@ -128,8 +148,7 @@ def game_loop():
                     # Add to Highscore
                     if score.value > high_score.value:
                         high_score.value = score.value
-            # Loss
-            else: 
+            else:  # loss
                 # Update Tiles' State
                 tiles.update_tiles_to_lossdissipation()
 
@@ -151,7 +170,7 @@ def game_loop():
             if end_of_game != None:
                 dt = time.perf_counter() - end_of_game
                 if dt * 1000 >= 1000:
-                    init_game()
+                    restart_game()
 
         # Update
         redraw_game()
@@ -223,6 +242,7 @@ def gameover_loop():
     sys.exit()
 
 
+# Execute --------------------------------------------------------- #
 if __name__ == "__main__":
     pygame.init()
 
@@ -235,15 +255,5 @@ if __name__ == "__main__":
     pygame.display.set_caption("Activate: Agility")
     clock = pygame.time.Clock()
 
-    # Player
-    player = Player()
-
-    # Player Gauge
-    player_gauge = PlayerGauge(player.maximum_stats)
-
-    # Score
-    score = Score()
-    high_score = HighScore()
-
     # Execute
-    gameover_loop()
+    game_loop()

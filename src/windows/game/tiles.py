@@ -15,6 +15,9 @@ resources_path = os.path.abspath(
 class Tiles:
     # Initialize -------------------------------------------------- #
     def __init__(self):
+        self.init()
+
+    def init(self):
         self.init_images()
         self.init_speicaltiles()
         self.init_tiles()

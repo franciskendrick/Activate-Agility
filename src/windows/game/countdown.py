@@ -22,7 +22,9 @@ class Countdown(NumberFont):
     # Initialize -------------------------------------------------- #
     def __init__(self):
         super().__init__()
+        self.init()
 
+    def init(self):
         # Game
         self.start_of_game = None
 

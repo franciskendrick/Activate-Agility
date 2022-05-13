@@ -1,4 +1,3 @@
-from unicodedata import name
 from functions import clip_font_to_dict, color_swap
 import pygame
 import os
@@ -18,7 +17,8 @@ class NumberFont:
         self.characters = {}
         self.order = [
             '0', '1', '2', '3', '4', 
-            '5', '6', '7', '8', '9', ','] 
+            '5', '6', '7', '8', '9', 
+            ':', ','] 
         font_set = pygame.image.load(
             f"{resources_path}/number_font.png").convert()
 

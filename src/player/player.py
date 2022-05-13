@@ -55,7 +55,7 @@ class Player:
         self.stamina_regenerate = 1000  # milliseconds
 
     def init_winningstate(self):
-        self.on_speicaltile = False
+        self.on_specialtile = False
 
     def init_status(self):
         self.maximum_stats = {
@@ -114,7 +114,7 @@ class Player:
         if time_remaining == 0:  # time remaining is at zero
             for tile_rect in specialtile_rects:  # loop through all rects of speical tiles
                 if self.rect.colliderect(tile_rect):  # check of player and tile collision
-                    self.on_speicaltile = True 
+                    self.on_specialtile = True 
             specialtile_rects.clear()
 
     # Functions --------------------------------------------------- #

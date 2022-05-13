@@ -19,7 +19,10 @@ with open(f"{resources_path}/game.json") as json_file:
 
 class SpecialColorVisualIdentifier:
     # Initialize -------------------------------------------------- #
-    def __init__(self, speicaltile_color):
+    def __init__(self, specialtile_color):
+        self.init(specialtile_color)
+
+    def init(self, specialtile_color):
         # Game
         self.start_of_game = None
 
@@ -37,7 +40,7 @@ class SpecialColorVisualIdentifier:
         self.position = game_data["coloridentifier_position"]
 
         # Color Index
-        self.update_colorindex(speicaltile_color)
+        self.update_colorindex(specialtile_color)
 
         # Visibility
         self.is_visible = False

@@ -4,13 +4,14 @@ from .title import Title
 from .status import Status
 from .buttons import Buttons
 import pygame
+import time
 
 pygame.init()
 
 
 class GameOver:
     # Initialize -------------------------------------------------- #
-    def __init__(self, score, highscore, endtime):
+    def __init__(self, score, highscore, start_of_game):
         wd, ht = window.rect.size
         self.display = pygame.Surface(
             (wd // 3, ht // 3), pygame.SRCALPHA)
@@ -20,7 +21,8 @@ class GameOver:
 
         self.background = Background()
         self.title = Title()
-        self.status = Status(score, highscore, endtime)
+        self.status = Status(
+            score, highscore, time.perf_counter() - start_of_game)
         self.buttons = Buttons()
 
     # Draw -------------------------------------------------------- #

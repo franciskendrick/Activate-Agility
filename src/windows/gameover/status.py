@@ -23,7 +23,8 @@ class Status(NumberFont):
         super().__init__()
 
         self.init_board()
-        self.init_stats(score, highscore, endtime)
+        self.init_scores(score, highscore)
+        self.init_endtime(endtime)
 
     def init_board(self):
         img = pygame.image.load(
@@ -34,17 +35,51 @@ class Status(NumberFont):
 
         self.status_board = [img, rect]
 
-    def init_stats(self, score, highscore, endtime):
+    def init_scores(self, score, highscore):
+        # Score
         self.score = {
             "text": f"{score:,}",
             "pos": gameover_data["status_positions"]["score"]
         }
+
+        # Highscore
         self.high_score = {
             "text": f"{highscore:,}",
             "pos": gameover_data["status_positions"]["highscore"]
         }
+
+    def init_endtime(self, endtime):
+        # Convert Endtime to Floating-point
+        endtime = float(endtime)
+
+        # Divide EndTime to Minutes and Seconds
+        _min, _sec = divmod(endtime, 60)
+
+        # Get Seconds and Milliseconds
+        rounded_sec = str(round(_sec, 2))
+        sec, ms = rounded_sec.split(".")
+
+        # Get Hour and Minutes
+        hour, min = divmod(_min, 60)
+
+        # Convert Time into Integer and then into a String
+        hour = str(int(hour))
+        min = str(int(min))
+        sec = str(int(sec))
+        ms = str(int(ms))
+
+        # Pad Time with Zeros on the Left
+        hour = hour.zfill(2)
+        min = min.zfill(2)
+        sec = sec.zfill(2)
+        ms = ms.zfill(2)
+
+        # EndTime Text
+        endtime_text = f"{hour}:{min}:{sec}:{ms}"
+
+        # Endtime
         self.end_time = {
-            "text": f"{endtime}",
+            "text": endtime_text,
             "pos": gameover_data["status_positions"]["endtime"]
         }
 

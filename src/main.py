@@ -1,7 +1,7 @@
 from player import Player
 from windows import gameover
 from windows.windows import window, background
-from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore, tiles
+from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
 from windows.menu import Menu
 from windows.gameover import GameOver
 import pygame
@@ -18,7 +18,7 @@ def init_game():
     global player
     global tiles, speicalcolor_visual_identifier
     global countdown, player_gauge, score, high_score
-    global start_of_game, end_of_game
+    global start_of_game, start_of_gamesession, end_of_game
 
     # Initialize Player
     player = Player()
@@ -34,6 +34,7 @@ def init_game():
 
     # Time 
     start_of_game = time.perf_counter()
+    start_of_gamesession = start_of_game
     end_of_game = None
 
 
@@ -129,8 +130,9 @@ def game_loop():
         speicalcolor_visual_identifier.update(start_of_game)
         countdown.update(start_of_game)
 
-        # Win or Loss
+        # Countdown is Over
         if countdown.time_remaining == 0:
+            # Win of Loss
             if player.on_specialtile:  # win
                 # Update Tiles' State
                 tiles.update_tiles_to_winstate()
@@ -171,6 +173,7 @@ def game_loop():
             if end_of_game != None:
                 dt = time.perf_counter() - end_of_game
                 if dt * 1000 >= 1000:
+                    # Restart Game
                     restart_game()
 
         # Update
@@ -215,7 +218,7 @@ def gameover_loop():
     global gameover
 
     gameover = GameOver(
-        score.value, high_score.value, 0)
+        score.value, high_score.value, start_of_gamesession)
     btn_switchcase = {
         "play": [game_loop],
         "options": [placeholder],

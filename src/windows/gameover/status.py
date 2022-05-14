@@ -49,6 +49,8 @@ class Status(NumberFont):
         }
 
     def init_endtime(self, endtime):
+        endtime = 5.75  # !!!
+
         # Convert Endtime to Floating-point
         endtime = float(endtime)
 
@@ -62,20 +64,31 @@ class Status(NumberFont):
         # Get Hour and Minutes
         hour, min = divmod(_min, 60)
 
-        # Convert Time into Integer and then into a String
-        hour = str(int(hour))
-        min = str(int(min))
-        sec = str(int(sec))
-        ms = str(int(ms))
+        # Put Measures in a Dictionary
+        measures = {
+            "hour": hour, 
+            "min": min, 
+            "sec": sec, 
+            "ms": ms}
 
-        # Pad Time with Zeros on the Left
-        hour = hour.zfill(2)
-        min = min.zfill(2)
-        sec = sec.zfill(2)
-        ms = ms.zfill(2)
+        # Loop Over Measures to Format them
+        for name, measure in measures.items():
+            # Convert Time into Integer and then into a String
+            measure = str(int(measure))
+
+            # Pad Time with Zeros on the Left
+            measure = measure.zfill(2)
+
+            # Append
+            measures[name] = measure
+        
+        # Remove Measures that only Contains Zeros (except milliseconds)
+        measures = [
+            measure for name, measure in measures.items() 
+                if measure != "00" and name != ["hour", "min", "sec"]]
 
         # EndTime Text
-        endtime_text = f"{hour}:{min}:{sec}:{ms}"
+        endtime_text = ":".join(measures)
 
         # Endtime
         self.end_time = {

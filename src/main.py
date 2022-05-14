@@ -259,5 +259,10 @@ if __name__ == "__main__":
     pygame.display.set_caption("Activate: Agility")
     clock = pygame.time.Clock()
 
+    # !!!
+    score = Score()
+    high_score = HighScore()
+    start_of_gamesession = time.perf_counter()
+
     # Execute
-    game_loop()
+    gameover_loop()

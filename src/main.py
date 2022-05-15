@@ -260,4 +260,4 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     # Execute
-    gameover_loop()
+    game_loop()

@@ -24,8 +24,12 @@ class NumberFont:
 
         # Color Swap Characters
         colors = [
+            (37, 86, 46),
             (70, 130, 50),
-            (235, 237, 233)]
+            (117, 167, 67),
+            (162, 62, 140),
+            (235, 237, 233)
+        ]
         for color in colors:
             colorswapped_fontset = color_swap(
                 font_set, (235, 237, 233), color)

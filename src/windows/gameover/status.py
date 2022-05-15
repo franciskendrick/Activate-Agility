@@ -58,15 +58,9 @@ class Status(NumberFont):
         # Format Measures
         measures = self.format_measures(measures)
         
-        # Remove Measures that only Contains Zeros (except milliseconds)
-        measures = self.remove_zeros_in_measure(measures)
-
-        # EndTime Text
-        endtime_text = ":".join(measures)
-
         # Endtime
         self.end_time = {
-            "text": endtime_text,
+            "text": measures,
             "pos": gameover_data["status_positions"]["endtime"]
         }
 
@@ -88,10 +82,12 @@ class Status(NumberFont):
             enlarge=1, color=(70, 130, 50))
 
         # End Time
-        self.render_font(
-            display,
-            self.end_time["text"], self.end_time["pos"],
-            enlarge=1, color=(70, 130, 50))
+        for name, text in self.end_time["text"].items():
+            color = tuple(gameover_data["endtime_textcolor"][name])
+            self.render_font(
+                display,
+                text, self.end_time["pos"][name],
+                enlarge=1, color=color)
 
     # Functions
     def get_measures(self, endtime):
@@ -107,10 +103,10 @@ class Status(NumberFont):
 
         # Put Measures in a Dictionary
         measures = {
-            "hour": hour, 
-            "min": min, 
-            "sec": sec, 
-            "ms": ms}
+            "hours": hour, 
+            "minutes": min, 
+            "seconds": sec, 
+            "milliseconds": ms}
 
         # Return
         return measures
@@ -124,14 +120,12 @@ class Status(NumberFont):
             # Pad Time with Zeros on the Left
             measure = measure.zfill(2)
 
+            # Add a Colon at the End of Measure
+            if name != "milliseconds":
+                measure = f"{measure}:"
+
             # Append
             measures[name] = measure
 
         # Return
         return measures
-
-    def remove_zeros_in_measure(self, measures):
-        # Remove Measures that only Contains Zeros (except milliseconds)
-        return [
-            measure for name, measure in measures.items() 
-                if measure != "00" and name != ["hour", "min", "sec"]]

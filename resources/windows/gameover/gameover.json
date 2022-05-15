@@ -5,7 +5,18 @@
         "board": [54, 48],
         "score": [116, 50],
         "highscore": [114, 59],
-        "endtime": [103, 68]
+        "endtime": {
+            "hours": [103, 68],
+            "minutes": [117, 68],
+            "seconds": [131, 68],
+            "milliseconds": [145, 68]
+        }
+    },
+    "endtime_textcolor": {
+        "hours": [37, 86, 46],
+        "minutes": [70, 130, 50],
+        "seconds": [117, 167, 67],
+        "milliseconds": [162, 62, 140]
     },
     "buttons_position": {
         "play": [74, 78],

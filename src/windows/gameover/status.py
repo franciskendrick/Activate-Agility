@@ -49,43 +49,17 @@ class Status(NumberFont):
         }
 
     def init_endtime(self, endtime):
-        endtime = 5.75  # !!!
-
         # Convert Endtime to Floating-point
         endtime = float(endtime)
 
-        # Divide EndTime to Minutes and Seconds
-        _min, _sec = divmod(endtime, 60)
+        # Get Measures
+        measures = self.get_measures(endtime)
 
-        # Get Seconds and Milliseconds
-        rounded_sec = str(round(_sec, 2))
-        sec, ms = rounded_sec.split(".")
-
-        # Get Hour and Minutes
-        hour, min = divmod(_min, 60)
-
-        # Put Measures in a Dictionary
-        measures = {
-            "hour": hour, 
-            "min": min, 
-            "sec": sec, 
-            "ms": ms}
-
-        # Loop Over Measures to Format them
-        for name, measure in measures.items():
-            # Convert Time into Integer and then into a String
-            measure = str(int(measure))
-
-            # Pad Time with Zeros on the Left
-            measure = measure.zfill(2)
-
-            # Append
-            measures[name] = measure
+        # Format Measures
+        measures = self.format_measures(measures)
         
         # Remove Measures that only Contains Zeros (except milliseconds)
-        measures = [
-            measure for name, measure in measures.items() 
-                if measure != "00" and name != ["hour", "min", "sec"]]
+        measures = self.remove_zeros_in_measure(measures)
 
         # EndTime Text
         endtime_text = ":".join(measures)
@@ -118,3 +92,46 @@ class Status(NumberFont):
             display,
             self.end_time["text"], self.end_time["pos"],
             enlarge=1, color=(70, 130, 50))
+
+    # Functions
+    def get_measures(self, endtime):
+        # Divide EndTime to Minutes and Seconds
+        _min, _sec = divmod(endtime, 60)
+
+        # Get Seconds and Milliseconds
+        rounded_sec = str(round(_sec, 2))
+        sec, ms = rounded_sec.split(".")
+
+        # Get Hour and Minutes
+        hour, min = divmod(_min, 60)
+
+        # Put Measures in a Dictionary
+        measures = {
+            "hour": hour, 
+            "min": min, 
+            "sec": sec, 
+            "ms": ms}
+
+        # Return
+        return measures
+
+    def format_measures(self, measures):
+        # Loop Over Measures to Format them
+        for name, measure in measures.items():
+            # Convert Time into Integer and then into a String
+            measure = str(int(measure))
+
+            # Pad Time with Zeros on the Left
+            measure = measure.zfill(2)
+
+            # Append
+            measures[name] = measure
+
+        # Return
+        return measures
+
+    def remove_zeros_in_measure(self, measures):
+        # Remove Measures that only Contains Zeros (except milliseconds)
+        return [
+            measure for name, measure in measures.items() 
+                if measure != "00" and name != ["hour", "min", "sec"]]

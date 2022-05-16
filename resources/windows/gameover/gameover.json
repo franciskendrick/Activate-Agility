@@ -1,4 +1,45 @@
-{
+{   
+    "dropdown_positions": {
+        "background": [
+            [null, null],
+            [48, -77],
+            [48, -65],
+            [48, -45],
+            [48, -19],
+            [48, 8],
+            [48, 26]
+        ],
+        "status": {
+            "score": [
+                [null, null],
+                [null, null],
+                [null, null],
+                [null, null],
+                [116, 5],
+                [116, 32],
+                [116, 50]
+            ],
+            "highscore": [
+                [null, null],
+                [null, null],
+                [null, null],
+                [null, null],
+                [114, 14],
+                [114, 41],
+                [114, 59]
+            ],
+            "endtime": [
+                [null, null],
+                [null, null],
+                [null, null],
+                [103, -3],
+                [103, 23],
+                [103, 50],
+                [103, 68]
+
+            ]
+        }
+    },
     "background_position": [48, 26],
     "title_position": [55, 32],
     "status_positions": {

@@ -18,7 +18,7 @@ with open(f"{resources_path}/gameover.json") as json_file:
 
 
 class Status(NumberFont):
-    # Initialize
+    # Initialize -------------------------------------------------- #
     def __init__(self, score, highscore, endtime):
         super().__init__()
 
@@ -64,7 +64,7 @@ class Status(NumberFont):
             "pos": gameover_data["status_positions"]["endtime"]
         }
 
-    # Draw
+    # Draw -------------------------------------------------------- #
     def draw(self, display):
         # Board
         display.blit(*self.status_board)
@@ -89,7 +89,7 @@ class Status(NumberFont):
                 text, self.end_time["pos"][name],
                 enlarge=1, color=color)
 
-    # Functions
+    # Functions --------------------------------------------------- #
     def get_measures(self, endtime):
         # Divide EndTime to Minutes and Seconds
         _min, _sec = divmod(endtime, 60)

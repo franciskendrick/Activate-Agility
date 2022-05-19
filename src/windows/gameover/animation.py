@@ -19,11 +19,11 @@ with open(f"{resources_path}/gameover.json") as json_file:
 
 class Animation(NumberFont):
     # Initialize -------------------------------------------------- #
-    def __init__(self):
+    def __init__(self, score, highscore, endtime):
         super().__init__()
 
         self.init_dropdown()
-        self.init_status()
+        self.init_status(score, highscore, endtime)
 
         self.idx = 0
         self.update = True
@@ -43,7 +43,14 @@ class Animation(NumberFont):
             # Append
             self.dropdown_positions.append(position)
 
-    def init_status(self):
+    def init_status(self, score, highscore, endtime):
+        # Status Text
+        self.status_text = {
+            "score": score,
+            "highscore": highscore,
+            "endtime": endtime
+        }
+
         # Status Positions
         self.status_positions = {}
         data_positions = gameover_data["dropdown_positions"]["status"]
@@ -67,10 +74,13 @@ class Animation(NumberFont):
             self.update = False
 
         # Draw
-        position = self.dropdown_positions[self.idx // 3]
-        if position != None:
-            display.blit(self.dropdown_image, position)
+        self.draw_dropdown(display)
 
         # Update
         if self.update:
             self.idx += 1
+
+    def draw_dropdown(self, display):
+        position = self.dropdown_positions[self.idx // 3]
+        if position != None:
+            display.blit(self.dropdown_image, position)

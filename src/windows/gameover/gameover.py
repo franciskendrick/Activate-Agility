@@ -20,11 +20,14 @@ class GameOver:
         self.rect = pygame.Rect((
             0, 0), self.display.get_size())
 
-        self.animation = Animation()
-        self.background = Background()
-        self.title = Title()
         self.status = Status(
             score, highscore, time.perf_counter() - start_of_game)
+        self.animation = Animation(
+            self.status.score["text"],
+            self.status.high_score["text"],
+            self.status.end_time["text"])
+        self.background = Background()
+        self.title = Title()
         self.buttons = Buttons()
 
     # Draw -------------------------------------------------------- #

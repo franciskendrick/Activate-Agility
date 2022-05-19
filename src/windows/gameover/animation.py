@@ -18,24 +18,48 @@ with open(f"{resources_path}/gameover.json") as json_file:
 
 
 class Animation(NumberFont):
-    # Initialize
+    # Initialize -------------------------------------------------- #
     def __init__(self):
         super().__init__()
 
-        # DropDown 
-        self.dropdown_image = pygame.image.load(
-            f"{resources_path}/drop_down.png")
-        self.dropdown_positions = []
-        for pos in gameover_data["dropdown_positions"]["background"]:
-            position = None if pos == [None, None] else pos
-            self.dropdown_positions.append(position)
+        self.init_dropdown()
+        self.init_status()
 
-        # Animation
         self.idx = 0
         self.update = True
         self.frame_limit = 7
 
-    # Draw
+    def init_dropdown(self):
+        # DropDown Image
+        self.dropdown_image = pygame.image.load(
+            f"{resources_path}/drop_down.png")
+
+        # DropDown Positions
+        self.dropdown_positions = []
+        for pos in gameover_data["dropdown_positions"]["background"]:
+            # Get Position
+            position = None if pos == [None, None] else pos
+
+            # Append
+            self.dropdown_positions.append(position)
+
+    def init_status(self):
+        # Status Positions
+        self.status_positions = {}
+        data_positions = gameover_data["dropdown_positions"]["status"]
+        for (name, positions) in data_positions.items():
+            # Append Item in Status Positions Dictionary
+            self.status_positions[name] = []
+
+            # Single Status Position
+            for pos in positions:
+                # Get Position
+                position = None if pos == [None, None] else pos
+
+                # Append
+                self.status_positions[name].append(position)
+
+    # Draw -------------------------------------------------------- #
     def draw(self, display):
         # Cancel Update
         if self.idx >= self.frame_limit * 3:

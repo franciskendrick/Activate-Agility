@@ -29,11 +29,17 @@ class GameOver:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        # Background
-        self.background.draw(self.display)
-        self.title.draw(self.display)
-        self.status.draw(self.display)
-        self.buttons.draw(self.display)
+        # Fill with Transparent Background
+        self.display.fill((0, 0, 0, 0))
+
+        # Draw GameOver
+        if self.animation.update:
+            self.animation.draw(self.display)
+        else:
+            self.background.draw(self.display)
+            self.title.draw(self.display)
+            self.status.draw(self.display)
+            self.buttons.draw(self.display)
 
         # Blit to Display
         resized_display = pygame.transform.scale(

@@ -87,19 +87,36 @@ class Animation(NumberFont):
             display.blit(self.dropdown_image, position)
 
     def draw_status(self, display):
+        # Vairables
         names = ["score", "highscore", "endtime"]
         texts_vls = self.status_text.values()
         positions_vls = self.status_positions.values()
+
+        # Draw Status
         for (name, text, positions) in zip(names, texts_vls, positions_vls):
-                pos = positions[self.idx // 3]
-                if pos != None:
-                    if name != "endtime":
+            # Get Position
+            pos = positions[self.idx // 3]
+
+            # if Position is None, Draw Nothing, else, Draw Status
+            if pos != None:
+                # Status is not Endtime (score or highscore)
+                if name != "endtime":
+                    # Draw
+                    self.render_font(
+                        display, text, pos, enlarge=1, color=(70, 130, 50))
+                # Status is Endtime
+                else:
+                    # Get Endtime's Original Positions
+                    endtime_positions = gameover_data["status_positions"]["endtime"]
+
+                    # Loop Over All Text in Endtime
+                    for measure_name, measure_text in text.items():
+                        # Get Endtime's Position by (Endtime's Original Position's X, Animation Position's Y)
+                        new_pos = (endtime_positions[measure_name][0], pos[1])
+
+                        # Get Font Color
+                        color = tuple(gameover_data["endtime_textcolor"][measure_name])
+
+                        # Draw
                         self.render_font(
-                            display, text, pos, enlarge=1, color=(70, 130, 50))
-                    else:
-                        endtime_positions = gameover_data["status_positions"]["endtime"]
-                        for measure_name, measure_text in text.items():
-                            new_pos = (endtime_positions[measure_name][0], pos[1])
-                            color = tuple(gameover_data["endtime_textcolor"][measure_name])
-                            self.render_font(
-                                display, measure_text, new_pos, enlarge=1, color=color)
+                            display, measure_text, new_pos, enlarge=1, color=color)

@@ -75,6 +75,7 @@ class Animation(NumberFont):
 
         # Draw
         self.draw_dropdown(display)
+        self.draw_status(display)
 
         # Update
         if self.update:
@@ -84,3 +85,21 @@ class Animation(NumberFont):
         position = self.dropdown_positions[self.idx // 3]
         if position != None:
             display.blit(self.dropdown_image, position)
+
+    def draw_status(self, display):
+        names = ["score", "highscore", "endtime"]
+        texts_vls = self.status_text.values()
+        positions_vls = self.status_positions.values()
+        for (name, text, positions) in zip(names, texts_vls, positions_vls):
+                pos = positions[self.idx // 3]
+                if pos != None:
+                    if name != "endtime":
+                        self.render_font(
+                            display, text, pos, enlarge=1, color=(70, 130, 50))
+                    else:
+                        endtime_positions = gameover_data["status_positions"]["endtime"]
+                        for measure_name, measure_text in text.items():
+                            new_pos = (endtime_positions[measure_name][0], pos[1])
+                            color = tuple(gameover_data["endtime_textcolor"][measure_name])
+                            self.render_font(
+                                display, measure_text, new_pos, enlarge=1, color=color)

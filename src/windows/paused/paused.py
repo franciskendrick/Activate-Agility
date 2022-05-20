@@ -1,5 +1,6 @@
 from windows.windows import window
 from .background import Background
+from .title import Title
 import pygame
 
 pygame.init()
@@ -16,6 +17,7 @@ class Paused:
             0, 0), self.display.get_size())
 
         self.background = Background()
+        self.title = Title()
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
@@ -24,6 +26,7 @@ class Paused:
 
         # Draw GameOver
         self.background.draw(self.display)
+        self.title.draw(self.display)
 
         # Blit to Display
         resized_display = pygame.transform.scale(

@@ -40,4 +40,13 @@ class Title:
             self.frames.append(frame)
 
     def draw(self, display):
-        pass
+        # Reset
+        if self.idx >= len(self.frames) * 5:
+            self.idx = 0
+
+        # Draw
+        img, rect = self.frames[self.idx // 5]
+        display.blit(img, rect)
+
+        # Update
+        self.idx += 1

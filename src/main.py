@@ -4,6 +4,7 @@ from windows.windows import window, background
 from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
 from windows.menu import Menu
 from windows.gameover import GameOver
+from windows.paused import Paused
 import pygame
 import time
 import sys
@@ -101,6 +102,21 @@ def redraw_gameover():
 
     # GameOver
     gameover.draw(display)
+
+    # Blit to Screen ---------------------------------------------- #
+    resized_display = pygame.transform.scale(display, win_size)
+    win.blit(resized_display, (0, 0))
+
+    pygame.display.update()
+
+
+def redraw_paused():
+    # Background
+    display.fill(background.color)
+    background.draw_walls(display)
+
+    # GameOver
+    paused.draw(display)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
@@ -246,6 +262,25 @@ def gameover_loop():
     sys.exit()
 
 
+def paused_loop():
+    global paused
+
+    paused = Paused()
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        # Update
+        redraw_paused()
+        clock.tick(window.framerate)
+
+    pygame.quit()
+    sys.exit()
+
+
 # Execute --------------------------------------------------------- #
 if __name__ == "__main__":
     pygame.init()
@@ -260,4 +295,4 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     # Execute
-    game_loop()
+    paused_loop()

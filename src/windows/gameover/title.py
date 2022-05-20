@@ -36,8 +36,8 @@ class Title:
                 img.get_rect().size)
 
             # Append
-            slide = [img, rect]
-            self.frames.append(slide)
+            frame = [img, rect]
+            self.frames.append(frame)
 
     def draw(self, display):
         # Reset

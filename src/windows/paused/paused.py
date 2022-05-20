@@ -19,4 +19,13 @@ class Paused:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        # Fill with Transparent Background
+        self.display.fill((0, 0, 0, 0))
+
+        # Draw GameOver
+        self.background.draw(self.display)
+
+        # Blit to Display
+        resized_display = pygame.transform.scale(
+            self.display, display.get_size())
+        display.blit(resized_display, self.rect)

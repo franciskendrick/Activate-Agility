@@ -18,7 +18,13 @@ with open(f"{resources_path}/gameover.json") as json_file:
 
 class Background:
     def __init__(self):
-        pass
+        img = pygame.image.load(
+            f"{resources_path}/background.png")
+        rect = pygame.Rect(
+            gameover_data["background_position"], 
+            img.get_rect().size)
+
+        self.background = [img, rect]
 
     def draw(self, display):
-        pass
+        display.blit(*self.background)

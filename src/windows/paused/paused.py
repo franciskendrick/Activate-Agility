@@ -1,6 +1,7 @@
 from windows.windows import window
 from .background import Background
 from .title import Title
+from .status import Status
 from .buttons import Buttons
 import pygame
 
@@ -17,6 +18,7 @@ class Paused:
         self.rect = pygame.Rect((
             0, 0), self.display.get_size())
 
+        self.status = Status()
         self.background = Background()
         self.title = Title()
         self.buttons = Buttons()
@@ -29,6 +31,7 @@ class Paused:
         # Draw GameOver
         self.background.draw(self.display)
         self.title.draw(self.display)
+        self.status.draw(self.display)
         self.buttons.draw(self.display)
 
         # Blit to Display
@@ -45,7 +48,7 @@ class Paused:
                 mouse_pos = pygame.mouse.get_pos()
                 if hitbox.collidepoint(mouse_pos):
                     return name
-                    
+
     def handle_mousemotion(self, event):
         if event.type == pygame.MOUSEMOTION:
             for button in self.buttons.buttons.values():

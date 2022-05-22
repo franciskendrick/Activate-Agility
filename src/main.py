@@ -136,7 +136,7 @@ def game_loop():
                 run = False
 
             if event.type == pygame.KEYDOWN:
-                # Pause
+                # Pause Game
                 if event.key == pygame.K_ESCAPE:
                     paused_loop()
 
@@ -315,4 +315,4 @@ if __name__ == "__main__":
     init_game()
 
     # Execute
-    game_loop()
+    paused_loop()

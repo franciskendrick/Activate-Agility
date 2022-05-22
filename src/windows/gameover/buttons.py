@@ -1,5 +1,4 @@
-from functions import clip_set_to_list_on_xaxis
-from functions.color_palette_swap import palette_swap
+from functions import clip_set_to_list_on_xaxis, palette_swap
 from windows.windows import window
 import pygame
 import json

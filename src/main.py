@@ -128,7 +128,6 @@ def redraw_paused():
 # Loops ----------------------------------------------------------- #
 def game_loop():
     global end_of_game
-    init_game()
 
     run = True
     while run:
@@ -205,7 +204,7 @@ def menu_loop():
     
     menu = Menu()
     btn_switchcase = {
-        "play": [game_loop],
+        "play": [init_game, game_loop],
         "options": [placeholder],
         None: [placeholder]
     }
@@ -236,9 +235,9 @@ def gameover_loop():
     gameover = GameOver(
         score.value, high_score.value, start_of_gamesession)
     btn_switchcase = {
-        "play": [game_loop],
+        "play": [init_game, game_loop],
         "options": [placeholder],
-        "menu": [menu_loop],
+        "menu": [init_game, menu_loop],
         None: [placeholder]
     }
     
@@ -266,6 +265,13 @@ def paused_loop():
     global paused
 
     paused = Paused()
+    btn_switchcase = {
+        "play": [game_loop],
+        "restart": [init_game, game_loop],
+        "options": [placeholder],
+        "menu": [init_game, menu_loop],
+        None: [placeholder]
+    }
 
     run = True
     while run:
@@ -273,6 +279,10 @@ def paused_loop():
             if event.type == pygame.QUIT:
                 run = False
 
+            # Paused Buttons
+            btn_pressed = paused.get_button_pressed(event)
+            for function in btn_switchcase[btn_pressed]:
+                function()
             paused.handle_mousemotion(event)
 
         # Update
@@ -297,9 +307,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     # !!!
-    score = Score()
-    high_score = HighScore()
-    start_of_gamesession = time.perf_counter()
+    init_game()
 
     # Execute
     paused_loop()

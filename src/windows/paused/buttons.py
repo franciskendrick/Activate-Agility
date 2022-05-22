@@ -61,4 +61,8 @@ class Buttons:
             self.buttons[name] = button
 
     def draw(self, display):
-        pass
+        for button in self.buttons.values():
+            is_hovered, orig_img, hover_img, rect, _ = button
+            img = hover_img if is_hovered else orig_img
+
+            display.blit(img, rect)

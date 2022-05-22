@@ -273,6 +273,8 @@ def paused_loop():
             if event.type == pygame.QUIT:
                 run = False
 
+            paused.handle_mousemotion(event)
+
         # Update
         redraw_paused()
         clock.tick(window.framerate)

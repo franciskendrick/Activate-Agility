@@ -32,4 +32,5 @@ class Status:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        # Board
+        display.blit(*self.status_board)

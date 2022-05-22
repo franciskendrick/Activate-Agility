@@ -28,7 +28,7 @@ class Status(NumberFont):
 
     def init_board(self):
         img = pygame.image.load(
-            f"{resources_path}/status.png")
+            f"{resources_path}/status_bkg.png")
         rect = pygame.Rect(
             gameover_data["status_positions"]["board"],
             img.get_rect().size)

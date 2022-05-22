@@ -13,13 +13,22 @@ resources_path = os.path.abspath(
 
 # Json
 with open(f"{resources_path}/paused.json") as json_file:
-    gameover_data = json.load(json_file)
+    paused_data = json.load(json_file)
 
 
 class Status:
     # Initialize -------------------------------------------------- #
     def __init__(self):
-        pass
+        self.init_board()
+
+    def init_board(self):
+        img = pygame.image.load(
+            f"{resources_path}/status_bkg.png")
+        rect = pygame.Rect(
+            paused_data["status_positions"]["board"],
+            img.get_rect().size)
+
+        self.status_board = [img, rect]
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

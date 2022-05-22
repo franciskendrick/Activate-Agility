@@ -1,6 +1,9 @@
 {
     "background_position": [48, 26],
     "title_position": [72, 32],
+    "status_positions": {
+        "board": [54, 53]
+    },
     "buttons_position": {
         "play": [62, 78],
         "restart": [85, 78],

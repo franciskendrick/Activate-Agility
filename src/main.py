@@ -135,6 +135,11 @@ def game_loop():
             if event.type == pygame.QUIT:
                 run = False
 
+            if event.type == pygame.KEYDOWN:
+                # Pause
+                if event.key == pygame.K_ESCAPE:
+                    paused_loop()
+
         # Player
         player.update(
             tiles.speicaltile_rects,
@@ -310,4 +315,4 @@ if __name__ == "__main__":
     init_game()
 
     # Execute
-    paused_loop()
+    game_loop()

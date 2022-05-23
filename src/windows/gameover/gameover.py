@@ -48,21 +48,3 @@ class GameOver:
         resized_display = pygame.transform.scale(
             self.display, display.get_size())
         display.blit(resized_display, self.rect)
-
-    # Functions --------------------------------------------------- #
-    def get_button_pressed(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            for (name, button) in self.buttons.buttons.items():
-                *_, hitbox = button
-
-                mouse_pos = pygame.mouse.get_pos()
-                if hitbox.collidepoint(mouse_pos):
-                    return name
-
-    def handle_mousemotion(self, event):
-        if event.type == pygame.MOUSEMOTION:
-            for button in self.buttons.buttons.values():
-                *_, hitbox = button
-
-                mouse_pos = pygame.mouse.get_pos()
-                button[0] = True if hitbox.collidepoint(mouse_pos) else False

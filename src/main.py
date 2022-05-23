@@ -221,10 +221,10 @@ def menu_loop():
                 run = False
 
             # Menu Buttons
-            btn_pressed = menu.get_button_pressed(event)
+            btn_pressed = menu.buttons.get_button_pressed(event)
             for function in btn_switchcase[btn_pressed]:
                 function()
-            menu.handle_mousemotion(event)
+            menu.buttons.handle_mousemotion(event)
             
         # Update
         redraw_menu()
@@ -253,10 +253,10 @@ def gameover_loop():
                 run = False
 
             # GameOver Buttons
-            btn_pressed = gameover.get_button_pressed(event)
+            btn_pressed = gameover.buttons.get_button_pressed(event)
             for function in btn_switchcase[btn_pressed]:
                 function()
-            gameover.handle_mousemotion(event)
+            gameover.buttons.handle_mousemotion(event)
 
         # Update
         redraw_gameover()
@@ -286,10 +286,10 @@ def paused_loop():
                 run = False
 
             # Paused Buttons
-            btn_pressed = paused.get_button_pressed(event)
+            btn_pressed = paused.buttons.get_button_pressed(event)
             for function in btn_switchcase[btn_pressed]:
                 function()
-            paused.handle_mousemotion(event)
+            paused.buttons.handle_mousemotion(event)
 
         # Update
         redraw_paused()
@@ -311,9 +311,6 @@ if __name__ == "__main__":
     display = pygame.Surface(window.rect.size)
     pygame.display.set_caption("Activate: Agility")
     clock = pygame.time.Clock()
-
-    # !!!
-    init_game()
-
+    
     # Execute
-    paused_loop()
+    menu_loop()

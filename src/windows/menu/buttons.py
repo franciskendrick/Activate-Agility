@@ -25,6 +25,7 @@ with open(f"{resources_path}/menu.json") as json_file:
 
 
 class Buttons:
+    # Initialize -------------------------------------------------- #
     def __init__(self):
         spriteset = pygame.image.load(
             f"{resources_path}/buttons.png")
@@ -66,9 +67,28 @@ class Buttons:
             ]
             self.buttons[name] = button
 
+    # Draw -------------------------------------------------------- #
     def draw(self, display):
         for button in self.buttons.values():
             is_hovered, orig_img, hover_img, img_rect, _ = button
             img = hover_img if is_hovered else orig_img
 
             display.blit(img, img_rect)  # image
+
+    # Functions --------------------------------------------------- #
+    def get_button_pressed(self, event):
+        if event.type == pygame.MOUSEBUTTONUP:
+            for (name, button) in self.buttons.items():
+                *_, hitbox = button
+                
+                mouse_pos = pygame.mouse.get_pos()
+                if hitbox.collidepoint(mouse_pos):
+                    return name
+
+    def handle_mousemotion(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            for button in self.buttons.values():
+                *_, hitbox = button
+
+                mouse_pos = pygame.mouse.get_pos()
+                button[0] = True if hitbox.collidepoint(mouse_pos) else False

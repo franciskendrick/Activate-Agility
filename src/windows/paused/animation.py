@@ -41,4 +41,19 @@ class Animation:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        # Cancel Update
+        if self.idx >= self.frame_limit * 3:
+            self.idx = (self.frame_limit - 1) * 3
+            self.update = False
+
+        # Draw
+        self.draw_dropdown(display)
+
+        # Update
+        if self.update:
+            self.idx += 1
+
+    def draw_dropdown(self, display):
+        position = self.dropdown_positions[self.idx // 3]
+        if position != None:
+            display.blit(self.dropdown_image, position)

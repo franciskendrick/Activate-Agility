@@ -1,4 +1,5 @@
 from windows.windows import window
+from .animation import Animation
 from .background import Background
 from .title import Title
 from .status import Status
@@ -19,6 +20,7 @@ class Paused:
             0, 0), self.display.get_size())
 
         self.status = Status(score, highscore)
+        self.animation = Animation()
         self.background = Background()
         self.title = Title()
         self.buttons = Buttons()

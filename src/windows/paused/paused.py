@@ -10,7 +10,7 @@ pygame.init()
 
 class Paused:
     # Initialize -------------------------------------------------- #
-    def __init__(self):
+    def __init__(self, score, highscore):
         wd, ht = window.rect.size
         self.display = pygame.Surface(
             (wd // 3, ht // 3), pygame.SRCALPHA)
@@ -18,7 +18,7 @@ class Paused:
         self.rect = pygame.Rect((
             0, 0), self.display.get_size())
 
-        self.status = Status()
+        self.status = Status(score, highscore)
         self.background = Background()
         self.title = Title()
         self.buttons = Buttons()

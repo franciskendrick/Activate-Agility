@@ -269,7 +269,8 @@ def gameover_loop():
 def paused_loop():
     global paused
 
-    paused = Paused()
+    paused = Paused(
+        score.value, high_score.value)
     btn_switchcase = {
         "play": [game_loop],
         "restart": [init_game, game_loop],

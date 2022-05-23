@@ -2,7 +2,9 @@
     "background_position": [48, 26],
     "title_position": [72, 32],
     "status_positions": {
-        "board": [54, 53]
+        "board": [54, 53],
+        "score": [116, 55],
+        "highscore": [114, 63]
     },
     "buttons_position": {
         "play": [62, 78],

@@ -18,8 +18,9 @@ with open(f"{resources_path}/paused.json") as json_file:
 
 class Status:
     # Initialize -------------------------------------------------- #
-    def __init__(self):
+    def __init__(self, score, highscore):
         self.init_board()
+        self.init_scores(score, highscore)
 
     def init_board(self):
         img = pygame.image.load(
@@ -29,6 +30,19 @@ class Status:
             img.get_rect().size)
 
         self.status_board = [img, rect]
+
+    def init_scores(self, score, highscore):
+        # Score
+        self.score = {
+            "text": f"{score:,}",
+            "pos": paused_data["status_positions"]["score"]
+        }
+
+        # Highscore
+        self.high_score = {
+            "text": f"{highscore:,}",
+            "pos": paused_data["status_positions"]["highscore"]
+        }
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

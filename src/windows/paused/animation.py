@@ -18,8 +18,9 @@ with open(f"{resources_path}/paused.json") as json_file:
 
 class Animation:
     # Initialize -------------------------------------------------- #
-    def __init__(self):
+    def __init__(self, score, highscore):
         self.init_dropdown()
+        self.init_status(score, highscore)
 
         self.idx = 0
         self.update = True
@@ -38,6 +39,28 @@ class Animation:
 
             # Append
             self.dropdown_positions.append(position)
+
+    def init_status(self, score, highscore):
+        # Status Text
+        self.status_text = {
+            "score": score,
+            "highscore": highscore
+        }
+
+        # Status Positions
+        self.status_positions = {}
+        data_positions = paused_data["dropdown_positions"]["status"]
+        for (name, positions) in data_positions.items():
+            # Append Item in Status Positions Dictionary
+            self.status_positions[name] = []
+
+            # Stat Position
+            for pos in positions:
+                # Get Position
+                position = None if pos == [None, None] else pos
+
+                # Append
+                self.status_positions[name].append(position)
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

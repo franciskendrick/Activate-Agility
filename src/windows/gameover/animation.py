@@ -58,7 +58,7 @@ class Animation(NumberFont):
             # Append Item in Status Positions Dictionary
             self.status_positions[name] = []
 
-            # Single Status Position
+            # Stat Position
             for pos in positions:
                 # Get Position
                 position = None if pos == [None, None] else pos

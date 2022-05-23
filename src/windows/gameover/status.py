@@ -72,13 +72,13 @@ class Status(NumberFont):
         # Score
         self.render_font(
             display, 
-            self.score["text"], self.score["pos"],
+            *self.score.values(),
             enlarge=1, color=(70, 130, 50))
 
         # Highscore
         self.render_font(
             display, 
-            self.high_score["text"], self.high_score["pos"],
+            *self.high_score.values(),
             enlarge=1, color=(70, 130, 50))
 
         # End Time

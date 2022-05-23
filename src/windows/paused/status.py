@@ -1,3 +1,4 @@
+from fonts import NumberFont
 import pygame
 import json
 import os
@@ -16,9 +17,11 @@ with open(f"{resources_path}/paused.json") as json_file:
     paused_data = json.load(json_file)
 
 
-class Status:
+class Status(NumberFont):
     # Initialize -------------------------------------------------- #
     def __init__(self, score, highscore):
+        super().__init__()
+
         self.init_board()
         self.init_scores(score, highscore)
 
@@ -48,3 +51,15 @@ class Status:
     def draw(self, display):
         # Board
         display.blit(*self.status_board)
+
+        # Score
+        self.render_font(
+            display,
+            *self.score.values(),
+            enlarge=1, color=(70, 130, 50))
+
+        # Highscore
+        self.render_font(
+            display,
+            *self.high_score.values(),
+            enlarge=1, color=(70, 130, 50))

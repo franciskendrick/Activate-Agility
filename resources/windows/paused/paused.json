@@ -1,4 +1,35 @@
 {
+    "dropdown_positions": {
+        "background": [
+            [null, null],
+            [48, -77],
+            [48, -65],
+            [48, -45],
+            [48, -19],
+            [48, 8],
+            [48, 26]
+        ],
+        "status": {
+            "score": [
+                [null, null],
+                [null, null],
+                [null, null],
+                [null, null],
+                [116, 10],
+                [116, 37],
+                [116, 55]
+            ],
+            "highscore": [
+                [null, null],
+                [null, null],
+                [null, null],
+                [null, null],
+                [114, 19],
+                [114, 46],
+                [114, 64]
+            ]
+        }
+    },
     "background_position": [48, 26],
     "title_position": [72, 32],
     "status_positions": {

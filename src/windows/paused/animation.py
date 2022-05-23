@@ -1,3 +1,4 @@
+from fonts import NumberFont
 import pygame
 import json
 import os
@@ -16,9 +17,11 @@ with open(f"{resources_path}/paused.json") as json_file:
     paused_data = json.load(json_file)
 
 
-class Animation:
+class Animation(NumberFont):
     # Initialize -------------------------------------------------- #
     def __init__(self, score, highscore):
+        super().__init__()
+
         self.init_dropdown()
         self.init_status(score, highscore)
 
@@ -71,6 +74,7 @@ class Animation:
 
         # Draw
         self.draw_dropdown(display)
+        self.draw_status(display)
 
         # Update
         if self.update:
@@ -80,3 +84,18 @@ class Animation:
         position = self.dropdown_positions[self.idx // 3]
         if position != None:
             display.blit(self.dropdown_image, position)
+
+    def draw_status(self, display):
+        # Variables
+        texts_vls = self.status_text.values()
+        positions_vls = self.status_positions.values()
+
+        # Draw Status
+        for (text, positions) in zip(texts_vls, positions_vls):
+            # Get Position
+            pos = positions[self.idx // 3]
+
+            # Draw
+            if pos != None:
+                self.render_font(
+                    display, text, pos, enlarge=1, color=(70, 130, 50))

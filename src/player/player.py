@@ -18,36 +18,58 @@ class Player:
     def __init__(self):
         self.init_images()
         self.init_direction()
-        self.init_rect()
         self.init_movement()
+        self.init_rect()
         self.init_winningstate()
         self.init_status()
 
     def init_images(self):
-        # Get Idle Spriteset
-        idle_spriteset = pygame.image.load(
-            f"{resources_path}/idle.png")
-
-        # Get Directional Idle Spriteset Dictionary
-        direction_idle_spriteset = separate_sets_from_yaxis(
-            idle_spriteset, (255, 0, 0))
         direction_order = ["down", "up", "right", "left"]
+        self.idx = 0
+
+        # Get Idle Spriteset
+        spriteset = pygame.image.load(
+            f"{resources_path}/idle.png")
+        idle_spriteset = separate_sets_from_yaxis(
+            spriteset, (255, 0, 0))
+
+        # Get Moving Spriteset
+        spriteset = pygame.image.load(
+            f"{resources_path}/moving.png")
+        moving_spriteset = separate_sets_from_yaxis(
+            spriteset, (255, 0, 0))
+
+        # Get Walk Images from Moving Spriteset
+        walk_images = {}
+        order_idxs = [0, 1, 0, 3]
+        for name, spriteset in zip(direction_order, moving_spriteset):
+            # Seperate Moving Spriteset's
+            sprites = clip_set_to_list_on_xaxis(spriteset)
+
+            # Get Spriteset List
+            spriteset = []
+            for idx in order_idxs:
+                spriteset.append(sprites[idx])
+
+            # Append
+            walk_images[name] = spriteset
 
         # Images
         self.images = {
-            name:clip_set_to_list_on_xaxis(spriteset) 
-                for name, spriteset in zip(
-                    direction_order, direction_idle_spriteset)
-            }
-
-        # 
-        self.idx = 0
+            "standing": {
+                name:clip_set_to_list_on_xaxis(spriteset) 
+                    for name, spriteset in zip(
+                        direction_order, idle_spriteset)
+            },
+            "walking": walk_images,
+            "sprinting": None
+        }
 
     def init_direction(self):
         self.direction = "down"
 
     def init_rect(self):
-        size = self.images[self.direction][self.idx].get_rect().size
+        size = self.images[self.state][self.direction][self.idx].get_rect().size
         self.rect = pygame.Rect(100, 100, *size)
 
     def init_movement(self):
@@ -84,7 +106,7 @@ class Player:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        images = self.images[self.direction]
+        images = self.images[self.state][self.direction]
         # Reset
         if self.idx >= len(images) * 5:
             self.idx = 0

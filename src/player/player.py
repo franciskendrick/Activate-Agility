@@ -17,6 +17,7 @@ class Player:
     # Initialize -------------------------------------------------- #
     def __init__(self):
         self.init_images()
+        self.init_direction()
         self.init_rect()
         self.init_movement()
         self.init_winningstate()
@@ -40,8 +41,10 @@ class Player:
             }
 
         # 
-        self.direction = "down"
         self.idx = 0
+
+    def init_direction(self):
+        self.direction = "down"
 
     def init_rect(self):
         size = self.images[self.direction][self.idx].get_rect().size
@@ -120,7 +123,7 @@ class Player:
             self.degenerate_stamina_onsprint()
         elif self.state == "standing":  # regenerate stamina (standing)
             self.regenerate_stamina()
-        
+
     # Speical Tile Collision
     def specialtile_collision(self, specialtile_rects, time_remaining):
         # Detect if Player is on Special Tile on Time Remaining: 0
@@ -131,25 +134,29 @@ class Player:
             specialtile_rects.clear()
 
     # Functions --------------------------------------------------- #
-    # Movement
+    # Movement & Direction
     def sprint_movement(self):
         keys = pygame.key.get_pressed()
 
         # Left
         if keys[pygame.K_a]: 
             self.move_x(-self.sprint_vel)
+            self.direction = "left"
             self.state = "sprinting"
         # Right
         if keys[pygame.K_d]: 
             self.move_x(self.sprint_vel)
+            self.direction = "right" 
             self.state = "sprinting"
         # Up
         if keys[pygame.K_w]:
             self.move_y(-self.sprint_vel)
+            self.direction = "up"
             self.state = "sprinting"
         # Down
         if keys[pygame.K_s]:
             self.move_y(self.sprint_vel)
+            self.direction = "down"
             self.state = "sprinting"
 
     def walk_movement(self):
@@ -158,18 +165,22 @@ class Player:
         # Left
         if keys[pygame.K_a]: 
             self.move_x(-self.walk_vel)
+            self.direction = "left"
             self.state = "walking"
         # Right
         if keys[pygame.K_d]: 
             self.move_x(self.walk_vel)
+            self.direction = "right" 
             self.state = "walking"
         # Up
         if keys[pygame.K_w]:
             self.move_y(-self.walk_vel)
+            self.direction = "up"
             self.state = "walking"
         # Down
         if keys[pygame.K_s]:
             self.move_y(self.walk_vel)
+            self.direction = "down"
             self.state = "walking"
 
     def move_x(self, vel):

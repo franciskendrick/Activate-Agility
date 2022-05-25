@@ -1,4 +1,4 @@
-from functions import clip_set_to_list_on_xaxis, edge_collision
+from functions import clip_set_to_list_on_xaxis, separate_sets_from_yaxis, edge_collision
 import pygame
 import time
 import os
@@ -23,16 +23,28 @@ class Player:
         self.init_status()
 
     def init_images(self):
-        # Spriteset
-        spriteset = pygame.image.load(
-            f"{resources_path}/player.png")
-        self.idx = 0
+        # Get Idle Spriteset
+        idle_spriteset = pygame.image.load(
+            f"{resources_path}/idle.png")
+
+        # Get Directional Idle Spriteset Dictionary
+        direction_idle_spriteset = separate_sets_from_yaxis(
+            idle_spriteset, (255, 0, 0))
+        direction_order = ["down", "up", "right", "left"]
 
         # Images
-        self.images = clip_set_to_list_on_xaxis(spriteset)
+        self.images = {
+            name:clip_set_to_list_on_xaxis(spriteset) 
+                for name, spriteset in zip(
+                    direction_order, direction_idle_spriteset)
+            }
+
+        # 
+        self.direction = "down"
+        self.idx = 0
 
     def init_rect(self):
-        size = self.images[self.idx].get_rect().size
+        size = self.images[self.direction][self.idx].get_rect().size
         self.rect = pygame.Rect(100, 100, *size)
 
     def init_movement(self):
@@ -69,12 +81,13 @@ class Player:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
+        images = self.images[self.direction]
         # Reset
-        if self.idx >= len(self.images) * 5:
+        if self.idx >= len(images) * 5:
             self.idx = 0
 
         # Draw
-        img = self.images[self.idx // 5]
+        img = images[self.idx // 5]
         display.blit(img, self.rect)
 
         # Update
@@ -218,5 +231,3 @@ class Player:
             # Update Walk and Sprint Time
             self.last_walk = time.perf_counter()
             self.last_sprint = time.perf_counter()
-
-

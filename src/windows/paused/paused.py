@@ -1,5 +1,6 @@
 from windows.windows import window
 from .animation import Animation
+from .tiles import Tiles
 from .background import Background
 from .title import Title
 from .status import Status
@@ -23,16 +24,21 @@ class Paused:
         self.animation = Animation(
             self.status.score["text"],
             self.status.high_score["text"])
+        self.tiles = Tiles()
         self.background = Background()
         self.title = Title()
         self.buttons = Buttons()
 
     # Draw -------------------------------------------------------- #
-    def draw(self, display):
-        # Fill with Transparent Background
+    def draw(self, display, gametiles):
+        # Fill Pause Display with Transparent Background
         self.display.fill((0, 0, 0, 0))
 
-        # Draw GameOver
+        # Draw Tiles on Original Display
+        gametiles.draw(display)
+        self.tiles.draw(display)
+
+        # Draw Pause Window on Pause Display
         if self.animation.update:
             self.animation.draw(self.display)
         else:
@@ -41,7 +47,7 @@ class Paused:
             self.status.draw(self.display)
             self.buttons.draw(self.display)
 
-        # Blit to Display
+        # Blit to Pause Display to Original Display
         resized_display = pygame.transform.scale(
             self.display, display.get_size())
         display.blit(resized_display, self.rect)

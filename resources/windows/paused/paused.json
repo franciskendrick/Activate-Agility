@@ -30,6 +30,7 @@
             ]
         }
     },
+    "tiles_position": [32, 60],
     "background_position": [48, 26],
     "title_position": [72, 32],
     "status_positions": {

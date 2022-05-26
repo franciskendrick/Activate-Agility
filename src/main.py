@@ -116,7 +116,7 @@ def redraw_paused():
     background.draw_walls(display)
 
     # GameOver
-    paused.draw(display)
+    paused.draw(display, tiles)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)

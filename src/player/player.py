@@ -43,16 +43,31 @@ class Player:
         walk_images = {}
         order_idxs = [0, 1, 0, 3]
         for name, spriteset in zip(direction_order, moving_spriteset):
-            # Seperate Moving Spriteset's
+            # Seperate Moving Spriteset
             sprites = clip_set_to_list_on_xaxis(spriteset)
 
-            # Get Spriteset List
-            spriteset = []
+            # Get Sprite List
+            sprite_list = []
             for idx in order_idxs:
-                spriteset.append(sprites[idx])
+                sprite_list.append(sprites[idx])
 
             # Append
-            walk_images[name] = spriteset
+            walk_images[name] = sprite_list
+
+        # Get Sprint Images from Moving Spriteset
+        sprint_images = {}
+        order_idxs = [0, 1, 2, 1, 0, 3, 4, 3]
+        for name, spriteset in zip(direction_order, moving_spriteset):
+            # Seperate Moving Spriteset
+            sprites = clip_set_to_list_on_xaxis(spriteset)
+
+            # Get Sprite List
+            sprite_list = []
+            for idx in order_idxs:
+                sprite_list.append(sprites[idx])
+
+            # Append
+            sprint_images[name] = sprite_list
 
         # Images
         self.images = {
@@ -62,7 +77,7 @@ class Player:
                         direction_order, idle_spriteset)
             },
             "walking": walk_images,
-            "sprinting": None
+            "sprinting": sprint_images
         }
 
     def init_direction(self):

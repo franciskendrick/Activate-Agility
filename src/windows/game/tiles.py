@@ -46,6 +46,7 @@ class Tiles:
 
                 # Image
                 if (x, y) in self.specialtile_position:  # special tile
+                    color = self.specialtile_color
                     image = self.images[self.specialtile_color]
                     self.speicaltile_rects.append(rect)
                 else:  # normal tile

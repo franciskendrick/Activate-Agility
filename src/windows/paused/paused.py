@@ -30,14 +30,14 @@ class Paused:
         self.buttons = Buttons()
 
     # Draw -------------------------------------------------------- #
-    def draw(self, display, gametiles):
+    def draw_background(self, display):
         # Fill Pause Display with Transparent Background
         self.display.fill((0, 0, 0, 0))
 
-        # Draw Tiles on Original Display
-        gametiles.draw(display)
+        # Draw Pause Tiles on Pause Display
         self.tiles.draw(display)
 
+    def draw_pausewindow(self, display):
         # Draw Pause Window on Pause Display
         if self.animation.update:
             self.animation.draw(self.display)

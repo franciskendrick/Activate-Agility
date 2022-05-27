@@ -99,6 +99,10 @@ def redraw_gameover():
     # Background
     display.fill(background.color)
     background.draw_walls(display)
+    tiles.draw(display)
+
+    # Player
+    player.draw(display)
 
     # GameOver
     gameover.draw(display)
@@ -114,9 +118,16 @@ def redraw_paused():
     # Background
     display.fill(background.color)
     background.draw_walls(display)
+    tiles.draw(display)
 
-    # GameOver
-    paused.draw(display, tiles)
+    # Pause's Background
+    paused.draw_background(display)
+
+    # Player
+    player.draw(display)
+
+    # Pause's Window
+    paused.draw_pausewindow(display)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)

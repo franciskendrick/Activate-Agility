@@ -23,6 +23,9 @@ class Menu:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
+        # Draw Tiles on Original Display
+        self.tiles.draw(display)
+
         # Draw Menu Window on Menu Display
         self.title.draw(self.display)
         self.buttons.draw(self.display)

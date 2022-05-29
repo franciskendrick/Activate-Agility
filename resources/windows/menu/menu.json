@@ -1,4 +1,5 @@
 {
+    "tiles_position": [32, 60],
     "board_position": [82, 37],
     "title_position": [87, 42],
     "buttons_position": {

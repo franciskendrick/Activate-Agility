@@ -1,4 +1,5 @@
 from windows.windows import window
+from .tiles import Tiles
 from .title import Title
 from .buttons import Buttons
 import pygame
@@ -16,16 +17,17 @@ class Menu:
         self.rect = pygame.Rect((
             0, 0), self.display.get_size())
 
+        self.tiles = Tiles()
         self.title = Title()
         self.buttons = Buttons()
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        # Menu
+        # Draw Menu Window on Menu Display
         self.title.draw(self.display)
         self.buttons.draw(self.display)
 
-        # Blit to Display
+        # Blit to Menu Display to Original Display
         resized_display = pygame.transform.scale(
             self.display, display.get_size())
         display.blit(resized_display, self.rect)

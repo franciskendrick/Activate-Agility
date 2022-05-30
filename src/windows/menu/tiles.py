@@ -23,7 +23,8 @@ class Tiles:
         self.init_animation()
 
         self.position = paused_data["tiles_position"]
-        self.idx = 0
+        self.animation_idx = 0
+        self.frame_idx = 0
 
     def init_animation(self):
         self.animations = []
@@ -41,8 +42,6 @@ class Tiles:
             frames = os.listdir(
                 f"{resources_path}/tiles/{animation_folder}")
             
-            frames.sort()
-
             # Load Frames 
             for frame in frames:
                 frame_path = f"{resources_path}/tiles/{animation_folder}/{frame}"
@@ -56,15 +55,20 @@ class Tiles:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        animation = self.animations[0]
+        animation = self.animations[self.animation_idx]
 
-        # Reset
-        if self.idx >= len(animation) * 3:
-            self.idx = 0
+        # Reset Frame Index
+        if self.frame_idx >= len(animation) * 3:
+            self.frame_idx = 0
+            self.animation_idx += 1
+
+            # Reset Animation Index
+            if self.animation_idx >= len(self.animations):
+                self.animation_idx = 0
         
         # Draw
-        img = animation[self.idx // 3]
+        img = animation[self.frame_idx // 3]
         display.blit(img, self.position)
 
         # Update
-        self.idx += 1
+        self.frame_idx += 1

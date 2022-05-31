@@ -3,7 +3,7 @@ from windows import gameover
 from windows.windows import window, background
 from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
 from windows.menu import Menu
-from windows.gameover import GameOver
+from windows.gameover import GameOver  
 from windows.paused import Paused
 import pygame
 import time
@@ -20,9 +20,6 @@ def init_game():
     global tiles, speicalcolor_visual_identifier
     global countdown, player_gauge, score, high_score
     global start_of_game, start_of_gamesession, end_of_game
-
-    # Initialize Player
-    player = Player()
 
     # Initialize Game Variables
     tiles = Tiles()
@@ -102,6 +99,9 @@ def redraw_menu():
 
     # Menu
     menu.draw(display)
+
+    # Player
+    player.draw(display)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
@@ -362,7 +362,7 @@ def paused_loop():
 if __name__ == "__main__":
     pygame.init()
 
-    # Window
+    # Initialize Window
     win_size = (
         window.rect.width * window.enlarge,
         window.rect.height * window.enlarge)
@@ -370,6 +370,9 @@ if __name__ == "__main__":
     display = pygame.Surface(window.rect.size)
     pygame.display.set_caption("Activate: Agility")
     clock = pygame.time.Clock()
+
+    # Initialize Player
+    player = Player()
     
     # Execute
     menu_loop()

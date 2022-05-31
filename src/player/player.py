@@ -85,7 +85,7 @@ class Player:
 
     def init_rect(self):
         size = self.images[self.state][self.direction][self.idx].get_rect().size
-        self.rect = pygame.Rect(100, 100, *size)
+        self.rect = pygame.Rect(311, 188, *size)
 
     def init_movement(self):
         # Velocities

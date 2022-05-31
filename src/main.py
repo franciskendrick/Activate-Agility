@@ -155,6 +155,7 @@ def redraw_paused():
 def game_loop():
     global end_of_game
 
+    # Loop
     run = True
     while run:
         for event in pygame.event.get():
@@ -233,13 +234,17 @@ def game_loop():
 def menu_loop():
     global menu
     
+    # Initialize Menu
     menu = Menu()
+
+    # Initialize Menu Buttons Switchcase
     btn_switchcase = {
         "play": [init_game, game_loop],
         "options": [placeholder],
         None: [placeholder]
     }
 
+    # Loop
     run = True
     while run:
         for event in pygame.event.get():
@@ -263,8 +268,14 @@ def menu_loop():
 def gameover_loop():
     global gameover
 
+    # Change Player's State to Idle/Standing
+    player.state = "standing"
+
+    # Initialize GameOver
     gameover = GameOver(
         score.value, high_score.value, start_of_gamesession)
+
+    # Initialize GameOver Buttons Switchcase
     btn_switchcase = {
         "play": [init_game, game_loop],
         "options": [placeholder],
@@ -272,6 +283,7 @@ def gameover_loop():
         None: [placeholder]
     }
     
+    # Loop
     run = True
     while run:
         for event in pygame.event.get():
@@ -295,8 +307,14 @@ def gameover_loop():
 def paused_loop():
     global paused
 
+    # Change Player's State to Idle/Standing
+    player.state = "standing"
+
+    # Initialize Paused
     paused = Paused(
         score.value, high_score.value)
+
+    # Initialize Paused Buttons Switchcase
     btn_switchcase = {
         "play": [
             countdown.restart_countdown_time, 
@@ -308,6 +326,7 @@ def paused_loop():
         None: [placeholder]
     }
 
+    # Loop
     run = True
     while run:
         for event in pygame.event.get():

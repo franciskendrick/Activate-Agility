@@ -38,6 +38,10 @@ def init_game():
     start_of_gamesession = start_of_game
     end_of_game = None
 
+    # Intialize Countdown & Color Visual Identifier's start_of_game
+    countdown.init_startofgame(start_of_game)
+    speicalcolor_visual_identifier.init_startofgame(start_of_game)
+
 
 def restart_game():
     global player
@@ -54,6 +58,17 @@ def restart_game():
     # Time
     start_of_game = time.perf_counter()
     end_of_game = None
+
+    # Intialize Countdown & Color Visual Identifier's start_of_game
+    countdown.init_startofgame(start_of_game)
+    speicalcolor_visual_identifier.init_startofgame(start_of_game)
+
+
+def restart_game_startofgame():
+    # Restart Countdown & Color Visual Identifier's start_of_game
+    new_startofgame = time.perf_counter()
+    countdown.init_startofgame(new_startofgame)
+    speicalcolor_visual_identifier.init_startofgame(new_startofgame)
 
 
 # Redraws --------------------------------------------------------- #
@@ -158,8 +173,8 @@ def game_loop():
 
         # Windows.Game
         player_gauge.update(player.stats)
-        speicalcolor_visual_identifier.update(start_of_game)
-        countdown.update(start_of_game)
+        speicalcolor_visual_identifier.update()
+        countdown.update()
 
         # Countdown is Over
         if countdown.time_remaining == 0:
@@ -283,7 +298,10 @@ def paused_loop():
     paused = Paused(
         score.value, high_score.value)
     btn_switchcase = {
-        "play": [game_loop],
+        "play": [
+            countdown.restart_countdown_time, 
+            restart_game_startofgame, 
+            game_loop],
         "restart": [init_game, game_loop],
         "options": [placeholder],
         "menu": [init_game, menu_loop],
@@ -295,6 +313,17 @@ def paused_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    # Restart Countdown Time
+                    countdown.restart_countdown_time()
+                        
+                    # Restart Countdown & Color Visual Identifier's start_of_game
+                    restart_game_startofgame()
+
+                    # Game Loop
+                    game_loop()
 
             # Paused Buttons
             btn_pressed = paused.buttons.get_button_pressed(event)

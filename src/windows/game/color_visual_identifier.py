@@ -23,9 +23,6 @@ class SpecialColorVisualIdentifier:
         self.init(specialtile_color)
 
     def init(self, specialtile_color):
-        # Game
-        self.start_of_game = None
-
         # Images
         self.indicators = []
         for i in range(1, 7):
@@ -45,6 +42,9 @@ class SpecialColorVisualIdentifier:
         # Visibility
         self.is_visible = False
 
+    def init_startofgame(self, start_of_game):
+        self.start_of_game = start_of_game
+
     # Draw -------------------------------------------------------- #
     def draw(self, display):
         if self.is_visible:
@@ -52,11 +52,11 @@ class SpecialColorVisualIdentifier:
             display.blit(indicator, self.position)
 
     # Update ------------------------------------------------------ #
-    def update(self, start_of_game):
-        self.update_visibility(start_of_game)
+    def update(self):
+        self.update_visibility()
 
-    def update_visibility(self, start_of_game):
-        dt = time.perf_counter() - start_of_game
+    def update_visibility(self):
+        dt = time.perf_counter() - self.start_of_game
         if not self.is_visible and dt * 1000 >= 500:
             self.is_visible = True
 

@@ -25,9 +25,6 @@ class Countdown(NumberFont):
         self.init()
 
     def init(self):
-        # Game
-        self.start_of_game = None
-
         # Images
         self.init_title()
         self.init_numbers()
@@ -69,6 +66,9 @@ class Countdown(NumberFont):
         self.time_is_visible = False
         self.visible_delay = 1000  # milliseconds
 
+    def init_startofgame(self, start_of_game):
+        self.start_of_game = start_of_game
+
     # Draw -------------------------------------------------------- #
     def draw(self, display):
         # Title
@@ -81,19 +81,19 @@ class Countdown(NumberFont):
             self.render_font(display, text, pos, 5)
 
     # Update ------------------------------------------------------ #
-    def update(self, start_of_game):
-        self.update_visibility(start_of_game)
-        self.update_timeremaining(start_of_game)
+    def update(self):
+        self.update_visibility()
+        self.update_timeremaining()
 
-    def update_visibility(self, start_of_game):
-        dt = time.perf_counter() - start_of_game
+    def update_visibility(self):
+        dt = time.perf_counter() - self.start_of_game
         if not self.time_is_visible and dt * 1000 >= self.visible_delay:
             self.time_is_visible = True
 
-    def update_timeremaining(self, start_of_game):
+    def update_timeremaining(self):
         # Delta Time
         count_dt = time.perf_counter() - self.last_count
-        game_dt = time.perf_counter() - start_of_game
+        game_dt = time.perf_counter() - self.start_of_game
 
         # Visibility Delay
         visibility_delay = game_dt * 1000 >= self.visible_delay+1000
@@ -111,3 +111,7 @@ class Countdown(NumberFont):
 
             # Update Last Count
             self.last_count = time.perf_counter()
+
+    # Functions --------------------------------------------------- #
+    def restart_countdown_time(self):
+        self.last_count = time.perf_counter()

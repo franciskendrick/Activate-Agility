@@ -3,7 +3,7 @@ from windows import gameover
 from windows.windows import window, background
 from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
 from windows.menu import Menu
-from windows.gameover import GameOver  
+from windows.gameover import GameOver
 from windows.paused import Paused
 import pygame
 import time

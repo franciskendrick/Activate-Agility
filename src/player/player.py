@@ -1,5 +1,6 @@
 from functions import clip_set_to_list_on_xaxis, separate_sets_from_yaxis, edge_collision
 import pygame
+import json
 import time
 import os
 
@@ -12,6 +13,10 @@ resources_path = os.path.abspath(
         )
     )
 
+# Json
+with open(f"{resources_path}/player.json") as json_file:
+    player_data = json.load(json_file)
+
 
 class Player:
     # Initialize -------------------------------------------------- #
@@ -20,6 +25,7 @@ class Player:
         self.init_direction()
         self.init_movement()
         self.init_rect()
+        self.init_hitbox()
         self.init_winningstate()
         self.init_status()
 
@@ -85,7 +91,12 @@ class Player:
 
     def init_rect(self):
         size = self.images[self.state][self.direction][self.idx].get_rect().size
-        self.rect = pygame.Rect(311, 188, *size)
+        self.rect = pygame.Rect(player_data["starting_position"], size)
+
+    def init_hitbox(self):
+        pos = self.get_hitbox_pos()
+        size = player_data["hitbox_size"]
+        self.hitbox = pygame.Rect(pos, size)
 
     def init_movement(self):
         # Velocities
@@ -130,6 +141,9 @@ class Player:
         img = images[self.idx // 5]
         display.blit(img, self.rect)
 
+        # !!!
+        pygame.draw.rect(display, (255, 0, 255), self.hitbox, 1)
+
         # Update
         self.idx += 1
 
@@ -160,6 +174,15 @@ class Player:
             self.degenerate_stamina_onsprint()
         elif self.state == "standing":  # regenerate stamina (standing)
             self.regenerate_stamina()
+
+        # Update Hitbox Position
+        self.update_hitbox()
+
+    # Hitbox
+    def update_hitbox(self):
+        x, y = self.get_hitbox_pos()
+        self.hitbox.x = x
+        self.hitbox.y = y
 
     # Speical Tile Collision
     def specialtile_collision(self, specialtile_rects, time_remaining):
@@ -221,16 +244,23 @@ class Player:
             self.state = "walking"
 
     def move_x(self, vel):
-        handle_rect = self.rect.copy()
-        handle_rect.x += vel
-        if not edge_collision(handle_rect):
+        handle_hitbox = self.hitbox.copy()
+        handle_hitbox.x += vel
+        if not edge_collision(handle_hitbox):
             self.rect.x += vel
 
     def move_y(self, vel):
-        handle_rect = self.rect.copy()
-        handle_rect.y += vel
-        if not edge_collision(handle_rect):
+        handle_hitbox = self.hitbox.copy()
+        handle_hitbox.y += vel
+        if not edge_collision(handle_hitbox):
             self.rect.y += vel
+
+    # Hitbox
+    def get_hitbox_pos(self):
+        x_offset, y_offset = player_data["recttohitbox_offset"]
+        pos = (self.rect.x + x_offset, self.rect.y + y_offset)
+
+        return pos
 
     # Check State
     def check_standing_state(self):

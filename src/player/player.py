@@ -141,9 +141,6 @@ class Player:
         img = images[self.idx // 5]
         display.blit(img, self.rect)
 
-        # !!!
-        pygame.draw.rect(display, (255, 0, 255), self.hitbox, 1)
-
         # Update
         self.idx += 1
 

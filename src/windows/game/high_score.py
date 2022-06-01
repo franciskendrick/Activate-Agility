@@ -1,4 +1,5 @@
 from fonts import NumberFont
+from windows.windows import window
 import pygame
 import json
 import os
@@ -24,8 +25,8 @@ class HighScore(NumberFont):
 
         self.init_title()
         self.init_numbers()
-        self.value = game_data["highscore_value"]
-
+        self.value = window.gamestatus_data["highscore"]
+        
     def init_title(self):
         # Image
         title = pygame.image.load(

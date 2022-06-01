@@ -61,7 +61,7 @@ def restart_game():
     speicalcolor_visual_identifier.init_startofgame(start_of_game)
 
 
-def restart_game_startofgame():
+def restart_startofgame():
     # Restart Countdown & Color Visual Identifier's start_of_game
     new_startofgame = time.perf_counter()
     countdown.init_startofgame(new_startofgame)
@@ -160,6 +160,7 @@ def game_loop():
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                window.update_gameinfo(high_score.value)
                 run = False
 
             if event.type == pygame.KEYDOWN:
@@ -249,6 +250,7 @@ def menu_loop():
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                window.update_gameinfo(high_score.value)
                 run = False
 
             # Menu Buttons
@@ -288,6 +290,7 @@ def gameover_loop():
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                window.update_gameinfo(high_score.value)
                 run = False
 
             # GameOver Buttons
@@ -318,7 +321,7 @@ def paused_loop():
     btn_switchcase = {
         "play": [
             countdown.restart_countdown_time, 
-            restart_game_startofgame, 
+            restart_startofgame, 
             game_loop],
         "restart": [init_game, game_loop],
         "options": [placeholder],
@@ -331,6 +334,7 @@ def paused_loop():
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                window.update_gameinfo(high_score.value)
                 run = False
 
             if event.type == pygame.KEYDOWN:
@@ -339,7 +343,7 @@ def paused_loop():
                     countdown.restart_countdown_time()
                         
                     # Restart Countdown & Color Visual Identifier's start_of_game
-                    restart_game_startofgame()
+                    restart_startofgame()
 
                     # Game Loop
                     game_loop()

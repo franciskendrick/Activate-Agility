@@ -28,7 +28,30 @@ def init_game():
     countdown = Countdown()
     player_gauge = PlayerGauge(player.maximum_stats)
     score = Score()
-    high_score = HighScore()
+
+    # Time 
+    start_of_game = time.perf_counter()
+    start_of_gamesession = start_of_game
+    end_of_game = None
+
+    # Intialize Countdown & Color Visual Identifier's start_of_game
+    countdown.init_startofgame(start_of_game)
+    speicalcolor_visual_identifier.init_startofgame(start_of_game)
+
+
+def restart_gamesession():
+    global player
+    global tiles, speicalcolor_visual_identifier
+    global countdown, player_gauge, score, high_score
+    global start_of_game, start_of_gamesession, end_of_game
+
+    # Initialize Game Variables
+    tiles = Tiles()
+    speicalcolor_visual_identifier = SpecialColorVisualIdentifier(
+        tiles.specialtile_color)
+    countdown = Countdown()
+    player_gauge = PlayerGauge(player.maximum_stats)
+    score = Score()
 
     # Time 
     start_of_game = time.perf_counter()
@@ -377,6 +400,9 @@ if __name__ == "__main__":
 
     # Initialize Player
     player = Player()
+
+    # Initialize Highscore
+    high_score = HighScore()
     
     # Execute
     menu_loop()

@@ -3,6 +3,7 @@ from windows import gameover
 from windows.windows import window, background
 from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
 from windows.menu import Menu
+from windows.options import Options
 from windows.gameover import GameOver
 from windows.paused import Paused
 import pygame
@@ -125,6 +126,18 @@ def redraw_menu():
 
     # Player
     player.draw(display)
+
+    # Blit to Screen ---------------------------------------------- #
+    resized_display = pygame.transform.scale(display, win_size)
+    win.blit(resized_display, (0, 0))
+
+    pygame.display.update()
+
+
+def redraw_options():
+    # Background
+    display.fill(background.color)
+    background.draw_walls(display)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
@@ -290,6 +303,28 @@ def menu_loop():
     sys.exit()
 
 
+def options_loop():
+    global options
+
+    # Initialize Options
+    options = Options()
+
+    # Loop
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                window.update_gameinfo(high_score.value)
+                run = False
+        
+        # Update
+        redraw_options()
+        clock.tick(window.framerate)
+
+    pygame.quit()
+    sys.exit()
+
+
 def gameover_loop():
     global gameover
 
@@ -405,4 +440,4 @@ if __name__ == "__main__":
     high_score = HighScore()
     
     # Execute
-    menu_loop()
+    options_loop()

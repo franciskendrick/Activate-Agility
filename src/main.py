@@ -139,6 +139,9 @@ def redraw_options():
     display.fill(background.color)
     background.draw_walls(display)
 
+    # Options
+    options.draw(display)
+
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
     win.blit(resized_display, (0, 0))

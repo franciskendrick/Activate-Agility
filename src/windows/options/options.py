@@ -15,9 +15,14 @@ class Options:
         self.rect = pygame.Rect((
             0, 0), self.display.get_size())
 
+        self.background = Background()
+
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        # Blit to Menu Display to Original Display
+        # Draw Options Window on Options Display
+        self.background.draw(self.display)
+
+        # Blit to Options Display to Original Display
         resized_display = pygame.transform.scale(
             self.display, display.get_size())
         display.blit(resized_display, self.rect)

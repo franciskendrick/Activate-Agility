@@ -319,6 +319,9 @@ def options_loop():
             if event.type == pygame.QUIT:
                 window.update_gameinfo(high_score.value)
                 run = False
+
+            # Options Redirect Buttons
+            options.redirect_buttons.handle_mousemotion(event)
         
         # Update
         redraw_options()

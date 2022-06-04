@@ -74,4 +74,9 @@ class RedirectButtons:
         pass
 
     def handle_mousemotion(self, event):
-        pass
+        if event.type == pygame.MOUSEMOTION:
+            for button in self.buttons.values():
+                *_, hitbox = button
+
+                mouse_pos = pygame.mouse.get_pos()
+                button[0] = True if hitbox.collidepoint(mouse_pos) else False

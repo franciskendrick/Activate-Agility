@@ -280,7 +280,7 @@ def menu_loop():
     # Initialize Menu Buttons Switchcase
     btn_switchcase = {
         "play": [init_game, game_loop],
-        "options": [placeholder],
+        "options": options_loop,
         None: [placeholder]
     }
 
@@ -294,8 +294,11 @@ def menu_loop():
 
             # Menu Buttons
             btn_pressed = menu.buttons.get_button_pressed(event)
-            for function in btn_switchcase[btn_pressed]:
-                function()
+            if btn_pressed != "options":
+                for function in btn_switchcase[btn_pressed]:
+                    function()
+            else:
+                btn_switchcase[btn_pressed]("menu")
             menu.buttons.handle_mousemotion(event)
             
         # Update
@@ -306,11 +309,22 @@ def menu_loop():
     sys.exit()
 
 
-def options_loop():
+def options_loop(from_loop):
     global options
 
     # Initialize Options
     options = Options()
+
+    # Initialize Options Buttons Switchcase
+    btn_switchcase = {
+        "play": {
+            "pause": [game_loop],
+            "menu": [init_game, game_loop],
+            "gameover": [init_game, game_loop]
+        },
+        "menu": [init_game, menu_loop],
+        None: [placeholder]
+    }
 
     # Loop
     run = True
@@ -321,6 +335,12 @@ def options_loop():
                 run = False
 
             # Options Redirect Buttons
+            btn_pressed = options.redirect_buttons.get_button_pressed(event)
+            functions = btn_switchcase[btn_pressed]
+            functions = functions[from_loop] if btn_pressed == "play" else functions
+            for function in functions:
+                function()
+
             options.redirect_buttons.handle_mousemotion(event)
         
         # Update
@@ -344,7 +364,7 @@ def gameover_loop():
     # Initialize GameOver Buttons Switchcase
     btn_switchcase = {
         "play": [init_game, game_loop],
-        "options": [placeholder],
+        "options": options_loop,
         "menu": [init_game, menu_loop],
         None: [placeholder]
     }
@@ -359,8 +379,11 @@ def gameover_loop():
 
             # GameOver Buttons
             btn_pressed = gameover.buttons.get_button_pressed(event)
-            for function in btn_switchcase[btn_pressed]:
-                function()
+            if btn_pressed != "options":
+                for function in btn_switchcase[btn_pressed]:
+                    function()
+            else:
+                btn_switchcase[btn_pressed]("gameover")
             gameover.buttons.handle_mousemotion(event)
 
         # Update
@@ -388,7 +411,7 @@ def paused_loop():
             restart_startofgame, 
             game_loop],
         "restart": [init_game, game_loop],
-        "options": [placeholder],
+        "options": options_loop,
         "menu": [init_game, menu_loop],
         None: [placeholder]
     }
@@ -414,8 +437,11 @@ def paused_loop():
 
             # Paused Buttons
             btn_pressed = paused.buttons.get_button_pressed(event)
-            for function in btn_switchcase[btn_pressed]:
-                function()
+            if btn_pressed != "options":
+                for function in btn_switchcase[btn_pressed]:
+                    function()
+            else:
+                btn_switchcase[btn_pressed]("pause")
             paused.buttons.handle_mousemotion(event)
 
         # Update

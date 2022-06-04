@@ -1,4 +1,8 @@
 {
     "background_position": [48, 26],
-    "title_position": [68, 32]
+    "title_position": [68, 32],
+    "buttons_position": {
+        "play": [85, 79],
+        "menu": [108, 79]
+    }
 }

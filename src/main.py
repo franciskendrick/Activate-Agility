@@ -446,4 +446,4 @@ if __name__ == "__main__":
     high_score = HighScore()
     
     # Execute
-    options_loop()
+    menu_loop()

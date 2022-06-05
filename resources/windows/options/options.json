@@ -3,6 +3,9 @@
     "title_position": [68, 32],
     "buttons_position": {
         "play": [85, 79],
-        "menu": [108, 79]
+        "menu": [108, 79],
+        "animation": [79, 49],
+        "music": [109, 63],
+        "sound": [71, 63]
     }
 }

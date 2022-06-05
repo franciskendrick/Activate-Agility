@@ -2,6 +2,7 @@ from windows.windows import window
 from .background import Background
 from .title import Title
 from .redirect_buttons import RedirectButtons
+from .toggleable_buttons import ToggleableButtons
 import pygame
 
 pygame.init()
@@ -20,6 +21,7 @@ class Options:
         self.background = Background()
         self.title = Title()
         self.redirect_buttons = RedirectButtons()
+        self.toggleable_buttons = ToggleableButtons()
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
@@ -27,6 +29,7 @@ class Options:
         self.background.draw(self.display)
         self.title.draw(self.display)
         self.redirect_buttons.draw(self.display)
+        self.toggleable_buttons.draw(self.display)
 
         # Blit to Options Display to Original Display
         resized_display = pygame.transform.scale(

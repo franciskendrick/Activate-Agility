@@ -316,18 +316,26 @@ def options_loop(from_loop):
     options = Options()
 
     # Initialize Options Buttons Switchcase
-    btn_switchcase = {
-        "play": {
-            "pause": [
-                countdown.restart_countdown_time, 
-                restart_startofgame,
-                game_loop],
-            "menu": [init_game, game_loop],
-            "gameover": [init_game, game_loop]
-        },
-        "menu": [init_game, menu_loop],
-        None: [placeholder]
-    }
+    try:  # in pause
+        btn_switchcase = {
+            "play": {
+                "pause": [
+                    countdown.restart_countdown_time, 
+                    restart_startofgame,
+                    game_loop]
+            },
+            "menu": [init_game, menu_loop],
+            None: [placeholder]
+        }
+    except NameError:  # in menu or gameover
+        btn_switchcase = {
+            "play": {
+                "menu": [init_game, game_loop],
+                "gameover": [init_game, game_loop]
+            },
+            "menu": [init_game, menu_loop],
+            None: [placeholder]
+        }
 
     # Loop
     run = True

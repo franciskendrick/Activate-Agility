@@ -318,7 +318,10 @@ def options_loop(from_loop):
     # Initialize Options Buttons Switchcase
     btn_switchcase = {
         "play": {
-            "pause": [game_loop],
+            "pause": [
+                countdown.restart_countdown_time, 
+                restart_startofgame,
+                game_loop],
             "menu": [init_game, game_loop],
             "gameover": [init_game, game_loop]
         },

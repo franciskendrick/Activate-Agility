@@ -353,6 +353,9 @@ def options_loop(from_loop):
                 function()
 
             options.redirect_buttons.handle_mousemotion(event)
+
+            # Options Toggleable Buttons
+            options.toggleable_buttons.handle_mousemotion(event)
         
         # Update
         redraw_options()

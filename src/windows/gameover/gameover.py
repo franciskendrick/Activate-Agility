@@ -29,6 +29,8 @@ class GameOver:
             score, 
             highscore, 
             time.perf_counter() - start_of_game)
+
+    def init_animation(self):
         self.animation = Animation(
             self.status.score["text"],
             self.status.high_score["text"],

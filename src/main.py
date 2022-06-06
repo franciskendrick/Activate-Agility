@@ -378,11 +378,12 @@ def gameover_loop():
     # Change Player's State to Idle/Standing
     player.state = "standing"
 
-    # Initialize GameOver Status
+    # Initialize GameOver Status & Animation
     gameover.init_status(
         score.value, 
         high_score.value, 
         start_of_gamesession)
+    gameover.init_animation()
 
     # Initialize GameOver Buttons Switchcase
     btn_switchcase = {
@@ -423,8 +424,9 @@ def paused_loop():
     # Change Player's State to Idle/Standing
     player.state = "standing"
 
-    # Initialize Pause's Status
+    # Initialize Pause's Status & Animation
     paused.init_status(score.value, high_score.value)
+    paused.init_animation()
 
     # Initialize Paused Buttons Switchcase
     btn_switchcase = {

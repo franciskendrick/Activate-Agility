@@ -20,16 +20,18 @@ class Paused:
         self.rect = pygame.Rect((
             0, 0), self.display.get_size())
 
-        self.tiles = Tiles()
         self.background = Background()
         self.title = Title()
         self.buttons = Buttons()
 
     def init_status(self, score, highscore):
         self.status = Status(score, highscore)
+
+    def init_animation(self):
         self.animation = Animation(
             self.status.score["text"],
             self.status.high_score["text"])
+        self.tiles = Tiles()
 
     # Draw -------------------------------------------------------- #
     def draw_background(self, display):

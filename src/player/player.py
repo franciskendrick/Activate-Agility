@@ -190,7 +190,7 @@ class Player:
         # Detect if Player is on Special Tile on Time Remaining: 0
         if time_remaining == 0:  # time remaining is at zero
             for tile_rect in specialtile_rects:  # loop through all rects of speical tiles
-                if self.rect.colliderect(tile_rect):  # check of player and tile collision
+                if self.hitbox.colliderect(tile_rect):  # check of player and tile collision
                     self.on_specialtile = True 
             specialtile_rects.clear()
 

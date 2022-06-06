@@ -125,6 +125,10 @@ class Player:
             "health": 3,
             "mana": 5,
             "stamina": 20}
+        self.original_stats = {
+            "health": 3,
+            "mana": 0,
+            "stamina": 20}
         self.stats = {
             "health": 3,
             "mana": 0,
@@ -306,3 +310,7 @@ class Player:
             # Update Walk and Sprint Time
             self.last_walk = time.perf_counter()
             self.last_sprint = time.perf_counter()
+
+    # Stats
+    def reset_stats(self):
+        self.stats = self.original_stats.copy()

@@ -22,6 +22,9 @@ def init_game():
     global countdown, player_gauge, score, high_score
     global start_of_game, start_of_gamesession, end_of_game
 
+    # Player
+    player.reset_stats()
+
     # Initialize Game Variables
     tiles = Tiles()
     speicalcolor_visual_identifier = SpecialColorVisualIdentifier(
@@ -274,9 +277,6 @@ def game_loop():
 def menu_loop():
     global menu
     
-    # Initialize Menu
-    menu = Menu()
-
     # Initialize Menu Buttons Switchcase
     btn_switchcase = {
         "play": [init_game, game_loop],
@@ -312,11 +312,8 @@ def menu_loop():
 def options_loop(from_loop):
     global options
 
-    # Initialize Options
-    options = Options()
-
     # Initialize Options Buttons Switchcase
-    try:  # in pause
+    try:  # from pause
         btn_switchcase = {
             "play": {
                 "pause": [
@@ -330,7 +327,7 @@ def options_loop(from_loop):
             "sound": [placeholder],
             None: [placeholder]
         }
-    except NameError:  # in menu or gameover
+    except NameError:  # from menu or gameover
         btn_switchcase = {
             "play": {
                 "menu": [init_game, game_loop],
@@ -381,9 +378,11 @@ def gameover_loop():
     # Change Player's State to Idle/Standing
     player.state = "standing"
 
-    # Initialize GameOver
-    gameover = GameOver(
-        score.value, high_score.value, start_of_gamesession)
+    # Initialize GameOver Status
+    gameover.init_status(
+        score.value, 
+        high_score.value, 
+        start_of_gamesession)
 
     # Initialize GameOver Buttons Switchcase
     btn_switchcase = {
@@ -424,9 +423,8 @@ def paused_loop():
     # Change Player's State to Idle/Standing
     player.state = "standing"
 
-    # Initialize Paused
-    paused = Paused(
-        score.value, high_score.value)
+    # Initialize Pause's Status
+    paused.init_status(score.value, high_score.value)
 
     # Initialize Paused Buttons Switchcase
     btn_switchcase = {
@@ -495,5 +493,11 @@ if __name__ == "__main__":
     # Initialize Highscore
     high_score = HighScore()
     
+    # Initialize Windows
+    menu = Menu()
+    options = Options()
+    gameover = GameOver()
+    paused = Paused()
+
     # Execute
     menu_loop()

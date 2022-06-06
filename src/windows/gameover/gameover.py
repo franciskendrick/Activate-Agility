@@ -12,7 +12,7 @@ pygame.init()
 
 class GameOver:
     # Initialize -------------------------------------------------- #
-    def __init__(self, score, highscore, start_of_game):
+    def __init__(self):
         wd, ht = window.rect.size
         self.display = pygame.Surface(
             (wd // 3, ht // 3), pygame.SRCALPHA)
@@ -20,15 +20,19 @@ class GameOver:
         self.rect = pygame.Rect((
             0, 0), self.display.get_size())
 
+        self.background = Background()
+        self.title = Title()
+        self.buttons = Buttons()
+
+    def init_status(self, score, highscore, start_of_game):
         self.status = Status(
-            score, highscore, time.perf_counter() - start_of_game)
+            score, 
+            highscore, 
+            time.perf_counter() - start_of_game)
         self.animation = Animation(
             self.status.score["text"],
             self.status.high_score["text"],
             self.status.end_time["text"])
-        self.background = Background()
-        self.title = Title()
-        self.buttons = Buttons()
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

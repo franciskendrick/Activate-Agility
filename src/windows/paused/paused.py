@@ -12,7 +12,7 @@ pygame.init()
 
 class Paused:
     # Initialize -------------------------------------------------- #
-    def __init__(self, score, highscore):
+    def __init__(self):
         wd, ht = window.rect.size
         self.display = pygame.Surface(
             (wd // 3, ht // 3), pygame.SRCALPHA)
@@ -20,14 +20,16 @@ class Paused:
         self.rect = pygame.Rect((
             0, 0), self.display.get_size())
 
-        self.status = Status(score, highscore)
-        self.animation = Animation(
-            self.status.score["text"],
-            self.status.high_score["text"])
         self.tiles = Tiles()
         self.background = Background()
         self.title = Title()
         self.buttons = Buttons()
+
+    def init_status(self, score, highscore):
+        self.status = Status(score, highscore)
+        self.animation = Animation(
+            self.status.score["text"],
+            self.status.high_score["text"])
 
     # Draw -------------------------------------------------------- #
     def draw_background(self, display):

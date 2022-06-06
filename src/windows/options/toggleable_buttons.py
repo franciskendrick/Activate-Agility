@@ -52,8 +52,8 @@ class ToggleableButtons:
                     (222, 158, 65): (57, 74, 80),
                     (190, 119, 43): (32, 46, 55),
                     (9, 10, 20): (16, 20, 31),
-                    (162, 62, 140): (122, 54, 123),
-                    (122, 54, 123): (64, 39, 81)}
+                    (122, 54, 123): (64, 39, 81),
+                    (162, 62, 140): (122, 54, 123)}
             }
         }
 
@@ -68,31 +68,36 @@ class ToggleableButtons:
                     palette_swapped_imgs[toggle_state][state] = palette_swap(
                         img.convert(), palette)
             else:
-                palette_swapped_imgs["on"]["orig"] = img
+                palette_swapped_imgs["on"]["up"] = img
 
             # Initialize Image Rectangle
-            img_rect = pygame.Rect(
+            rect = pygame.Rect(
                 options_data["buttons_position"][name],
                 img.get_rect().size)
 
             # Initialize Hitbox
             hitbox = pygame.Rect(
-                img_rect.x * enlarge, img_rect.y * enlarge,
-                img_rect.width * enlarge, img_rect.height * enlarge)
+                rect.x * enlarge, rect.y * enlarge,
+                rect.width * enlarge, rect.height * enlarge)
 
             # Append
             button = [
                 False,  # is_hovered
                 True,  # toggle status
                 palette_swapped_imgs,  # palette swapped images
-                img_rect,  # image rectangle
+                rect,  # image rectangle
                 hitbox  # hibox
             ]
             self.buttons[name] = button
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        for button in self.buttons.values():
+            is_hovered, toggle_status, palette_swapped_imgs, rect, _ = button
+            toggle_imgs = palette_swapped_imgs["on"] if toggle_status else palette_swapped_imgs["off"]
+            img = toggle_imgs["hover"] if is_hovered else toggle_imgs["up"]
+
+            display.blit(img, rect)
 
     # Functions --------------------------------------------------- #
     def get_button_pressed(self, event):

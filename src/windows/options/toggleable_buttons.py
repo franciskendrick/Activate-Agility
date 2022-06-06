@@ -101,7 +101,14 @@ class ToggleableButtons:
 
     # Functions --------------------------------------------------- #
     def get_button_pressed(self, event):
-        pass
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for (name, button) in self.buttons.items():
+                *_, hitbox = button
+
+                mouse_pos = pygame.mouse.get_pos()
+                if hitbox.collidepoint(mouse_pos):
+                    self.buttons[name][1] = not self.buttons[name][1]
+                    return name
 
     def handle_mousemotion(self, event):
         if event.type == pygame.MOUSEMOTION:

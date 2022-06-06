@@ -325,6 +325,9 @@ def options_loop(from_loop):
                     game_loop]
             },
             "menu": [init_game, menu_loop],
+            "animation": [placeholder],
+            "music": [placeholder],
+            "sound": [placeholder],
             None: [placeholder]
         }
     except NameError:  # in menu or gameover
@@ -334,6 +337,9 @@ def options_loop(from_loop):
                 "gameover": [init_game, game_loop]
             },
             "menu": [init_game, menu_loop],
+            "animation": [placeholder],
+            "music": [placeholder],
+            "sound": [placeholder],
             None: [placeholder]
         }
 
@@ -355,6 +361,10 @@ def options_loop(from_loop):
             options.redirect_buttons.handle_mousemotion(event)
 
             # Options Toggleable Buttons
+            btn_pressed = options.toggleable_buttons.get_button_pressed(event)
+            for function in btn_switchcase[btn_pressed]:
+                function()
+
             options.toggleable_buttons.handle_mousemotion(event)
         
         # Update

@@ -1,7 +1,7 @@
 from player import Player
 from windows import gameover
 from windows.windows import window, background
-from windows.game import Tiles, PlayerGauge, SpecialColorVisualIdentifier, Countdown, Score, HighScore
+from windows.game import Game
 from windows.menu import Menu
 from windows.options import Options
 from windows.gameover import GameOver
@@ -18,8 +18,6 @@ def placeholder():  # !!!
 
 def init_game():
     global player
-    global tiles, speicalcolor_visual_identifier
-    global countdown, player_gauge, score, high_score
     global start_of_game, start_of_gamesession, end_of_game
 
     # Player
@@ -27,13 +25,8 @@ def init_game():
     player.init_rect()
     player.init_status()
 
-    # Initialize Game Variables
-    tiles = Tiles()
-    speicalcolor_visual_identifier = SpecialColorVisualIdentifier(
-        tiles.specialtile_color)
-    countdown = Countdown()
-    player_gauge = PlayerGauge(player.maximum_stats)
-    score = Score()
+    # Initialize Game Objects
+    game.init_objects(player.maximum_stats)
 
     # Time 
     start_of_game = time.perf_counter()
@@ -41,23 +34,15 @@ def init_game():
     end_of_game = None
 
     # Intialize Countdown & Color Visual Identifier's start_of_game
-    countdown.init_startofgame(start_of_game)
-    speicalcolor_visual_identifier.init_startofgame(start_of_game)
+    game.init_startofgame(start_of_game)
 
 
 def restart_gamesession():
     global player
-    global tiles, speicalcolor_visual_identifier
-    global countdown, player_gauge, score, high_score
     global start_of_game, start_of_gamesession, end_of_game
 
-    # Initialize Game Variables
-    tiles = Tiles()
-    speicalcolor_visual_identifier = SpecialColorVisualIdentifier(
-        tiles.specialtile_color)
-    countdown = Countdown()
-    player_gauge = PlayerGauge(player.maximum_stats)
-    score = Score()
+    # Initialize Game Objects
+    game.init_objects(player.maximum_stats)
 
     # Time 
     start_of_game = time.perf_counter()
@@ -65,8 +50,7 @@ def restart_gamesession():
     end_of_game = None
 
     # Intialize Countdown & Color Visual Identifier's start_of_game
-    countdown.init_startofgame(start_of_game)
-    speicalcolor_visual_identifier.init_startofgame(start_of_game)
+    game.init_startofgame(start_of_game)
 
 
 def restart_game():
@@ -74,9 +58,7 @@ def restart_game():
     global start_of_game, end_of_game
 
     # Reset Game Variables
-    tiles.init()
-    speicalcolor_visual_identifier.init(tiles.specialtile_color)
-    countdown.init()
+    game.reset_objects()
 
     # Player
     player.on_specialtile = False
@@ -86,30 +68,23 @@ def restart_game():
     end_of_game = None
 
     # Intialize Countdown & Color Visual Identifier's start_of_game
-    countdown.init_startofgame(start_of_game)
-    speicalcolor_visual_identifier.init_startofgame(start_of_game)
+    game.init_startofgame(start_of_game)
 
 
 def restart_startofgame():
     # Restart Countdown & Color Visual Identifier's start_of_game
     new_startofgame = time.perf_counter()
-    countdown.init_startofgame(new_startofgame)
-    speicalcolor_visual_identifier.init_startofgame(new_startofgame)
+    game.init_startofgame(new_startofgame)
 
 
 # Redraws --------------------------------------------------------- #
-def redraw_game():
+def redraw_game():  
     # Background
     display.fill(background.color)
     background.draw_walls(display)
-    tiles.draw(display)
 
-    # Windows.Game
-    player_gauge.draw(display)
-    speicalcolor_visual_identifier.draw(display)
-    countdown.draw(display)
-    score.draw(display)
-    high_score.draw(display)
+    # Game
+    game.draw(display)
 
     # Player
     player.draw(display)
@@ -161,7 +136,7 @@ def redraw_gameover():
     # Background
     display.fill(background.color)
     background.draw_walls(display)
-    tiles.draw(display)
+    game.tiles.draw(display)
 
     # Player
     player.draw(display)
@@ -180,7 +155,7 @@ def redraw_paused():
     # Background
     display.fill(background.color)
     background.draw_walls(display)
-    tiles.draw(display)
+    game.tiles.draw(display)
 
     # Pause's Background
     paused.draw_background(display)
@@ -207,7 +182,7 @@ def game_loop():
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                window.update_gameinfo(high_score.value)
+                window.update_gameinfo(game.highscore.value)
                 run = False
 
             if event.type == pygame.KEYDOWN:
@@ -217,20 +192,18 @@ def game_loop():
 
         # Player
         player.update(
-            tiles.speicaltile_rects,
-            countdown.time_remaining)
+            game.tiles.speicaltile_rects,
+            game.countdown.time_remaining)
 
-        # Windows.Game
-        player_gauge.update(player.stats)
-        speicalcolor_visual_identifier.update()
-        countdown.update()
+        # Game
+        game.update(player.stats)
 
         # Countdown is Over
-        if countdown.time_remaining == 0:
+        if game.countdown.time_remaining == 0:
             # Win of Loss
             if player.on_specialtile:  # win
                 # Update Tiles' State
-                tiles.update_tiles_to_winstate()
+                game.tiles.update_tiles_to_winstate()
 
                 if end_of_game == None:
                     # Update End of Game Time
@@ -241,16 +214,16 @@ def game_loop():
                         player.stats["mana"] += 1
 
                     # Add to Score
-                    score.value += 1
+                    game.score.value += 1
 
                     # Add to Highscore
-                    if score.value > high_score.value:
-                        high_score.value = score.value
+                    if game.score.value > game.highscore.value:
+                        game.highscore.value = game.score.value
             else:  # loss
                 # Update Tiles' State
-                tiles.update_tiles_to_lossdissipation()
+                game.tiles.update_tiles_to_lossdissipation()
 
-                if tiles.dissipated and end_of_game == None:
+                if game.tiles.dissipated and end_of_game == None:
                     # Update End of Game Time
                     end_of_game = time.perf_counter()
 
@@ -294,7 +267,7 @@ def menu_loop():
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                window.update_gameinfo(high_score.value)
+                window.update_gameinfo(game.highscore.value)
                 run = False
 
             # Menu Buttons
@@ -322,7 +295,7 @@ def options_loop(from_loop):
         btn_switchcase = {
             "play": {
                 "pause": [
-                    countdown.restart_countdown_time, 
+                    game.countdown.restart_countdown_time, 
                     restart_startofgame,
                     game_loop]
             },
@@ -353,7 +326,7 @@ def options_loop(from_loop):
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                window.update_gameinfo(high_score.value)
+                window.update_gameinfo(game.highscore.value)
                 run = False
 
             # Options Redirect Buttons
@@ -388,8 +361,8 @@ def gameover_loop():
 
     # Initialize GameOver Status & Animation
     gameover.init_status(
-        score.value, 
-        high_score.value, 
+        game.score.value, 
+        game.highscore.value, 
         start_of_gamesession)
     gameover.init_animation()
 
@@ -406,7 +379,7 @@ def gameover_loop():
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                window.update_gameinfo(high_score.value)
+                window.update_gameinfo(game.highscore.value)
                 run = False
 
             # GameOver Buttons
@@ -433,13 +406,13 @@ def paused_loop():
     player.state = "standing"
 
     # Initialize Pause's Status & Animation
-    paused.init_status(score.value, high_score.value)
+    paused.init_status(game.score.value, game.highscore.value)
     paused.init_animation()
 
     # Initialize Paused Buttons Switchcase
     btn_switchcase = {
         "play": [
-            countdown.restart_countdown_time, 
+            game.countdown.restart_countdown_time, 
             restart_startofgame, 
             game_loop],
         "restart": [init_game, game_loop],
@@ -453,13 +426,13 @@ def paused_loop():
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                window.update_gameinfo(high_score.value)
+                window.update_gameinfo(game.highscore.value)
                 run = False
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     # Restart Countdown Time
-                    countdown.restart_countdown_time()
+                    game.countdown.restart_countdown_time()
                         
                     # Restart Countdown & Color Visual Identifier's start_of_game
                     restart_startofgame()
@@ -500,14 +473,15 @@ if __name__ == "__main__":
     # Initialize Player
     player = Player()
 
-    # Initialize Highscore
-    high_score = HighScore()
-    
     # Initialize Windows
+    game = Game()
     menu = Menu()
     options = Options()
     gameover = GameOver()
     paused = Paused()
+
+    # Initialize Highscore
+    game.init_highscore()
 
     # Execute
     menu_loop()

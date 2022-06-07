@@ -18,9 +18,13 @@ with open(f"{resources_path}/options.json") as json_file:
 
 class Animation:
     # Initialize -------------------------------------------------- #
-    def __init__(self):
+    def __init__(self, toggleable_buttons):
         self.init_dropdown()
-        self.init_toggleablebuttons()
+        self.init_toggleablebuttons(toggleable_buttons)
+
+        self.idx = 0
+        self.update = True
+        self.frame_limit = 7
 
     def init_dropdown(self):
         # DropDown
@@ -65,4 +69,29 @@ class Animation:
         
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        # Cancel Update
+        if self.idx >= self.frame_limit * 3:
+            self.idx = (self.frame_limit - 1) * 3
+            self.update = False
+
+        # Draw
+        self.draw_dropdown(display)
+        self.draw_toggleablebuttons(display)
+
+        # Update
+        if self.update:
+            self.idx += 1
+
+    def draw_dropdown(self, display):
+        position = self.dropdown_positions[self.idx // 3]
+        if position != None:
+            display.blit(self.dropdown_image, position)
+
+    def draw_toggleablebuttons(self, display):
+        for (img, positions) in zip(self.toggleable_btns_images.values(), self.toggleable_btns_positions.values()):
+            # Get Position
+            pos = positions[self.idx // 3]
+
+            # Draw
+            if pos != None:
+                display.blit(img, pos)

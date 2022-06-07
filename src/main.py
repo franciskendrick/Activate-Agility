@@ -342,6 +342,9 @@ def options_loop(from_loop):
             None: [placeholder]
         }
 
+    # Initialize GameOver Status & Animation
+    options.init_animation()
+
     # Loop
     run = True
     while run:

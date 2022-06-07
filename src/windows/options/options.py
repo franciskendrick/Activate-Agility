@@ -1,4 +1,5 @@
 from windows.windows import window
+from .animation import Animation
 from .background import Background
 from .title import Title
 from .redirect_buttons import RedirectButtons
@@ -22,6 +23,9 @@ class Options:
         self.title = Title()
         self.redirect_buttons = RedirectButtons()
         self.toggleable_buttons = ToggleableButtons()
+
+    def init_animation(self):
+        self.animation = Animation()
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

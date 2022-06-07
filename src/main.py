@@ -144,6 +144,9 @@ def redraw_options():
     display.fill(background.color)
     background.draw_walls(display)
 
+    # Player
+    player.draw(display)
+
     # Options
     options.draw(display)
 

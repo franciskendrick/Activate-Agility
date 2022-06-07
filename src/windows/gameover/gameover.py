@@ -17,8 +17,8 @@ class GameOver:
         self.display = pygame.Surface(
             (wd // 3, ht // 3), pygame.SRCALPHA)
         self.display.convert_alpha()
-        self.rect = pygame.Rect((
-            0, 0), self.display.get_size())
+        self.rect = pygame.Rect(
+            (0, 0), self.display.get_size())
 
         self.background = Background()
         self.title = Title()

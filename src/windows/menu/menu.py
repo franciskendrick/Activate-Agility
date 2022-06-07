@@ -14,8 +14,8 @@ class Menu:
         self.display = pygame.Surface(
             (wd // 2, ht // 2), pygame.SRCALPHA)
         self.display.convert_alpha()
-        self.rect = pygame.Rect((
-            0, 0), self.display.get_size())
+        self.rect = pygame.Rect(
+            (0, 0), self.display.get_size())
 
         self.tiles = Tiles()
         self.title = Title()

@@ -23,7 +23,9 @@ def init_game():
     global start_of_game, start_of_gamesession, end_of_game
 
     # Player
-    player.reset_stats()
+    player.reset_statedirection()
+    player.init_rect()
+    player.init_status()
 
     # Initialize Game Variables
     tiles = Tiles()

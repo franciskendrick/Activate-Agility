@@ -89,15 +89,6 @@ class Player:
     def init_direction(self):
         self.direction = "down"
 
-    def init_rect(self):
-        size = self.images[self.state][self.direction][self.idx].get_rect().size
-        self.rect = pygame.Rect(player_data["starting_position"], size)
-
-    def init_hitbox(self):
-        pos = self.get_hitbox_pos()
-        size = player_data["hitbox_size"]
-        self.hitbox = pygame.Rect(pos, size)
-
     def init_movement(self):
         # Velocities
         self.walk_vel = 3
@@ -117,6 +108,15 @@ class Player:
         # Regeneration Time
         self.stamina_regenerate = 1000  # milliseconds
 
+    def init_rect(self):
+        size = self.images[self.state][self.direction][0].get_rect().size
+        self.rect = pygame.Rect(player_data["starting_position"], size)
+
+    def init_hitbox(self):
+        pos = self.get_hitbox_pos()
+        size = player_data["hitbox_size"]
+        self.hitbox = pygame.Rect(pos, size)
+
     def init_winningstate(self):
         self.on_specialtile = False
 
@@ -124,10 +124,6 @@ class Player:
         self.maximum_stats = {
             "health": 3,
             "mana": 5,
-            "stamina": 20}
-        self.original_stats = {
-            "health": 3,
-            "mana": 0,
             "stamina": 20}
         self.stats = {
             "health": 3,
@@ -311,6 +307,7 @@ class Player:
             self.last_walk = time.perf_counter()
             self.last_sprint = time.perf_counter()
 
-    # Stats
-    def reset_stats(self):
-        self.stats = self.original_stats.copy()
+    # Reset
+    def reset_statedirection(self):
+        self.direction = "down"
+        self.state = "standing"

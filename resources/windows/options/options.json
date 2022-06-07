@@ -1,4 +1,44 @@
 {
+    "dropdown_positions": {
+        "background": [
+            [null, null],
+            [48, -77],
+            [48, -65],
+            [48, -45],
+            [48, -19],
+            [48, 8],
+            [48, 26]
+        ],
+        "toggleable_buttons": {
+            "animation": [
+                [null, null],
+                [null, null],
+                [null, null],
+                [null, null],
+                [79, 4],
+                [79, 31],
+                [79, 49]
+            ],
+            "music": [
+                [null, null],
+                [null, null],
+                [null, null],
+                [109, -8],
+                [109, 18],
+                [109, 45],
+                [109, 63]
+            ],
+            "sound": [
+                [null, null],
+                [null, null],
+                [null, null],
+                [71, -8],
+                [71, 18],
+                [71, 45],
+                [71, 63]
+            ]
+        }
+    },
     "background_position": [48, 26],
     "title_position": [68, 32],
     "buttons_position": {

@@ -23,7 +23,7 @@ class RedirectButtons:
     def __init__(self):
         spriteset = pygame.image.load(
             f"{resources_path}/redirect_buttons.png")
-        order = ["play", "menu"]
+        order = ["back", "play", "menu"]
         images = clip_set_to_list_on_xaxis(spriteset)
         enlarge = 3 * window.enlarge
 

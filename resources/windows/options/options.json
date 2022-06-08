@@ -42,8 +42,9 @@
     "background_position": [48, 26],
     "title_position": [68, 32],
     "buttons_position": {
-        "play": [85, 79],
-        "menu": [108, 79],
+        "back": [74, 83],
+        "play": [97, 79],
+        "menu": [120, 79],
         "animation": [79, 49],
         "music": [109, 63],
         "sound": [71, 63]

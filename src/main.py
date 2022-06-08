@@ -291,8 +291,14 @@ def options_loop(from_loop):
     global options
 
     # Initialize Options Buttons Switchcase
+    backbtn_switchcase = {
+        "pause": [paused_loop],
+        "menu": [menu_loop],
+        "gameover": [gameover_loop],
+    }
     try:  # from pause
         btn_switchcase = {
+            "back": backbtn_switchcase[from_loop],
             "play": {
                 "pause": [
                     game.countdown.restart_countdown_time, 
@@ -305,8 +311,9 @@ def options_loop(from_loop):
             "sound": [placeholder],
             None: [placeholder]
         }
-    except NameError:  # from menu or gameover
+    except (NameError, AttributeError):  # from menu or gameover
         btn_switchcase = {
+            "back": backbtn_switchcase[from_loop],
             "play": {
                 "menu": [init_game, game_loop],
                 "gameover": [init_game, game_loop]

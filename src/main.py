@@ -114,10 +114,18 @@ def redraw_menu():
     pygame.display.update()
 
 
-def redraw_options():
+def redraw_options(from_loop):
     # Background
     display.fill(background.color)
     background.draw_walls(display)
+
+    # Tiles
+    if from_loop == "menu":
+        menu.tiles.draw(display)
+    elif from_loop == "pause":
+        paused.tiles.draw(display)
+    elif from_loop == "gameover":
+        game.tiles.draw(display)
 
     # Player
     player.draw(display)
@@ -296,7 +304,7 @@ def options_loop(from_loop):
     backbtn_switchcase = {
         "pause": [paused_loop],
         "menu": [menu_loop],
-        "gameover": [gameover_loop],
+        "gameover": [gameover_loop]
     }
     try:  # from pause
         btn_switchcase = {
@@ -358,7 +366,7 @@ def options_loop(from_loop):
             options.toggleable_buttons.handle_mousemotion(event)
         
         # Update
-        redraw_options()
+        redraw_options(from_loop)
         clock.tick(window.framerate)
 
     pygame.quit()

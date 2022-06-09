@@ -188,7 +188,7 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 # Pause Game
                 if event.key == pygame.K_ESCAPE:
-                    paused_loop()
+                    paused_loop("game")
 
         # Player
         player.update(
@@ -290,6 +290,8 @@ def menu_loop():
 def options_loop(from_loop):
     global options
 
+    isfrom_paused = True if from_loop == "pause" else False
+
     # Initialize Options Buttons Switchcase
     backbtn_switchcase = {
         "pause": [paused_loop],
@@ -340,8 +342,11 @@ def options_loop(from_loop):
             btn_pressed = options.redirect_buttons.get_button_pressed(event)
             functions = btn_switchcase[btn_pressed]
             functions = functions[from_loop] if btn_pressed == "play" else functions
-            for function in functions:
-                function()
+            if isfrom_paused and btn_pressed == "back":
+                functions[0]("options")
+            else:
+                for function in functions:
+                    function()
 
             options.redirect_buttons.handle_mousemotion(event)
 
@@ -406,7 +411,7 @@ def gameover_loop():
     sys.exit()
 
 
-def paused_loop():
+def paused_loop(from_loop):
     global paused
 
     # Change Player's State to Idle/Standing
@@ -415,6 +420,8 @@ def paused_loop():
     # Initialize Pause's Status & Animation
     paused.init_status(game.score.value, game.highscore.value)
     paused.init_animation()
+    if from_loop != "options":
+        paused.init_tiles()
 
     # Initialize Paused Buttons Switchcase
     btn_switchcase = {

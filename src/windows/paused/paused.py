@@ -31,6 +31,8 @@ class Paused:
         self.animation = Animation(
             self.status.score["text"],
             self.status.high_score["text"])
+
+    def init_tiles(self):
         self.tiles = Tiles()
 
     # Draw -------------------------------------------------------- #

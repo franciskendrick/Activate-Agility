@@ -72,7 +72,7 @@ class Buttons:
     
     # Functions --------------------------------------------------- #
     def get_button_pressed(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             for (name, button) in self.buttons.items():
                 *_, hitbox = button
 

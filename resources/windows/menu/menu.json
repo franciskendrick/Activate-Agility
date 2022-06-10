@@ -1,9 +1,9 @@
 {
     "tiles_position": [32, 60],
-    "board_position": [82, 37],
-    "title_position": [87, 42],
+    "board_position": [78, 31],
+    "title_position": [86, 39],
     "buttons_position": {
-        "play": [133, 117],
-        "options": [117, 141]
+        "play": [133, 116],
+        "options": [117, 140]
     }
 }

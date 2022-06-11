@@ -27,7 +27,7 @@ class Animation:
         self.frame_limit = 7
 
     def init_dropdown(self):
-        # DropDown
+        # DropDown Image
         self.dropdown_image = pygame.image.load(
             f"{resources_path}/drop_down.png")
 

@@ -303,7 +303,7 @@ def options_loop(from_loop):
     # Initialize Options Buttons Switchcase
     backbtn_switchcase = {
         "pause": [paused_loop],
-        "menu": [menu_loop],
+        "menu": [init_game, menu_loop],
         "gameover": [gameover_loop]
     }
     try:  # from pause
@@ -315,7 +315,7 @@ def options_loop(from_loop):
                     restart_startofgame,
                     game_loop]
             },
-            "menu": [menu_loop],
+            "menu": [init_game, menu_loop],
             "animation": [placeholder],
             "music": [placeholder],
             "sound": [placeholder],
@@ -328,7 +328,7 @@ def options_loop(from_loop):
                 "menu": [init_game, game_loop],
                 "gameover": [init_game, game_loop]
             },
-            "menu": [menu_loop],
+            "menu": [init_game, menu_loop],
             "animation": [placeholder],
             "music": [placeholder],
             "sound": [placeholder],
@@ -390,7 +390,7 @@ def gameover_loop():
     btn_switchcase = {
         "play": [init_game, game_loop],
         "options": options_loop,
-        "menu": [menu_loop],
+        "menu": [init_game, menu_loop],
         None: [placeholder]
     }
     
@@ -439,7 +439,7 @@ def paused_loop(from_loop):
             game_loop],
         "restart": [init_game, game_loop],
         "options": options_loop,
-        "menu": [menu_loop],
+        "menu": [init_game, menu_loop],
         None: [placeholder]
     }
 

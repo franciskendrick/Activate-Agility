@@ -1,4 +1,5 @@
 from windows.windows import window
+from .animation import Animation
 from .tiles import Tiles
 from .title import Title
 from .buttons import Buttons
@@ -20,6 +21,9 @@ class Menu:
         self.tiles = Tiles()
         self.title = Title()
         self.buttons = Buttons()
+
+    def init_animation(self):
+        self.animation = Animation()
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):

@@ -59,4 +59,25 @@ class Animation:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        pass
+        # Cancel Update
+        if self.idx >= self.frame_limit * 3:
+            self.idx = (self.frame_limit - 1) * 3
+            self.update = False
+
+        # Draw
+        self.draw_title(display)
+        self.draw_buttons(display)
+
+        # Update
+        if self.update:
+            self.idx += 1
+
+    def draw_title(self, display):
+        position = self.title_positions[self.idx // 3]
+        if position != None:
+            display.blit(self.title_image, position)
+
+    def draw_buttons(self, display):
+        position = self.buttons_positions[self.idx // 3]
+        if position != None:
+            display.blit(self.buttons_image, position)

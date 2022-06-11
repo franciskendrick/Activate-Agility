@@ -30,7 +30,7 @@ class Options:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        # Fill Pause Display with Transparent Background
+        # Fill Options Display with Transparent Background
         self.display.fill((0, 0, 0, 0))
         
         # Draw Options Window on Options Display

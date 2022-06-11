@@ -27,12 +27,18 @@ class Menu:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
+        # Fill Menu Display with Transparent Background
+        self.display.fill((0, 0, 0, 0))
+
         # Draw Tiles on Original Display
         self.tiles.draw(display)
 
         # Draw Menu Window on Menu Display
-        self.title.draw(self.display)
-        self.buttons.draw(self.display)
+        if self.animation.update:
+            self.animation.draw(self.display)
+        else:
+            self.title.draw(self.display)
+            self.buttons.draw(self.display)
 
         # Blit to Menu Display to Original Display
         resized_display = pygame.transform.scale(

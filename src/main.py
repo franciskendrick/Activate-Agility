@@ -262,8 +262,11 @@ def game_loop():
 
 def menu_loop():
     global menu
-    
-    # Initialize Menu Buttons Switchcase
+
+    # Initialize Menu's Animation
+    menu.init_animation()
+
+    # Initialize Menu's Buttons Switchcase
     btn_switchcase = {
         "play": [init_game, game_loop],
         "options": options_loop,
@@ -300,7 +303,10 @@ def options_loop(from_loop):
 
     isfrom_paused = True if from_loop == "pause" else False
 
-    # Initialize Options Buttons Switchcase
+    # Initialize Options' Animation
+    options.init_animation()
+
+    # Initialize Options' Buttons Switchcase
     backbtn_switchcase = {
         "pause": [paused_loop],
         "menu": [init_game, menu_loop],
@@ -334,9 +340,6 @@ def options_loop(from_loop):
             "sound": [placeholder],
             None: [placeholder]
         }
-
-    # Initialize GameOver Status & Animation
-    options.init_animation()
 
     # Loop
     run = True
@@ -379,14 +382,14 @@ def gameover_loop():
     # Change Player's State to Idle/Standing
     player.state = "standing"
 
-    # Initialize GameOver Status & Animation
+    # Initialize GameOver's Status & Animation
     gameover.init_status(
         game.score.value, 
         game.highscore.value, 
         start_of_gamesession)
     gameover.init_animation()
 
-    # Initialize GameOver Buttons Switchcase
+    # Initialize GameOver's Buttons Switchcase
     btn_switchcase = {
         "play": [init_game, game_loop],
         "options": options_loop,
@@ -431,7 +434,7 @@ def paused_loop(from_loop):
     if from_loop != "options":
         paused.init_tiles()
 
-    # Initialize Paused Buttons Switchcase
+    # Initialize Pause's Buttons Switchcase
     btn_switchcase = {
         "play": [
             game.countdown.restart_countdown_time, 

@@ -26,13 +26,14 @@ class Menu:
         self.animation = Animation()
 
     # Draw -------------------------------------------------------- #
-    def draw(self, display):
+    def draw_background(self, display):
         # Fill Menu Display with Transparent Background
         self.display.fill((0, 0, 0, 0))
 
-        # Draw Tiles on Original Display
+        # Draw Menu Tiles on Original Display
         self.tiles.draw(display)
 
+    def draw_menuwindow(self, display):
         # Draw Menu Window on Menu Display
         if self.animation.update:
             self.animation.draw(self.display)

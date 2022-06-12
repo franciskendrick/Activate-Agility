@@ -101,11 +101,14 @@ def redraw_menu():
     display.fill(background.color)
     background.draw_walls(display)
 
-    # Menu
-    menu.draw(display)
+    # Menu's Background
+    menu.draw_background(display)
 
     # Player
     player.draw(display)
+
+    # Menu's Window
+    menu.draw_menuwindow(display)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)

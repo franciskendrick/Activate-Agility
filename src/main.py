@@ -192,14 +192,19 @@ def game_loop():
     run = True
     while run:
         for event in pygame.event.get():
+            # Quit
             if event.type == pygame.QUIT:
                 window.update_gameinfo(game.highscore.value)
                 run = False
 
+            # KeyDown Detection
             if event.type == pygame.KEYDOWN:
                 # Pause Game
                 if event.key == pygame.K_ESCAPE:
                     paused_loop("game")
+
+            # Player Teleportation
+            player.teleport(event)
 
         # Player
         player.update(
@@ -280,6 +285,7 @@ def menu_loop():
     run = True
     while run:
         for event in pygame.event.get():
+            # Quit
             if event.type == pygame.QUIT:
                 window.update_gameinfo(game.highscore.value)
                 run = False
@@ -348,6 +354,7 @@ def options_loop(from_loop):
     run = True
     while run:
         for event in pygame.event.get():
+            # Quit
             if event.type == pygame.QUIT:
                 window.update_gameinfo(game.highscore.value)
                 run = False
@@ -404,6 +411,7 @@ def gameover_loop():
     run = True
     while run:
         for event in pygame.event.get():
+            # Quit
             if event.type == pygame.QUIT:
                 window.update_gameinfo(game.highscore.value)
                 run = False
@@ -453,11 +461,14 @@ def paused_loop(from_loop):
     run = True
     while run:
         for event in pygame.event.get():
+            # Quit
             if event.type == pygame.QUIT:
                 window.update_gameinfo(game.highscore.value)
                 run = False
 
+            # KeyDown Detection
             if event.type == pygame.KEYDOWN:
+                # Back to Game
                 if event.key == pygame.K_ESCAPE:
                     # Restart Countdown Time
                     game.countdown.restart_countdown_time()

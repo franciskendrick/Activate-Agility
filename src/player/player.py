@@ -1,4 +1,5 @@
 from functions import clip_set_to_list_on_xaxis, separate_sets_from_yaxis, edge_collision
+from windows.windows import window
 import pygame
 import json
 import time
@@ -140,7 +141,7 @@ class Player:
         self.rect = pygame.Rect(player_data["starting_position"], size)
 
     def init_hitbox(self):
-        pos = self.get_hitbox_pos()
+        pos = self.get_hitbox_pos_from_rect()
         size = player_data["hitbox_size"]
         self.hitbox = pygame.Rect(pos, size)
 
@@ -200,7 +201,7 @@ class Player:
 
     # Hitbox
     def update_hitbox(self):
-        x, y = self.get_hitbox_pos()
+        x, y = self.get_hitbox_pos_from_rect()
         self.hitbox.x = x
         self.hitbox.y = y
 
@@ -276,10 +277,16 @@ class Player:
         if not edge_collision(handle_hitbox):
             self.rect.y += vel
 
-    # Hitbox
-    def get_hitbox_pos(self):
+    # Rectagnle & Hitbox
+    def get_hitbox_pos_from_rect(self):
         x_offset, y_offset = player_data["recttohitbox_offset"]
         pos = (self.rect.x + x_offset, self.rect.y + y_offset)
+
+        return pos
+
+    def get_rect_pos_from_hitbox(self):
+        x_offset, y_offset = player_data["recttohitbox_offset"]
+        pos = (self.hitbox.x - x_offset, self.hitbox.y - y_offset)
 
         return pos
 
@@ -330,6 +337,27 @@ class Player:
             # Update Walk and Sprint Time
             self.last_walk = time.perf_counter()
             self.last_sprint = time.perf_counter()
+
+    # Teleportation
+    def teleport(self, event):
+        # Checks if Player's Mana is Sufficient to Use the Teleport Skill (mana == 5)
+        sufficient_mana = self.stats["mana"] == self.maximum_stats["mana"]
+        # Checks if Mouse's Left Click is Down
+        leftclick_down = event.type == pygame.MOUSEBUTTONDOWN and event.button == 1
+
+        # If Statement
+        if sufficient_mana and leftclick_down:
+            # Teleport Player's Hitbox Center to Mouse Position when Left-Clicked
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            self.hitbox.centerx = mouse_x / window.enlarge
+            self.hitbox.centery = mouse_y / window.enlarge
+
+            # Offset the Position of Player
+            position = self.get_rect_pos_from_hitbox()
+            self.rect.x, self.rect.y = position
+
+            # Clears Mana
+            self.stats["mana"] = 0
 
     # Reset
     def reset_statedirection(self):

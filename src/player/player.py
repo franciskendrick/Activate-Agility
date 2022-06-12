@@ -22,82 +22,103 @@ class Player:
     # Initialize -------------------------------------------------- #
     def __init__(self):
         self.init_images()
-        self.init_direction()
         self.init_movement()
         self.init_rect()
         self.init_hitbox()
         self.init_winningstate()
         self.init_status()
 
-    def init_images(self):
-        direction_order = ["down", "up", "right", "left"]
         self.idx = 0
+        self.maximum_stats = {
+            "health": 3,
+            "mana": 5,
+            "stamina": 20}
+
+    # Initialize Images
+    def init_images(self):
+        # Get Moving Spriteset
+        moving_spriteset = pygame.image.load(
+            f"{resources_path}/moving.png")
+        
+        # Seperate Moving Spriteset to their Directions
+        seperated_movingspriteset = separate_sets_from_yaxis(
+            moving_spriteset, (255 , 0, 0)) 
+
+        # Images
+        self.images = {
+            "standing": self.get_idleimages(),
+            "walking": self.get_walkimages(seperated_movingspriteset),
+            "sprinting": self.get_sprintimages(seperated_movingspriteset)
+        }
+
+    def get_idleimages(self):
+        direction_order = ["down", "up", "right", "left"]
 
         # Get Idle Spriteset
         spriteset = pygame.image.load(
             f"{resources_path}/idle.png")
-        idle_spriteset = separate_sets_from_yaxis(
+
+        # Seperate Idle Spriteset to their Directions
+        separated_spriteset = separate_sets_from_yaxis(
             spriteset, (255, 0, 0))
 
-        # Get Moving Spriteset
-        spriteset = pygame.image.load(
-            f"{resources_path}/moving.png")
-        moving_spriteset = separate_sets_from_yaxis(
-            spriteset, (255, 0, 0))
+        # Put Idle Images into a Dictionary
+        images = {}
+        for name, spriteset in zip(direction_order, separated_spriteset):
+            images[name] = clip_set_to_list_on_xaxis(spriteset)
 
-        # Get Walk Images from Moving Spriteset
-        walk_images = {}
+        # Return Images
+        return images 
+
+    def get_walkimages(self, seperated_movingspriteset):
+        direction_order = ["down", "up", "right", "left"]
         order_idxs = [0, 1, 0, 3]
-        for name, spriteset in zip(direction_order, moving_spriteset):
-            # Seperate Moving Spriteset
+
+        # Put Walk Images into a Dictionary
+        images = {}
+        for name, spriteset in zip(direction_order, seperated_movingspriteset):
+            # Separate Moving Spriteset to their Sprites
             sprites = clip_set_to_list_on_xaxis(spriteset)
 
-            # Get Sprite List
-            sprite_list = []
-            for idx in order_idxs:
-                sprite_list.append(sprites[idx])
+            # Order the Moving Spriteset's Sprites to Make a Walk Animation
+            ordered_sprites = [sprites[idx] for idx in order_idxs]
 
-            # Append
-            walk_images[name] = sprite_list
+            # Append Ordered Sprites
+            images[name] = ordered_sprites
 
-        # Get Sprint Images from Moving Spriteset
-        sprint_images = {}
+        # Return Images
+        return images
+
+    def get_sprintimages(self, seperated_movingspriteset):
+        direction_order = ["down", "up", "right", "left"]
         order_idxs = [0, 1, 2, 1, 0, 3, 4, 3]
-        for name, spriteset in zip(direction_order, moving_spriteset):
-            # Seperate Moving Spriteset
+
+        # Put Sprint Images into a Dictionary
+        images = {}
+        for name, spriteset in zip(direction_order, seperated_movingspriteset):
+            # Seperate Moving Spriteset to their Sprites
             sprites = clip_set_to_list_on_xaxis(spriteset)
 
-            # Get Sprite List
-            sprite_list = []
-            for idx in order_idxs:
-                sprite_list.append(sprites[idx])
+            # Order the Moving Spriteset's Sprites to Make a Sprint Animation
+            ordered_sprites = [sprites[idx] for idx in order_idxs]
 
-            # Append
-            sprint_images[name] = sprite_list
+            # Append Ordered Sprites
+            images[name] = ordered_sprites
 
-        # Images
-        self.images = {
-            "standing": {
-                name:clip_set_to_list_on_xaxis(spriteset) 
-                    for name, spriteset in zip(
-                        direction_order, idle_spriteset)
-            },
-            "walking": walk_images,
-            "sprinting": sprint_images
-        }
+        # Return Images
+        return images
 
-    def init_direction(self):
-        self.direction = "down"
-
+    # Movement
     def init_movement(self):
         # Velocities
         self.walk_vel = 3
         self.sprint_vel = 5
 
-        # State
+        # State & Direction
         self.state = "standing"
+        self.direction = "down"
 
-        # Sprint Time 
+        # Sprint Time
         self.last_sprint = time.perf_counter()
         self.sprint_stamina_degenerate = 125  # milliseconds
 
@@ -105,9 +126,15 @@ class Player:
         self.last_walk = time.perf_counter()
         self.walk_stamina_degenerate = 800  # milliseconds
 
-        # Regeneration Time
+        # Regeneration
         self.stamina_regenerate = 1000  # milliseconds
+        self.generate_stamina_switchcase = {
+            "walking": self.degenerate_stamina_onwalk,
+            "sprinting": self.degenerate_stamina_onsprint,
+            "standing": self.regenerate_stamina
+        }   
 
+    # Rectangles
     def init_rect(self):
         size = self.images[self.state][self.direction][0].get_rect().size
         self.rect = pygame.Rect(player_data["starting_position"], size)
@@ -117,14 +144,11 @@ class Player:
         size = player_data["hitbox_size"]
         self.hitbox = pygame.Rect(pos, size)
 
+    # Status
     def init_winningstate(self):
         self.on_specialtile = False
 
     def init_status(self):
-        self.maximum_stats = {
-            "health": 3,
-            "mana": 5,
-            "stamina": 20}
         self.stats = {
             "health": 3,
             "mana": 0,
@@ -133,10 +157,11 @@ class Player:
     # Draw -------------------------------------------------------- #
     def draw(self, display):
         images = self.images[self.state][self.direction]
+
         # Reset
         if self.idx >= len(images) * 5:
             self.idx = 0
-
+        
         # Draw
         img = images[self.idx // 5]
         display.blit(img, self.rect)
@@ -153,24 +178,22 @@ class Player:
     def movement(self):
         keys = pygame.key.get_pressed()
 
-        # Check Standing State
-        self.check_standing_state()
+        # Check if Player is Standing
+        self.check_if_standing()
 
         # Movement
+        # if left-shift is down AND player's stamina is more than zero
         if keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:  # sprinting
             self.sprint_movement()
+        # if left-shift is up AND player's stamina is more than zero
         elif not keys[pygame.K_LSHIFT] and self.stats["stamina"] > 0:  # walking
             self.walk_movement()
-        elif self.stats["stamina"] <= 0:  # standint
+        # if player's stamina is less than or equal to zero
+        elif self.stats["stamina"] <= 0:  # standing
             self.state = "standing"
 
         # Update Stamina Regeneration
-        if self.state == "walking":  # degenerate stamina (on walking)
-            self.degenerate_stamina_onwalk()
-        elif self.state == "sprinting":  # degenerate stamina (on sprinting)
-            self.degenerate_stamina_onsprint()
-        elif self.state == "standing":  # regenerate stamina (standing)
-            self.regenerate_stamina()
+        self.generate_stamina_switchcase[self.state]()
 
         # Update Hitbox Position
         self.update_hitbox()
@@ -181,14 +204,15 @@ class Player:
         self.hitbox.x = x
         self.hitbox.y = y
 
-    # Speical Tile Collision
+    # Special Tile Collision
     def specialtile_collision(self, specialtile_rects, time_remaining):
-        # Detect if Player is on Special Tile on Time Remaining: 0
-        if time_remaining == 0:  # time remaining is at zero
-            for tile_rect in specialtile_rects:  # loop through all rects of speical tiles
-                if self.hitbox.colliderect(tile_rect):  # check of player and tile collision
-                    self.on_specialtile = True 
-            specialtile_rects.clear()
+        if time_remaining > 0:  # check if time remaining is greater than zero so bugs won't occur
+            for tile_rect in specialtile_rects:  # loop throught all rects of speical tiles
+                if self.hitbox.colliderect(tile_rect):  # check if player and tile is colliding
+                    self.on_specialtile = True
+                    break
+                else:
+                    self.on_specialtile = False
 
     # Functions --------------------------------------------------- #
     # Movement & Direction
@@ -260,7 +284,7 @@ class Player:
         return pos
 
     # Check State
-    def check_standing_state(self):
+    def check_if_standing(self):
         keys = pygame.key.get_pressed()
         
         # Get Conditions
@@ -269,7 +293,7 @@ class Player:
         not_up = not keys[pygame.K_w]
         not_down = not keys[pygame.K_s]
 
-        # Check State
+        # Check if Player is Standing
         if not_left and not_right and not_up and not_down:
             self.state = "standing"
 
@@ -287,7 +311,7 @@ class Player:
             if self.stats["stamina"] > 0:
                 self.stats["stamina"] -= 1
             self.last_sprint = time.perf_counter()
-
+    
     def regenerate_stamina(self):
         # Get Delta Time
         walk_dt = time.perf_counter() - self.last_walk

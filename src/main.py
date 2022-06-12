@@ -61,7 +61,7 @@ def restart_game():
     game.reset_objects()
 
     # Player
-    player.on_specialtile = False
+    player.init_winningstate()
 
     # Time
     start_of_game = time.perf_counter()

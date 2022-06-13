@@ -6,7 +6,7 @@ from windows.menu import Menu
 from windows.options import Options
 from windows.gameover import GameOver
 from windows.paused import Paused
-from cursors import NormalCursor
+from cursors import NormalCursor, SkillCrosshair
 import pygame
 import time
 import sys
@@ -91,7 +91,10 @@ def redraw_game():
     player.draw(display)
 
     # Cursor
-    cursor.draw(display)
+    if player.stats["mana"] >= player.maximum_stats["mana"]:
+        crosshair.draw(display)
+    else:
+        cursor.draw(display)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
@@ -232,6 +235,7 @@ def game_loop():
 
         # Cursor
         cursor.update()
+        crosshair.update()
 
         # Countdown is Over
         if game.countdown.time_remaining == 0:
@@ -319,6 +323,7 @@ def menu_loop():
             
         # Cursor
         cursor.update()
+        crosshair.update()
 
         # Update
         redraw_menu()
@@ -401,6 +406,7 @@ def options_loop(from_loop):
         
         # Cursor
         cursor.update()
+        crosshair.update()
 
         # Update
         redraw_options(from_loop)
@@ -451,6 +457,7 @@ def gameover_loop():
 
         # Cursor
         cursor.update()
+        crosshair.update()
 
         # Update
         redraw_gameover()
@@ -517,6 +524,7 @@ def paused_loop(from_loop):
         
         # Cursor
         cursor.update()
+        crosshair.update()
 
         # Update
         redraw_paused()
@@ -555,6 +563,7 @@ if __name__ == "__main__":
 
     # Initialize Cursors
     cursor = NormalCursor()
+    crosshair = SkillCrosshair()
 
     # Execute
     menu_loop()

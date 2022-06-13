@@ -1,3 +1,4 @@
+from windows.windows import window
 import pygame
 import os
 
@@ -13,10 +14,24 @@ resources_path = os.path.abspath(
 
 class SkillCrosshair:
     def __init__(self):
-        pass
+        # Image
+        self.img = pygame.image.load(
+            f"{resources_path}/skill_crosshair.png")
+
+        # Rectangle
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        wd, ht = self.img.get_rect().size
+        self.rect = pygame.Rect(
+            mouse_x - (wd / 2), mouse_y - (wd / 2),
+            wd, ht)
 
     def draw(self, display):
-        pass
+        if pygame.mouse.get_focused():  # checks if mouse is in the window
+            display.blit(self.img, self.rect)
 
     def update(self):
-        pass
+        # Updates Crosshair's Position
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        self.rect.center = (
+            mouse_x / window.enlarge, 
+            mouse_y / window.enlarge)

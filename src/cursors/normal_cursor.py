@@ -15,11 +15,8 @@ resources_path = os.path.abspath(
 class NormalCursor:
     def __init__(self):
         # Image
-        img = pygame.image.load(
+        self.img = pygame.image.load(
             f"{resources_path}/normal_cursor.png")
-        wd, ht = img.get_rect().size
-        self.img = pygame.transform.scale(
-            img, (wd * 2, ht * 2))
 
         # Rectangle
         self.rect = pygame.Rect(

@@ -90,6 +90,9 @@ def redraw_game():
     # Player
     player.draw(display)
 
+    # Cursor
+    cursor.draw(display)
+
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
     win.blit(resized_display, (0, 0))
@@ -110,6 +113,9 @@ def redraw_menu():
 
     # Menu's Window
     menu.draw_menuwindow(display)
+
+    # Cursor
+    cursor.draw(display)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
@@ -137,6 +143,9 @@ def redraw_options(from_loop):
     # Options
     options.draw(display)
 
+    # Cursor
+    cursor.draw(display)
+
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
     win.blit(resized_display, (0, 0))
@@ -155,6 +164,9 @@ def redraw_gameover():
 
     # GameOver
     gameover.draw(display)
+
+    # Cursor
+    cursor.draw(display)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
@@ -177,6 +189,9 @@ def redraw_paused():
 
     # Pause's Window
     paused.draw_pausewindow(display)
+
+    # Cursor
+    cursor.draw(display)
 
     # Blit to Screen ---------------------------------------------- #
     resized_display = pygame.transform.scale(display, win_size)
@@ -214,6 +229,9 @@ def game_loop():
 
         # Game
         game.update(player.stats)
+
+        # Cursor
+        cursor.update()
 
         # Countdown is Over
         if game.countdown.time_remaining == 0:
@@ -258,7 +276,6 @@ def game_loop():
             if end_of_game != None:
                 dt = time.perf_counter() - end_of_game
                 if dt * 1000 >= 1000:
-                    # Restart Game
                     restart_game()
 
         # Update
@@ -300,6 +317,9 @@ def menu_loop():
                 btn_switchcase[btn_pressed]("menu")
             menu.buttons.handle_mousemotion(event)
             
+        # Cursor
+        cursor.update()
+
         # Update
         redraw_menu()
         clock.tick(window.framerate)
@@ -379,6 +399,9 @@ def options_loop(from_loop):
 
             options.toggleable_buttons.handle_mousemotion(event)
         
+        # Cursor
+        cursor.update()
+
         # Update
         redraw_options(from_loop)
         clock.tick(window.framerate)
@@ -425,6 +448,9 @@ def gameover_loop():
             else:
                 btn_switchcase[btn_pressed]("gameover")
             gameover.buttons.handle_mousemotion(event)
+
+        # Cursor
+        cursor.update()
 
         # Update
         redraw_gameover()
@@ -488,6 +514,9 @@ def paused_loop(from_loop):
             else:
                 btn_switchcase[btn_pressed]("pause")
             paused.buttons.handle_mousemotion(event)
+        
+        # Cursor
+        cursor.update()
 
         # Update
         redraw_paused()
@@ -509,6 +538,7 @@ if __name__ == "__main__":
     display = pygame.Surface(window.rect.size)
     pygame.display.set_caption("Activate: Agility")
     clock = pygame.time.Clock()
+    pygame.mouse.set_visible(False)
 
     # Initialize Player
     player = Player()
@@ -522,6 +552,9 @@ if __name__ == "__main__":
 
     # Initialize Highscore
     game.init_highscore()
+
+    # Initialize Cursors
+    cursor = NormalCursor()
 
     # Execute
     menu_loop()

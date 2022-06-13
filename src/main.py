@@ -1,11 +1,12 @@
 from player import Player
-from windows import gameover
 from windows.windows import window, background
+from windows.gameover import GameOver
 from windows.game import Game
 from windows.menu import Menu
 from windows.options import Options
 from windows.gameover import GameOver
 from windows.paused import Paused
+from cursors import NormalCursor
 import pygame
 import time
 import sys

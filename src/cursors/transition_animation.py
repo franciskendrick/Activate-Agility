@@ -18,6 +18,7 @@ class TransitionAnimation:
         spriteset = pygame.image.load(
             f"{resources_path}/cursortocrosshair.png")
         self.idx = 0
+        self.frame_limit = 24
         self.is_finished = False
 
         # Images
@@ -36,16 +37,19 @@ class TransitionAnimation:
             wd, ht)
 
     def draw(self, display):
-        # Animation is Finished
-        if self.idx >= len(self.images) * 3:
-            self.is_finished = True
+        if pygame.mouse.get_focused():  # checks if mouse is in the window
+            # Animation is Finished
+            if self.idx >= self.frame_limit * 3:
+                self.idx = self.frame_limit * 3
+                self.is_finished = True
 
-        # Draw
-        img = self.images[self.idx // 3]
-        display.blit(img, self.rect)
+            # Draw
+            img = self.images[self.idx // 3]
+            display.blit(img, self.rect)
 
         # Update
-        self.idx += 1
+        if not self.is_finished:
+            self.idx += 1
 
     def update(self):
         # Updates Crosshair's Position

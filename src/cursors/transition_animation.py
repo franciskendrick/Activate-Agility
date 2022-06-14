@@ -1,4 +1,5 @@
 from functions import clip_set_to_list_on_xaxis
+from windows.windows import window
 import pygame
 import os
 
@@ -14,7 +15,42 @@ resources_path = os.path.abspath(
 
 class TransitionAnimation:
     def __init__(self):
-        pass
+        spriteset = pygame.image.load(
+            f"{resources_path}/cursortocrosshair.png")
+        self.idx = 0
+        self.is_finished = False
 
-    def draw(self):
-        pass
+        # Images
+        self.images = clip_set_to_list_on_xaxis(spriteset)
+
+        # Offset
+        self.offset = (-7, -7)
+
+        # Rectangle
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        x_offset, y_offset = self.offset
+        wd, ht = self.images[self.idx].get_rect().size
+        self.rect = pygame.Rect(
+            (mouse_x - x_offset) - (wd / 2), 
+            (mouse_y - y_offset) - (wd / 2),
+            wd, ht)
+
+    def draw(self, display):
+        # Animation is Finished
+        if self.idx >= len(self.images) * 3:
+            self.is_finished = True
+
+        # Draw
+        img = self.images[self.idx // 3]
+        display.blit(img, self.rect)
+
+        # Update
+        self.idx += 1
+
+    def update(self):
+        # Updates Crosshair's Position
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        x_offset, y_offset = self.offset
+        self.rect.center = (
+            (mouse_x - x_offset) / window.enlarge, 
+            (mouse_y - y_offset) / window.enlarge)

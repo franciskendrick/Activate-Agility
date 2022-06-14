@@ -6,7 +6,7 @@ from windows.menu import Menu
 from windows.options import Options
 from windows.gameover import GameOver
 from windows.paused import Paused
-from cursors import NormalCursor, SkillCrosshair
+from cursors import NormalCursor, SkillCrosshair, TransitionAnimation
 import pygame
 import time
 import sys

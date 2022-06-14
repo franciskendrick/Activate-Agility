@@ -92,6 +92,8 @@ def redraw_game():
 
     # Cursor
     if player.stats["mana"] >= player.maximum_stats["mana"]:
+        cursor_transition.draw(display)
+    elif player.stats["mana"] >= player.maximum_stats["mana"] and cursor_transition.is_finished:
         crosshair.draw(display)
     else:
         cursor.draw(display)
@@ -236,6 +238,7 @@ def game_loop():
         # Cursor
         cursor.update()
         crosshair.update()
+        cursor_transition.update()
 
         # Countdown is Over
         if game.countdown.time_remaining == 0:
@@ -564,6 +567,7 @@ if __name__ == "__main__":
     # Initialize Cursors
     cursor = NormalCursor()
     crosshair = SkillCrosshair()
+    cursor_transition = TransitionAnimation()
 
     # Execute
     menu_loop()

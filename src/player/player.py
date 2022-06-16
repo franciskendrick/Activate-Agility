@@ -1,5 +1,6 @@
 from functions import clip_set_to_list_on_xaxis, separate_sets_from_yaxis, edge_collision
 from windows.windows import window
+from .teleportation_particles import TeleportationParticles
 import pygame
 import json
 import time
@@ -26,6 +27,7 @@ class Player:
         self.init_movement()
         self.init_rect()
         self.init_hitbox()
+        self.init_teleportation()
         self.init_winningstate()
         self.init_status()
 
@@ -144,6 +146,10 @@ class Player:
         pos = self.get_hitbox_pos_from_rect()
         size = player_data["hitbox_size"]
         self.hitbox = pygame.Rect(pos, size)
+
+    # Teleportation
+    def init_teleportation(self):
+        self.t_particles = TeleportationParticles()
 
     # Status
     def init_winningstate(self):

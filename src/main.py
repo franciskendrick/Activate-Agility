@@ -79,7 +79,7 @@ def restart_startofgame():
 
 
 # Redraws --------------------------------------------------------- #
-def redraw_game():  
+def redraw_game():
     # Background
     display.fill(background.color)
     background.draw_walls(display)

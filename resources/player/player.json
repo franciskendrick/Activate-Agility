@@ -1,5 +1,8 @@
 {
     "starting_position": [311, 188],
     "recttohitbox_offset": [2, 23],
-    "hitbox_size": [12, 7]
+    "hitbox_size": [12, 7],
+    "direction_order": ["down", "up", "right", "left"],
+    "walk_index_order": [0, 1, 0, 3],
+    "sprint_index_order": [0, 1, 2, 1, 0, 3, 4, 3]
 }

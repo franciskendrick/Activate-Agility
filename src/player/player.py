@@ -55,8 +55,6 @@ class Player:
         }
 
     def get_idleimages(self):
-        direction_order = ["down", "up", "right", "left"]
-
         # Get Idle Spriteset
         spriteset = pygame.image.load(
             f"{resources_path}/idle.png")
@@ -67,24 +65,21 @@ class Player:
 
         # Put Idle Images into a Dictionary
         images = {}
-        for name, spriteset in zip(direction_order, separated_spriteset):
+        for name, spriteset in zip(player_data["direction_order"], separated_spriteset):
             images[name] = clip_set_to_list_on_xaxis(spriteset)
 
         # Return Images
         return images 
 
     def get_walkimages(self, seperated_movingspriteset):
-        direction_order = ["down", "up", "right", "left"]
-        order_idxs = [0, 1, 0, 3]
-
         # Put Walk Images into a Dictionary
         images = {}
-        for name, spriteset in zip(direction_order, seperated_movingspriteset):
+        for name, spriteset in zip(player_data["direction_order"], seperated_movingspriteset):
             # Separate Moving Spriteset to their Sprites
             sprites = clip_set_to_list_on_xaxis(spriteset)
 
             # Order the Moving Spriteset's Sprites to Make a Walk Animation
-            ordered_sprites = [sprites[idx] for idx in order_idxs]
+            ordered_sprites = [sprites[idx] for idx in player_data["walk_index_order"]]
 
             # Append Ordered Sprites
             images[name] = ordered_sprites
@@ -93,17 +88,14 @@ class Player:
         return images
 
     def get_sprintimages(self, seperated_movingspriteset):
-        direction_order = ["down", "up", "right", "left"]
-        order_idxs = [0, 1, 2, 1, 0, 3, 4, 3]
-
         # Put Sprint Images into a Dictionary
         images = {}
-        for name, spriteset in zip(direction_order, seperated_movingspriteset):
+        for name, spriteset in zip(player_data["direction_order"], seperated_movingspriteset):
             # Seperate Moving Spriteset to their Sprites
             sprites = clip_set_to_list_on_xaxis(spriteset)
 
             # Order the Moving Spriteset's Sprites to Make a Sprint Animation
-            ordered_sprites = [sprites[idx] for idx in order_idxs]
+            ordered_sprites = [sprites[idx] for idx in player_data["sprint_index_order"]]
 
             # Append Ordered Sprites
             images[name] = ordered_sprites

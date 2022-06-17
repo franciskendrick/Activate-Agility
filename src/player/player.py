@@ -180,7 +180,10 @@ class Player:
 
     # Update ------------------------------------------------------ #
     def update(self, specialtile_rects, time_remaining):
-        self.movement()
+        if self.is_teleporting:
+            self.state = "standing"
+        else:
+            self.movement()
         self.specialtile_collision(specialtile_rects, time_remaining)
         self.update_teleportation_variables()
 

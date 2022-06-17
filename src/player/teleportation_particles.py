@@ -21,16 +21,7 @@ class TeleportationParticles:
     # Initialize -------------------------------------------------- #
     def __init__(self):
         self.init_images()
-
-        # Disapparition
-        self.disapparition_idx = 0
-        self.has_disapparated = False
-        self.disapparation_flimit = 8
-
-        # Apparition
-        self.apparated_idx = 0
-        self.has_apparated = False
-        self.apparated_flimit = 6
+        self.init_animationvariables()
 
     def init_images(self):
         # Spriteset
@@ -51,7 +42,6 @@ class TeleportationParticles:
 
     def init_positions(self, from_position, destination_position):
         offset = player_data["teleportationparticles_offset"]
-
         self.positions = {
             "disapparation": (
                 from_position[0] - offset[0],
@@ -60,6 +50,17 @@ class TeleportationParticles:
                 destination_position[0] - offset[0],
                 destination_position[1] - offset[1])
         }
+
+    def init_animationvariables(self):
+        # Disapparition
+        self.disapparition_idx = 0
+        self.has_disapparated = False
+        self.disapparation_flimit = 8
+
+        # Apparition
+        self.apparated_idx = 0
+        self.has_apparated = False
+        self.apparated_flimit = 6
 
     # Draw -------------------------------------------------------- #
     def draw_disapparition(self, display):

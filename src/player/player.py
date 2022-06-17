@@ -143,6 +143,7 @@ class Player:
     def init_teleportation(self):
         # Teleportation Particles
         self.t_particles = TeleportationParticles()
+        self.destination_position = None
 
         # Boleans
         self.is_teleporting = False
@@ -154,7 +155,7 @@ class Player:
     def init_status(self):
         self.stats = {
             "health": 3,
-            "mana": 0,
+            "mana": 5,
             "stamina": 20}
 
     # Draw -------------------------------------------------------- #
@@ -209,9 +210,8 @@ class Player:
 
     # Hitbox
     def update_hitbox(self):
-        x, y = self.get_hitbox_pos_from_rect()
-        self.hitbox.x = x
-        self.hitbox.y = y
+        pos = self.get_hitbox_pos_from_rect()
+        self.hitbox.x, self.hitbox.y = pos
 
     # Special Tile Collision
     def specialtile_collision(self, specialtile_rects, time_remaining):
@@ -225,8 +225,27 @@ class Player:
 
     # Teleportation
     def update_teleportation_variables(self):
+        # Reset Teleportation Variables
         if self.t_particles.has_disapparated:
+            # Toggle Off Teleporting
             self.is_teleporting = False
+
+            # Reset Teleport Particles Animation Variables
+            self.t_particles.init_animationvariables()
+
+        # Teleport Player to Destination
+        if self.is_teleporting and self.t_particles.disapparition_idx == 6 * 3:
+            # Teleport Player's Hitbox Center to Destination Position
+            hitbox_x, hitbox_y = self.get_hitbox_pos_from_rect(
+                *self.destination_position)
+            self.hitbox.centerx = hitbox_x / window.enlarge
+            self.hitbox.centery = hitbox_y / window.enlarge
+
+            # Offset the Position of Player
+            self.rect.x, self.rect.y = self.destination_position
+
+            # Clear Destination Position 
+            self.destination_position = None
 
     # Functions --------------------------------------------------- #
     # Movement & Direction
@@ -291,15 +310,21 @@ class Player:
             self.rect.y += vel
 
     # Rectagnle & Hitbox
-    def get_hitbox_pos_from_rect(self):
+    def get_hitbox_pos_from_rect(self, x=None, y=None):
         x_offset, y_offset = player_data["recttohitbox_offset"]
-        pos = (self.rect.x + x_offset, self.rect.y + y_offset)
+        if (x, y) != (None, None):  # if there is a value given
+            pos = (x + x_offset, y + y_offset)
+        else:  # if there isn't a value given
+            pos = (self.rect.x + x_offset, self.rect.y + y_offset)
 
         return pos
 
-    def get_rect_pos_from_hitbox(self):
+    def get_rect_pos_from_hitbox(self, x=None, y=None):
         x_offset, y_offset = player_data["recttohitbox_offset"]
-        pos = (self.hitbox.x - x_offset, self.hitbox.y - y_offset)
+        if (x, y) != (None, None):  # if there is a value given
+            pos = (x - x_offset, y - y_offset)
+        else:  # if there isn't a value given
+            pos = (self.hitbox.x - x_offset, self.hitbox.y - y_offset)
 
         return pos
 
@@ -360,27 +385,24 @@ class Player:
 
         # If Statement
         if sufficient_mana and leftclick_down:
-            # Teleport Player's Hitbox Center to Mouse Position when Left-Clicked
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            self.hitbox.centerx = mouse_x / window.enlarge
-            self.hitbox.centery = mouse_y / window.enlarge
-
-            # Get From Position & Destination Position
+            # Get From Position
             from_position = (self.rect.x, self.rect.y)
-            destination_position = self.get_rect_pos_from_hitbox()
+
+            # Get Destination Position
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            self.destination_position = self.get_rect_pos_from_hitbox(
+                mouse_x / window.enlarge,
+                mouse_y / window.enlarge)
 
             # Initialize Particles Positions
             self.t_particles.init_positions(
-                from_position, destination_position)
+                from_position, self.destination_position)
 
-            # Offset the Position of Player
-            self.rect.x, self.rect.y = destination_position
-
-            # Toggles Teleporting
+            # Toggle On Teleporting
             self.is_teleporting = True
 
             # Clears Mana
-            self.stats["mana"] = 0
+            self.stats["mana"] = 4
 
     # Reset
     def reset_statedirection(self):

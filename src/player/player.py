@@ -172,6 +172,7 @@ class Player:
         # Draw Teleport Particles
         if self.is_teleporting:
             self.t_particles.draw_disapparition(display)
+            self.t_particles.draw_apparition(display)
 
         # Update
         self.idx += 1
@@ -180,6 +181,7 @@ class Player:
     def update(self, specialtile_rects, time_remaining):
         self.movement()
         self.specialtile_collision(specialtile_rects, time_remaining)
+        self.update_teleportation_variables()
 
     # Movement
     def movement(self):
@@ -220,6 +222,11 @@ class Player:
                     break
                 else:
                     self.on_specialtile = False
+
+    # Teleportation
+    def update_teleportation_variables(self):
+        if self.t_particles.has_disapparated:
+            self.is_teleporting = False
 
     # Functions --------------------------------------------------- #
     # Movement & Direction

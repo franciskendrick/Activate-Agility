@@ -22,9 +22,15 @@ class TeleportationParticles:
     def __init__(self):
         self.init_images()
 
-        self.idx = 0
+        # Disapparition
+        self.disapparition_idx = 0
         self.has_disapparated = False
         self.disapparation_flimit = 8
+
+        # Apparition
+        self.apparated_idx = 0
+        self.has_apparated = False
+        self.apparated_flimit = 6
 
     def init_images(self):
         # Spriteset
@@ -60,18 +66,32 @@ class TeleportationParticles:
         if not self.has_disapparated:
             images = self.images["disapparition"]
         
-            # Reset
-            if self.idx >= self.disapparation_flimit * 3:
-                self.idx = (self.disapparation_flimit - 1) * 3
+            # Cancel Updates
+            if self.disapparition_idx >= self.disapparation_flimit * 3:
+                self.disapparition_idx = (self.disapparation_flimit - 1) * 3
                 self.has_disapparated = True
 
             # Draw
-            img = images[self.idx // 3]
+            img = images[self.disapparition_idx // 3]
             position = self.positions["disapparation"]
             display.blit(img, position)
 
             # Update
-            self.idx += 1
+            self.disapparition_idx += 1
 
     def draw_apparition(self, display):
-        pass
+        if not self.has_apparated and self.disapparition_idx >= 7:
+            images = self.images["apparition"]
+
+            # Cancel Update
+            if self.apparated_idx >= self.apparated_flimit * 3:
+                self.apparated_idx = (self.apparated_flimit - 1) * 3
+                self.has_apparated = True
+            
+            # Draw
+            img = images[self.apparated_idx // 3]
+            position = self.positions["apparition"]
+            display.blit(img, position)
+
+            # Update
+            self.apparated_idx += 1

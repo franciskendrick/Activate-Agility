@@ -1,5 +1,6 @@
 {
     "starting_position": [311, 188],
+    "teleportationparticles_offset": [3, 1],
     "recttohitbox_offset": [2, 23],
     "hitbox_size": [12, 7],
     "direction_order": ["down", "up", "right", "left"],

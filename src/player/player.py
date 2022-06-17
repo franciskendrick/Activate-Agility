@@ -141,7 +141,11 @@ class Player:
 
     # Teleportation
     def init_teleportation(self):
+        # Teleportation Particles
         self.t_particles = TeleportationParticles()
+
+        # Boleans
+        self.is_teleporting = False
 
     # Status
     def init_winningstate(self):
@@ -161,9 +165,13 @@ class Player:
         if self.idx >= len(images) * 5:
             self.idx = 0
         
-        # Draw
+        # Draw Player
         img = images[self.idx // 5]
         display.blit(img, self.rect)
+
+        # Draw Teleport Particles
+        if self.is_teleporting:
+            self.t_particles.draw_disapparition(display)
 
         # Update
         self.idx += 1
@@ -350,9 +358,19 @@ class Player:
             self.hitbox.centerx = mouse_x / window.enlarge
             self.hitbox.centery = mouse_y / window.enlarge
 
+            # Get From Position & Destination Position
+            from_position = (self.rect.x, self.rect.y)
+            destination_position = self.get_rect_pos_from_hitbox()
+
+            # Initialize Particles Positions
+            self.t_particles.init_positions(
+                from_position, destination_position)
+
             # Offset the Position of Player
-            position = self.get_rect_pos_from_hitbox()
-            self.rect.x, self.rect.y = position
+            self.rect.x, self.rect.y = destination_position
+
+            # Toggles Teleporting
+            self.is_teleporting = True
 
             # Clears Mana
             self.stats["mana"] = 0

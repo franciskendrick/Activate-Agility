@@ -146,6 +146,10 @@ class Player:
         self.t_particles = TeleportationParticles()
         self.destination_position = None
 
+        # Teleportation Player Size Decrease
+        self.t_sizedecrease = TeleportSizeDecrease()
+        self.start_sizedecrease = False
+
         # Boleans
         self.is_teleporting = False
 
@@ -156,7 +160,7 @@ class Player:
     def init_status(self):
         self.stats = {
             "health": 3,
-            "mana": 5,
+            "mana": 5,  # !!!
             "stamina": 20}
 
     # Draw -------------------------------------------------------- #
@@ -168,11 +172,17 @@ class Player:
             self.idx = 0
         
         # Draw Player
-        img = images[self.idx // 5]
-        display.blit(img, self.rect)
+        if not self.start_sizedecrease:
+            img = images[self.idx // 5]
+            display.blit(img, self.rect)
 
-        # Draw Teleport Particles
+        # Draw Teleport
         if self.is_teleporting:
+            # Draw Player's Teleporting Size Decrease
+            if self.start_sizedecrease:
+                self.t_sizedecrease.draw_dispparition(display, self.direction)
+
+            # Draw Teleport Particles
             self.t_particles.draw_disapparition(display)
             self.t_particles.draw_apparition(display)
 
@@ -231,25 +241,38 @@ class Player:
     def update_teleportation_variables(self):
         # Reset Teleportation Variables
         if self.t_particles.has_disapparated:
-            # Toggle Off Teleporting
+            # Reset Teleporting Variables
             self.is_teleporting = False
+            self.start_sizedecrease = False
 
             # Reset Teleport Particles Animation Variables
             self.t_particles.init_animationvariables()
 
-        # Teleport Player to Destination
-        if self.is_teleporting and self.t_particles.disapparition_idx == 6 * 3:
-            # Teleport Player's Hitbox Center to Destination Position
-            hitbox_x, hitbox_y = self.get_hitbox_pos_from_rect(
-                *self.destination_position)
-            self.hitbox.centerx = hitbox_x / window.enlarge
-            self.hitbox.centery = hitbox_y / window.enlarge
+            # Reset Player's Teleport Size Decrease Variables
+            self.t_sizedecrease.init_animationvariables()
 
-            # Offset the Position of Player
-            self.rect.x, self.rect.y = self.destination_position
+        # If Player is Teleporting
+        if self.is_teleporting:
+            particles_d_idx = self.t_particles.disapparition_idx
 
-            # Clear Destination Position 
-            self.destination_position = None
+            # Teleport Player to Destination
+            if particles_d_idx == 6 * 3:
+                # Teleport Player's Hitbox Center to Destination Position
+                hitbox_x, hitbox_y = self.get_hitbox_pos_from_rect(
+                    *self.destination_position)
+                self.hitbox.centerx = hitbox_x / window.enlarge
+                self.hitbox.centery = hitbox_y / window.enlarge
+
+                # Offset the Position of Player
+                self.rect.x, self.rect.y = self.destination_position
+
+                # Clear Destination Position 
+                self.destination_position = None
+
+            # Toggle On Start Player's Size Decrease
+            if particles_d_idx >= 3 * 3 and not self.t_sizedecrease.has_disapparated:
+                self.start_sizedecrease = True
+
 
     # Functions --------------------------------------------------- #
     # Movement & Direction
@@ -400,6 +423,10 @@ class Player:
 
             # Initialize Particles Positions
             self.t_particles.init_positions(
+                from_position, self.destination_position)
+
+            # Initialize Player's Size Decrease Positions
+            self.t_sizedecrease.init_positions(
                 from_position, self.destination_position)
 
             # Toggle On Teleporting

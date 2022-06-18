@@ -1,6 +1,7 @@
 from functions import clip_set_to_list_on_xaxis, separate_sets_from_yaxis, edge_collision
 from windows.windows import window
 from .teleportation_particles import TeleportationParticles
+from .teleport_sizedecrease import TeleportSizeDecrease
 import pygame
 import json
 import time
@@ -43,15 +44,15 @@ class Player:
         moving_spriteset = pygame.image.load(
             f"{resources_path}/moving.png")
         
-        # Seperate Moving Spriteset to their Directions
-        seperated_movingspriteset = separate_sets_from_yaxis(
+        # Separate Moving Spriteset to their Directions
+        separated_movingspriteset = separate_sets_from_yaxis(
             moving_spriteset, (255 , 0, 0)) 
 
         # Images
         self.images = {
             "standing": self.get_idleimages(),
-            "walking": self.get_walkimages(seperated_movingspriteset),
-            "sprinting": self.get_sprintimages(seperated_movingspriteset)
+            "walking": self.get_walkimages(separated_movingspriteset),
+            "sprinting": self.get_sprintimages(separated_movingspriteset)
         }
 
     def get_idleimages(self):
@@ -59,7 +60,7 @@ class Player:
         spriteset = pygame.image.load(
             f"{resources_path}/idle.png")
 
-        # Seperate Idle Spriteset to their Directions
+        # Separated Idle Spriteset to their Directions
         separated_spriteset = separate_sets_from_yaxis(
             spriteset, (255, 0, 0))
 
@@ -71,10 +72,10 @@ class Player:
         # Return Images
         return images 
 
-    def get_walkimages(self, seperated_movingspriteset):
+    def get_walkimages(self, separated_movingspriteset):
         # Put Walk Images into a Dictionary
         images = {}
-        for name, spriteset in zip(player_data["direction_order"], seperated_movingspriteset):
+        for name, spriteset in zip(player_data["direction_order"], separated_movingspriteset):
             # Separate Moving Spriteset to their Sprites
             sprites = clip_set_to_list_on_xaxis(spriteset)
 
@@ -87,11 +88,11 @@ class Player:
         # Return Images
         return images
 
-    def get_sprintimages(self, seperated_movingspriteset):
+    def get_sprintimages(self, separated_movingspriteset):
         # Put Sprint Images into a Dictionary
         images = {}
-        for name, spriteset in zip(player_data["direction_order"], seperated_movingspriteset):
-            # Seperate Moving Spriteset to their Sprites
+        for name, spriteset in zip(player_data["direction_order"], separated_movingspriteset):
+            # Separate Moving Spriteset to their Sprites
             sprites = clip_set_to_list_on_xaxis(spriteset)
 
             # Order the Moving Spriteset's Sprites to Make a Sprint Animation
@@ -405,7 +406,7 @@ class Player:
             self.is_teleporting = True
 
             # Clears Mana
-            self.stats["mana"] = 4
+            self.stats["mana"] = 4  # !!!
 
     # Reset
     def reset_statedirection(self):

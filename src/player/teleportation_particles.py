@@ -28,14 +28,14 @@ class TeleportationParticles:
         spriteset = pygame.image.load(
             f"{resources_path}/teleportation_particles.png")
 
-        # Seperate Particle Spriteset
-        seperated_spriteset = clip_set_to_list_on_xaxis(spriteset)
+        # Separate Particle Spriteset
+        separated_spriteset = clip_set_to_list_on_xaxis(spriteset)
 
         # Images
         self.images = {
-            "disapparition": seperated_spriteset,
+            "disapparition": separated_spriteset,
             "apparition": [
-                seperated_spriteset[idx] 
+                separated_spriteset[idx] 
                     for idx in player_data["apparition_index_order"]
                 ]
         }

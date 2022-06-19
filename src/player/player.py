@@ -161,7 +161,7 @@ class Player:
     def init_status(self):
         self.stats = {
             "health": 3,
-            "mana": 5,  # !!!
+            "mana": 0,
             "stamina": 20}
 
     # Draw -------------------------------------------------------- #
@@ -395,12 +395,10 @@ class Player:
         walk_dt = time.perf_counter() - self.last_walk
         sprint_dt = time.perf_counter() - self.last_sprint
 
-        # Get Conditions
-        regen_on_walk = walk_dt * 1000 >= self.stamina_regenerate
-        regen_on_sprint = sprint_dt * 1000 >= self.stamina_regenerate
+        # Regenerate Stamina
+        if (walk_dt * 1000 >= self.stamina_regenerate and
+                sprint_dt * 1000 >= self.stamina_regenerate):
 
-        # If Statement
-        if regen_on_walk or regen_on_sprint:
             # Update Player Stamina Stat
             if self.stats["stamina"] < self.maximum_stats["stamina"]:
                 self.stats["stamina"] += 1
@@ -411,13 +409,16 @@ class Player:
 
     # Teleportation
     def teleport(self, event):
-        # Checks if Player's Mana is Sufficient to Use the Teleport Skill (mana == 5)
-        sufficient_mana = self.stats["mana"] == self.maximum_stats["mana"]
-        # Checks if Mouse's Left Click is Down
-        leftclick_down = event.type == pygame.MOUSEBUTTONDOWN and event.button == 1
+        mouse_x, mouse_y = pygame.mouse.get_pos()
 
-        # If Statement
-        if sufficient_mana and leftclick_down:
+        # Mouse's Left Click is Down 
+        # Player's Mana is Sufficient to Use the Teleport Skill (mana == 5)
+        # Cursor is Inside the Playable Room
+        if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and 
+                self.stats["mana"] == self.maximum_stats["mana"] and
+                window.room_rect.collidepoint(
+                    mouse_x / window.enlarge, mouse_y / window.enlarge)):
+
             # Get From Position
             from_position = (self.rect.x, self.rect.y)
 
@@ -439,7 +440,7 @@ class Player:
             self.is_teleporting = True
 
             # Clears Mana
-            self.stats["mana"] = 4  # !!!
+            self.stats["mana"] = 0
 
     # Reset
     def reset_statedirection(self):

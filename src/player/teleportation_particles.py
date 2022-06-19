@@ -69,7 +69,7 @@ class TeleportationParticles:
         
             # Cancel Updates
             if self.disapparition_idx >= self.disapparation_flimit * 3:
-                self.disapparition_idx = (self.disapparation_flimit - 1) * 3
+                self.disapparition_idx = (self.disapparation_flimit * 3) - 1
                 self.has_disapparated = True
 
             # Draw
@@ -86,7 +86,7 @@ class TeleportationParticles:
 
             # Cancel Update
             if self.apparated_idx >= self.apparated_flimit * 3:
-                self.apparated_idx = (self.apparated_flimit - 1) * 3
+                self.apparated_idx = (self.apparated_flimit * 3) - 1
                 self.has_apparated = True
             
             # Draw

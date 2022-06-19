@@ -61,7 +61,7 @@ class Animation:
     def draw(self, display):
         # Cancel Update
         if self.idx >= self.frame_limit * 3:
-            self.idx = (self.frame_limit - 1) * 3
+            self.idx = (self.frame_limit * 3) - 1
             self.update = False
 
         # Draw

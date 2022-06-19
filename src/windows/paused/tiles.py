@@ -35,9 +35,9 @@ class Tiles:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
-        # Reset
+        # Cancel Update
         if self.idx >= self.frame_limit * 3:
-            self.idx = (self.frame_limit - 1) * 3
+            self.idx = (self.frame_limit * 3) - 1
             self.update = False
 
         # Draw

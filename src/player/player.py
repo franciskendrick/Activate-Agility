@@ -146,9 +146,10 @@ class Player:
         self.t_particles = TeleportationParticles()
         self.destination_position = None
 
-        # Teleportation Player Size Decrease
+        # Teleportation Player Size Decrease & Increase
         self.t_sizedecrease = TeleportSizeDecrease()
         self.start_sizedecrease = False
+        self.start_sizeincrease = False
 
         # Boleans
         self.is_teleporting = False
@@ -178,9 +179,11 @@ class Player:
 
         # Draw Teleport
         if self.is_teleporting:
-            # Draw Player's Teleporting Size Decrease
+            # Draw Player's Teleporting Size Decrease & Increase
             if self.start_sizedecrease:
-                self.t_sizedecrease.draw_dispparition(display, self.direction)
+                self.t_sizedecrease.draw_disapparition(display, self.direction)
+            if self.start_sizeincrease:
+                self.t_sizedecrease.draw_apparition(display, self.direction)
 
             # Draw Teleport Particles
             self.t_particles.draw_disapparition(display)
@@ -273,6 +276,9 @@ class Player:
             if particles_d_idx >= 3 * 3 and not self.t_sizedecrease.has_disapparated:
                 self.start_sizedecrease = True
 
+            # Toggle On Start Player's Size Increase
+            if particles_d_idx >= 7 * 3 and not self.t_sizedecrease.has_apparated:
+                self.start_sizeincrease = True
 
     # Functions --------------------------------------------------- #
     # Movement & Direction

@@ -33,11 +33,27 @@ class TeleportSizeDecrease:
             spriteset, (255, 0, 0))
 
         # Put Size Decreasing Images into a Dictionary
-        self.images = {
+        sizedecreasing_images = {
             name: clip_set_to_list_on_xaxis(spriteset) 
                 for name, spriteset in zip(
-                     player_data["direction_order"], separated_spriteset)
+                    player_data["direction_order"], separated_spriteset)
             }
+
+        # Get Size Increasing Images 
+        sizeincreasing_images = {}
+        for name, spriteset in zip(player_data["direction_order"], separated_spriteset):
+            # Reverse Size Decreasing Images 
+            images = clip_set_to_list_on_xaxis(spriteset)
+            images.reverse()
+
+            # Append
+            sizeincreasing_images[name] = images
+
+        # Initialize Images
+        self.images = {
+            "disapparition": sizedecreasing_images,
+            "apparition": sizeincreasing_images
+        }
 
     def init_positions(self, from_position, destination_position):
         self.positions = {
@@ -57,9 +73,9 @@ class TeleportSizeDecrease:
         self.apparated_flimit = 3
 
     # Draw -------------------------------------------------------- #
-    def draw_dispparition(self, display, direction):
+    def draw_disapparition(self, display, direction):
         if not self.has_disapparated:
-            images = self.images[direction]
+            images = self.images["disapparition"][direction]
 
             # Cancel Update
             if self.disapparition_idx >= self.disapparation_flimit * 3:
@@ -73,3 +89,20 @@ class TeleportSizeDecrease:
 
             # Update
             self.disapparition_idx += 1
+
+    def draw_apparition(self, display, direction):
+        if not self.has_apparated:
+            images = self.images["apparition"][direction]
+
+            # Cancel Update
+            if self.apparated_idx >= self.apparated_flimit * 3:
+                self.apparated_idx = (self.apparated_flimit - 1) * 3
+                self.has_apparated = True
+
+            # Draw
+            img = images[self.apparated_idx // 3]
+            position = self.positions["apparition"]
+            display.blit(img, position)
+
+            # Update
+            self.apparated_idx += 1

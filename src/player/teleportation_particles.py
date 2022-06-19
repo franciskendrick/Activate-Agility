@@ -81,7 +81,7 @@ class TeleportationParticles:
             self.disapparition_idx += 1
 
     def draw_apparition(self, display):
-        if not self.has_apparated and self.disapparition_idx >= 7:
+        if not self.has_apparated and self.disapparition_idx >= 7 * 3:
             images = self.images["apparition"]
 
             # Cancel Update

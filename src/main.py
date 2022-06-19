@@ -24,23 +24,8 @@ def init_game():
     # Player
     player.reset_statedirection()
     player.init_rect()
+    player.init_teleportation()
     player.init_status()
-
-    # Initialize Game Objects
-    game.init_objects(player.maximum_stats)
-
-    # Time 
-    start_of_game = time.perf_counter()
-    start_of_gamesession = start_of_game
-    end_of_game = None
-
-    # Intialize Countdown & Color Visual Identifier's start_of_game
-    game.init_startofgame(start_of_game)
-
-
-def restart_gamesession():
-    global player
-    global start_of_game, start_of_gamesession, end_of_game
 
     # Initialize Game Objects
     game.init_objects(player.maximum_stats)
@@ -62,6 +47,7 @@ def restart_game():
     game.reset_objects()
 
     # Player
+    player.init_teleportation()
     player.init_winningstate()
 
     # Time

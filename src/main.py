@@ -224,7 +224,7 @@ def game_loop():
         # Cursor
         cursor.update()
         crosshair.update()
-        cursor_transition.update()
+        cursor_transition.update(player)
 
         # Countdown is Over
         if game.countdown.time_remaining == 0:

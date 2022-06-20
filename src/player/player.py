@@ -107,7 +107,7 @@ class Player:
     # Movement
     def init_movement(self):
         # Velocities
-        self.walk_vel = 3
+        self.walk_vel = 2
         self.sprint_vel = 5
 
         # State & Direction

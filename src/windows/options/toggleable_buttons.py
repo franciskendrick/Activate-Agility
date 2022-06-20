@@ -24,7 +24,7 @@ class ToggleableButtons:
     def __init__(self):
         spriteset = pygame.image.load(
             f"{resources_path}/toggleable_buttons.png")
-        order = ["animation", "music", "sound"]
+        order = ["fullscreen", "music", "sound"]
         images = clip_set_to_list_on_yaxis(spriteset)
         enlarge = 3 * window.enlarge
 

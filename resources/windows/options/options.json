@@ -10,14 +10,14 @@
             [48, 26]
         ],
         "toggleable_buttons": {
-            "animation": [
+            "fullscreen": [
                 [null, null],
                 [null, null],
                 [null, null],
                 [null, null],
-                [79, 4],
-                [79, 31],
-                [79, 49]
+                [77, 4],
+                [77, 31],
+                [77, 49]
             ],
             "music": [
                 [null, null],
@@ -45,7 +45,7 @@
         "back": [74, 83],
         "play": [97, 79],
         "menu": [120, 79],
-        "animation": [79, 49],
+        "fullscreen": [77, 49],
         "music": [109, 63],
         "sound": [71, 63]
     }

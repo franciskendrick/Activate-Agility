@@ -336,7 +336,7 @@ def options_loop(from_loop):
         "menu": [init_game, menu_loop],
         "gameover": [gameover_loop]
     }
-    try:  # from pause
+    if from_loop == "pause":
         btn_switchcase = {
             "back": backbtn_switchcase[from_loop],
             "play": {
@@ -351,7 +351,7 @@ def options_loop(from_loop):
             "sound": [placeholder],
             None: [placeholder]
         }
-    except (NameError, AttributeError):  # from menu or gameover
+    else:  # from menu or gameover
         btn_switchcase = {
             "back": backbtn_switchcase[from_loop],
             "play": {
@@ -359,7 +359,7 @@ def options_loop(from_loop):
                 "gameover": [init_game, game_loop]
             },
             "menu": [init_game, menu_loop],
-            "animation": [placeholder],
+            "fullscreen": [placeholder],
             "music": [placeholder],
             "sound": [placeholder],
             None: [placeholder]

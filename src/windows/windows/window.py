@@ -15,10 +15,17 @@ resources_path = os.path.abspath(
 class Window:
     # Initialize -------------------------------------------------- #
     def __init__(self):
+        # Monitor Size
+        self.monitor_size = [
+            pygame.display.Info().current_w, 
+            pygame.display.Info().current_h]
+
         # Window
         self.rect = pygame.Rect(0, 0, 640, 360)
-        self.enlarge = 2
-
+        self.enlarge = max(
+            self.monitor_size[0] / self.rect.width,
+            self.monitor_size[1] / self.rect.height)
+        
         # Room
         self.room_rect = pygame.Rect(32, 60, 576, 272)
 

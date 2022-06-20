@@ -15,8 +15,8 @@ resources_path = os.path.abspath(
 
 # Windows
 win_size = (
-    window.rect.width * window.enlarge,
-    window.rect.height * window.enlarge)
+    int(window.rect.width * window.enlarge),
+    int(window.rect.height * window.enlarge))
 win = pygame.display.set_mode(win_size)
 
 # Json

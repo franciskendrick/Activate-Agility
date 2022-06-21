@@ -128,7 +128,7 @@ class Player:
             "walking": self.degenerate_stamina_onwalk,
             "sprinting": self.degenerate_stamina_onsprint,
             "standing": self.regenerate_stamina
-        }   
+        }
 
     # Rectangles
     def init_rect(self):

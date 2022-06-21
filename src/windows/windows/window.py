@@ -37,12 +37,17 @@ class Window:
         self.framerate = 30
 
     # Update ------------------------------------------------------ #
-    def update_gameinfo(self, highscore_value):
+    def update_gameinfo(self, highscore_value, options_toggleable_btns):
         # Get Handle Info
         handle_gamestatus = self.gamestatus_data.copy()
 
-        # Edit Handle Info
+        # Edit Highscore Value
         handle_gamestatus["highscore"] = highscore_value
+
+        # Edit Options
+        handle_gamestatus["options_data"]["fullscreen"] = options_toggleable_btns["fullscreen"][1]
+        handle_gamestatus["options_data"]["music"] = options_toggleable_btns["music"][1]
+        handle_gamestatus["options_data"]["sound"] = options_toggleable_btns["sound"][1]
 
         # Append
         with open(f"{resources_path}/gamestatus.json", "w") as json_file:

@@ -60,6 +60,9 @@ class ToggleableButtons:
         # Buttons
         self.buttons = {}
         for name, img in zip(order, images):
+            # Initialize Toggle Status
+            toggle_status = window.gamestatus_data["options_data"][name]
+
             # Initialize Images
             palette_swapped_imgs = {}
             for toggle_state, palettes in buttons_palettes.items():
@@ -83,7 +86,7 @@ class ToggleableButtons:
             # Append
             button = [
                 False,  # is_hovered
-                True,  # toggle status
+                toggle_status,  # toggle status
                 palette_swapped_imgs,  # palette swapped images
                 rect,  # image rectangle
                 hitbox  # hibox

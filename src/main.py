@@ -202,7 +202,9 @@ def game_loop():
         for event in pygame.event.get():
             # Quit
             if event.type == pygame.QUIT:
-                window.update_gameinfo(game.highscore.value)
+                window.update_gameinfo(
+                    game.highscore.value,
+                    options.toggleable_buttons.buttons)
                 run = False
 
             # KeyDown Detection
@@ -299,7 +301,9 @@ def menu_loop():
         for event in pygame.event.get():
             # Quit
             if event.type == pygame.QUIT:
-                window.update_gameinfo(game.highscore.value)
+                window.update_gameinfo(
+                    game.highscore.value,
+                    options.toggleable_buttons.buttons)
                 run = False
 
             # Menu Buttons
@@ -372,7 +376,9 @@ def options_loop(from_loop):
         for event in pygame.event.get():
             # Quit
             if event.type == pygame.QUIT:
-                window.update_gameinfo(game.highscore.value)
+                window.update_gameinfo(
+                    game.highscore.value,
+                    options.toggleable_buttons.buttons)
                 run = False
 
             # Options Redirect Buttons
@@ -433,7 +439,9 @@ def gameover_loop():
         for event in pygame.event.get():
             # Quit
             if event.type == pygame.QUIT:
-                window.update_gameinfo(game.highscore.value)
+                window.update_gameinfo(
+                    game.highscore.value,
+                    options.toggleable_buttons.buttons)
                 run = False
 
             # GameOver Buttons
@@ -487,7 +495,9 @@ def paused_loop(from_loop):
         for event in pygame.event.get():
             # Quit
             if event.type == pygame.QUIT:
-                window.update_gameinfo(game.highscore.value)
+                window.update_gameinfo(
+                    game.highscore.value,
+                    options.toggleable_buttons.buttons)
                 run = False
 
             # KeyDown Detection

@@ -13,7 +13,10 @@ resources_path = os.path.abspath(
 
 class Music:
     def __init__(self):
-        pass
+        pygame.mixer.music.load(
+            f"{resources_path}/ES_Bozz - William Benckert.mp3")
+        
+        pygame.mixer.music.play(-1)
 
     def update(self):
         pass

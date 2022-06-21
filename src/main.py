@@ -7,6 +7,7 @@ from windows.options import Options
 from windows.gameover import GameOver
 from windows.paused import Paused
 from cursors import NormalCursor, SkillCrosshair, TransitionAnimation
+from audio import Music
 import pygame
 import time
 import sys
@@ -555,6 +556,9 @@ if __name__ == "__main__":
     cursor = NormalCursor()
     crosshair = SkillCrosshair()
     cursor_transition = TransitionAnimation()
+
+    # Initialize Audios
+    music = Music()
 
     # Execute
     menu_loop()

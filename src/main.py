@@ -267,6 +267,7 @@ def game_loop():
 
                     # Move to GameOver Loop
                     if player.stats["health"] == 0:
+                        sound.play_gameover()
                         gameover_loop()
 
             # Restart Game

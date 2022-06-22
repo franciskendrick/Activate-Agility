@@ -7,7 +7,7 @@ from windows.options import Options
 from windows.gameover import GameOver
 from windows.paused import Paused
 from cursors import NormalCursor, SkillCrosshair, TransitionAnimation
-from audio import Music
+from audio import Music, Sound
 import pygame
 import time
 import sys
@@ -211,6 +211,7 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 # Pause Game
                 if event.key == pygame.K_ESCAPE:
+                    sound.play_pause()
                     paused_loop("game")
 
             # Player Teleportation
@@ -573,6 +574,7 @@ if __name__ == "__main__":
 
     # Initialize Audios
     music = Music()
+    sound = Sound()
 
     # Execute
     menu_loop()

@@ -341,7 +341,7 @@ def options_loop(from_loop):
         "menu": [init_game, menu_loop],
         "gameover": [gameover_loop]
     }
-    if from_loop == "pause":
+    if from_loop == "pause":  # from pause
         btn_switchcase = {
             "back": backbtn_switchcase[from_loop],
             "play": {
@@ -352,7 +352,7 @@ def options_loop(from_loop):
             },
             "menu": [init_game, menu_loop],
             "animation": [placeholder],
-            "music": [placeholder],
+            "music": [music.update],
             "sound": [placeholder],
             None: [placeholder]
         }
@@ -365,7 +365,7 @@ def options_loop(from_loop):
             },
             "menu": [init_game, menu_loop],
             "fullscreen": [placeholder],
-            "music": [placeholder],
+            "music": [music.update],
             "sound": [placeholder],
             None: [placeholder]
         }
@@ -395,8 +395,12 @@ def options_loop(from_loop):
 
             # Options Toggleable Buttons
             btn_pressed = options.toggleable_buttons.get_button_pressed(event)
-            for function in btn_switchcase[btn_pressed]:
-                function()
+            functions = btn_switchcase[btn_pressed]
+            if btn_pressed == "music":
+                functions[0](options.toggleable_buttons.buttons)
+            else:
+                for function in functions:
+                    function()
 
             options.toggleable_buttons.handle_mousemotion(event)
         

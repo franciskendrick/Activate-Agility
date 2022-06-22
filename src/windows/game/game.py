@@ -64,3 +64,6 @@ class Game:
         self.specialcolor_visual_identifier.init(
             self.tiles.specialtile_color)
         self.countdown.init()
+
+    def reset_lostlifesound(self):
+        self.lostlife_played = False

@@ -30,6 +30,7 @@ def init_game():
 
     # Initialize Game Objects
     game.init_objects(player.maximum_stats)
+    game.reset_lostlifesound()
 
     # Time 
     start_of_game = time.perf_counter()
@@ -46,6 +47,7 @@ def restart_game():
 
     # Reset Game Variables
     game.reset_objects()
+    game.reset_lostlifesound()
 
     # Player
     player.init_teleportation()
@@ -255,6 +257,12 @@ def game_loop():
                 # Update Tiles' State
                 game.tiles.update_tiles_to_lossdissipation()
 
+                # Play LostLife Sound
+                if not game.lostlife_played:
+                    sound.play_lostlife()
+                    game.lostlife_played = True
+
+                # Update Player Stats and End of Game Time
                 if game.tiles.dissipated and end_of_game == None:
                     # Update End of Game Time
                     end_of_game = time.perf_counter()
@@ -274,6 +282,7 @@ def game_loop():
             if end_of_game != None:
                 dt = time.perf_counter() - end_of_game
                 if dt * 1000 >= 1000:
+                    game.reset_lostlifesound()
                     restart_game()
 
         # Update

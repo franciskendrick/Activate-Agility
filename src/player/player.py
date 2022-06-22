@@ -108,7 +108,7 @@ class Player:
     def init_movement(self):
         # Velocities
         self.walk_vel = 2
-        self.sprint_vel = 5
+        self.sprint_vel = 4
 
         # State & Direction
         self.state = "standing"

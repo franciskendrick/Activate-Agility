@@ -65,5 +65,6 @@ class Game:
             self.tiles.specialtile_color)
         self.countdown.init()
 
-    def reset_lostlifesound(self):
-        self.lostlife_played = False
+    def reset_soundvars(self):
+        self.lostsound_played = False
+        self.winsound_played = False

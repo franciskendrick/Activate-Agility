@@ -18,8 +18,11 @@ class Sound:
             f"{resources_path}/envatoelements_Pause.mp3")
         self.gameover_sound = pygame.mixer.Sound(
             f"{resources_path}/envatoelements_Game Over.mp3")
-        self.lostlife_sound = pygame.mixer.Sound(
+        
+        self.lost_sound = pygame.mixer.Sound(
             f"{resources_path}/mixkit_Lost Life.mp3")
+        self.win_sound = pygame.mixer.Sound(
+            f"{resources_path}/mixkit_Win.mp3")
 
     # Play -------------------------------------------------------- #
     def play_pause(self):
@@ -28,8 +31,11 @@ class Sound:
     def play_gameover(self):
         self.gameover_sound.play()
 
-    def play_lostlife(self):
-        self.lostlife_sound.play()
+    def play_lost(self):
+        self.lost_sound.play()
+
+    def play_win(self):
+        self.win_sound.play()
 
     # Update ------------------------------------------------------ #
     def update(self):

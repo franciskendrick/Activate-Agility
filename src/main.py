@@ -30,7 +30,6 @@ def init_game():
 
     # Initialize Game Objects
     game.init_objects(player.maximum_stats)
-    game.reset_soundvars()
 
     # Time 
     start_of_game = time.perf_counter()
@@ -47,7 +46,8 @@ def restart_game():
 
     # Reset Game Variables
     game.reset_objects()
-    game.reset_soundvars()
+    game.reset_gamestate_soundvars()
+    game.reset_abilityready_soundvars(player)
 
     # Player
     player.init_teleportation()
@@ -223,6 +223,10 @@ def game_loop():
         player.update(
             game.tiles.speicaltile_rects,
             game.countdown.time_remaining)
+        if (player.stats["mana"] == player.maximum_stats["mana"] and
+                not game.abilityready_played):
+            game.abilityready_played = True
+            sound.play_abilityready()
 
         # Game
         game.update(player.stats)
@@ -234,7 +238,7 @@ def game_loop():
 
         # Countdown is Over
         if game.countdown.time_remaining == 0:
-            # Win of Loss
+            # Win or Loss
             if player.on_specialtile:  # win
                 # Update Tiles' State
                 game.tiles.update_tiles_to_winstate()
@@ -287,7 +291,6 @@ def game_loop():
             if end_of_game != None:
                 dt = time.perf_counter() - end_of_game
                 if dt * 1000 >= 1000:
-                    game.reset_soundvars()
                     restart_game()
 
         # Update

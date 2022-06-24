@@ -20,6 +20,7 @@ class Game:
             (0, 0), self.display.get_size())
 
     def init_objects(self, maximum_stats):
+        # Initialize Game Objects
         self.tiles = Tiles()
         self.specialcolor_visual_identifier = SpecialColorVisualIdentifier(
             self.tiles.specialtile_color)
@@ -27,6 +28,11 @@ class Game:
         self.countdown = Countdown()
         self.score = Score()
     
+        # Initialize Sound Variables
+        self.lostsound_played = False
+        self.winsound_played = False
+        self.abilityready_played = False
+
     def init_highscore(self):
         self.highscore = HighScore()
     
@@ -65,6 +71,10 @@ class Game:
             self.tiles.specialtile_color)
         self.countdown.init()
 
-    def reset_soundvars(self):
+    def reset_gamestate_soundvars(self):
         self.lostsound_played = False
         self.winsound_played = False
+
+    def reset_abilityready_soundvars(self, player):
+        if player.stats["mana"] < player.maximum_stats["mana"]:
+            self.abilityready_played = False

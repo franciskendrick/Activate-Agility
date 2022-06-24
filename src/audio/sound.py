@@ -24,6 +24,9 @@ class Sound:
         self.win_sound = pygame.mixer.Sound(
             f"{resources_path}/mixkit_Win.mp3")
 
+        self.abilityready_sound = pygame.mixer.Sound(
+            f"{resources_path}/mixkit_Ability Ready.mp3")
+
     # Play -------------------------------------------------------- #
     def play_pause(self):
         self.pause_sound.play()
@@ -36,6 +39,9 @@ class Sound:
 
     def play_win(self):
         self.win_sound.play()
+
+    def play_abilityready(self):
+        self.abilityready_sound.play()
 
     # Update ------------------------------------------------------ #
     def update(self):

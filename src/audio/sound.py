@@ -27,6 +27,9 @@ class Sound:
         self.abilityready_sound = pygame.mixer.Sound(
             f"{resources_path}/mixkit_Ability Ready.mp3")
 
+        self.disapparition_sound = pygame.mixer.Sound(
+            f"{resources_path}/youtube_Disapparition.mp3")
+
     # Play -------------------------------------------------------- #
     def play_pause(self):
         self.pause_sound.play()
@@ -42,6 +45,9 @@ class Sound:
 
     def play_abilityready(self):
         self.abilityready_sound.play()
+
+    def play_disapparition(self):
+        self.disapparition_sound.play()
 
     # Update ------------------------------------------------------ #
     def update(self):

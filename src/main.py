@@ -222,7 +222,8 @@ def game_loop():
         # Player
         player.update(
             game.tiles.speicaltile_rects,
-            game.countdown.time_remaining)
+            game.countdown.time_remaining,
+            sound)
         if (player.stats["mana"] == player.maximum_stats["mana"] and
                 not game.abilityready_played):
             game.abilityready_played = True

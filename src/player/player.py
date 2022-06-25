@@ -151,7 +151,10 @@ class Player:
         self.start_sizedecrease = False
         self.start_sizeincrease = False
 
-        # Boleans
+        # Sound
+        self.disapparition_played = False
+
+        # Is Teleporting
         self.is_teleporting = False
 
     # Status
@@ -193,13 +196,13 @@ class Player:
         self.idx += 1
 
     # Update ------------------------------------------------------ #
-    def update(self, specialtile_rects, time_remaining):
+    def update(self, specialtile_rects, time_remaining, sound):
         if self.is_teleporting:
             self.state = "standing"
         else:
             self.movement()
         self.specialtile_collision(specialtile_rects, time_remaining)
-        self.update_teleportation_variables()
+        self.update_teleportation_variables(sound)
 
     # Movement
     def movement(self):
@@ -241,12 +244,15 @@ class Player:
                     self.on_specialtile = False
 
     # Teleportation
-    def update_teleportation_variables(self):
+    def update_teleportation_variables(self, sound):
         # Reset Teleportation Variables
         if self.t_particles.has_disapparated:
             # Reset Teleporting Variables
             self.is_teleporting = False
             self.start_sizedecrease = False
+
+            # Reset Teleporting Sound Variables
+            self.disapparition_played = False
 
             # Reset Teleport Particles Animation Variables
             self.t_particles.init_animationvariables()
@@ -279,6 +285,11 @@ class Player:
             # Toggle On Start Player's Size Increase
             if particles_d_idx >= 7 * 3 and not self.t_sizedecrease.has_apparated:
                 self.start_sizeincrease = True
+
+            # Toggle On Start Player's Disapparition Sound
+            if particles_d_idx >= 5 * 3 and not self.disapparition_played:
+                sound.play_disapparition()
+                self.disapparition_played = True
 
     # Functions --------------------------------------------------- #
     # Movement & Direction

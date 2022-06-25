@@ -153,6 +153,7 @@ class Player:
 
         # Sound
         self.disapparition_played = False
+        self.apparition_played = False
 
         # Is Teleporting
         self.is_teleporting = False
@@ -247,21 +248,24 @@ class Player:
     def update_teleportation_variables(self, sound):
         # Reset Teleportation Variables
         if self.t_particles.has_disapparated:
-            # Reset Teleporting Variables
+            # Reset Teleporting Variable
             self.is_teleporting = False
-            self.start_sizedecrease = False
-
-            # Reset Teleporting Sound Variables
-            self.disapparition_played = False
 
             # Reset Teleport Particles Animation Variables
             self.t_particles.init_animationvariables()
 
-            # Reset Player's Teleport Size Decrease Variables
+            # Reset Player's Teleport Size Decrease and Increase Variables
             self.t_sizedecrease.init_animationvariables()
+            self.start_sizedecrease = False
+            self.start_sizeincrease = False
+
+            # Reset Teleporting Sound Variables
+            self.disapparition_played = False
+            self.apparition_played = False
 
         # If Player is Teleporting
         if self.is_teleporting:
+            # Disapparition ----------------------------------------------------------- #
             particles_d_idx = self.t_particles.disapparition_idx
 
             # Teleport Player to Destination
@@ -282,14 +286,26 @@ class Player:
             if particles_d_idx >= 3 * 3 and not self.t_sizedecrease.has_disapparated:
                 self.start_sizedecrease = True
 
-            # Toggle On Start Player's Size Increase
-            if particles_d_idx >= 7 * 3 and not self.t_sizedecrease.has_apparated:
-                self.start_sizeincrease = True
-
             # Toggle On Start Player's Disapparition Sound
             if particles_d_idx >= 5 * 3 and not self.disapparition_played:
                 sound.play_disapparition()
                 self.disapparition_played = True
+
+            # Apparition -------------------------------------------------------------- #
+            particles_a_idx = self.t_particles.apparated_idx
+
+            # Toggle On Start Player's Size Increase
+            if (particles_a_idx >= 0 * 3 and 
+                    self.t_sizedecrease.has_disapparated and 
+                    not self.t_sizedecrease.has_apparated):
+                self.start_sizeincrease = True
+
+            # Toggle On Start Player's Apparition
+            if (particles_a_idx >= 0 * 3 and 
+                    self.t_sizedecrease.has_disapparated and 
+                    not self.apparition_played):
+                sound.play_apparition()
+                self.apparition_played = True
 
     # Functions --------------------------------------------------- #
     # Movement & Direction

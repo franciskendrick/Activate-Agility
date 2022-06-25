@@ -29,6 +29,8 @@ class Sound:
 
         self.disapparition_sound = pygame.mixer.Sound(
             f"{resources_path}/youtube_Disapparition.mp3")
+        self.apparition_sound = pygame.mixer.Sound(
+            f"{resources_path}/youtube_Apparition.mp3")
 
     # Play -------------------------------------------------------- #
     def play_pause(self):
@@ -48,6 +50,9 @@ class Sound:
 
     def play_disapparition(self):
         self.disapparition_sound.play()
+
+    def play_apparition(self):
+        self.apparition_sound.play()
 
     # Update ------------------------------------------------------ #
     def update(self):

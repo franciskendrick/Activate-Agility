@@ -14,6 +14,9 @@ resources_path = os.path.abspath(
 class Sound:
     # Initialize -------------------------------------------------- #
     def __init__(self):
+        self.button_click_sound = pygame.mixer.Sound(
+            f"{resources_path}/ES_Switch Click 5 - SFX Producer.mp3")
+
         self.pause_sound = pygame.mixer.Sound(
             f"{resources_path}/envatoelements_Pause.mp3")
         self.gameover_sound = pygame.mixer.Sound(
@@ -33,6 +36,9 @@ class Sound:
             f"{resources_path}/youtube_Apparition.mp3")
 
     # Play -------------------------------------------------------- #
+    def play_button_click(self):
+        self.button_click_sound.play()
+
     def play_pause(self):
         self.pause_sound.play()
 

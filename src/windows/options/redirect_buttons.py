@@ -71,13 +71,14 @@ class RedirectButtons:
             display.blit(img, rect)
 
     # Functions --------------------------------------------------- #
-    def get_button_pressed(self, event):
+    def get_button_pressed(self, event, sound):
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             for (name, button) in self.buttons.items():
                 *_, hitbox = button
 
                 mouse_pos = pygame.mouse.get_pos()
                 if hitbox.collidepoint(mouse_pos):
+                    sound.play_button_click()
                     return name
 
     def handle_mousemotion(self, event):

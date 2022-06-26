@@ -327,7 +327,7 @@ def menu_loop():
                 run = False
 
             # Menu Buttons
-            btn_pressed = menu.buttons.get_button_pressed(event)
+            btn_pressed = menu.buttons.get_button_pressed(event, sound)
             if btn_pressed != "options":
                 for function in btn_switchcase[btn_pressed]:
                     function()
@@ -402,7 +402,7 @@ def options_loop(from_loop):
                 run = False
 
             # Options Redirect Buttons
-            btn_pressed = options.redirect_buttons.get_button_pressed(event)
+            btn_pressed = options.redirect_buttons.get_button_pressed(event, sound)
             functions = btn_switchcase[btn_pressed]
             functions = functions[from_loop] if btn_pressed == "play" else functions
             if isfrom_paused and btn_pressed == "back":
@@ -414,7 +414,7 @@ def options_loop(from_loop):
             options.redirect_buttons.handle_mousemotion(event)
 
             # Options Toggleable Buttons
-            btn_pressed = options.toggleable_buttons.get_button_pressed(event)
+            btn_pressed = options.toggleable_buttons.get_button_pressed(event, sound)
             functions = btn_switchcase[btn_pressed]
             if btn_pressed == "music":
                 functions[0](options.toggleable_buttons.buttons)
@@ -469,7 +469,7 @@ def gameover_loop():
                 run = False
 
             # GameOver Buttons
-            btn_pressed = gameover.buttons.get_button_pressed(event)
+            btn_pressed = gameover.buttons.get_button_pressed(event, sound)
             if btn_pressed != "options":
                 for function in btn_switchcase[btn_pressed]:
                     function()
@@ -538,7 +538,7 @@ def paused_loop(from_loop):
                     game_loop()
 
             # Paused Buttons
-            btn_pressed = paused.buttons.get_button_pressed(event)
+            btn_pressed = paused.buttons.get_button_pressed(event, sound)
             if btn_pressed != "options":
                 for function in btn_switchcase[btn_pressed]:
                     function()

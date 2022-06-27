@@ -81,31 +81,33 @@ class Countdown(NumberFont):
             self.render_font(display, text, pos, 5)
 
     # Update ------------------------------------------------------ #
-    def update(self):
+    def update(self, countdown_audio):
         self.update_visibility()
-        self.update_timeremaining()
+        self.update_timeremaining(countdown_audio)
 
     def update_visibility(self):
         dt = time.perf_counter() - self.start_of_game
         if not self.time_is_visible and dt * 1000 >= self.visible_delay:
             self.time_is_visible = True
 
-    def update_timeremaining(self):
+    def update_timeremaining(self, countdown_audio):
         # Delta Time
         count_dt = time.perf_counter() - self.last_count
         game_dt = time.perf_counter() - self.start_of_game
 
-        # Visibility Delay
-        visibility_delay = game_dt * 1000 >= self.visible_delay+1000
+        # Play Countdown Audio
+        if (game_dt * 1000 >= self.visible_delay and
+                self.time_remaining > 0 and
+                not countdown_audio.audio_played[self.time_remaining]):
+            play_audio = countdown_audio.audioplaying_switchcase[self.time_remaining]
+            play_audio()
 
-        # Time Remaining is More than Zero
-        time_morethan_zero = self.time_remaining > 0
-
-        # Time Countdown
-        time_countdown = count_dt * 1000 >= 1000
+            countdown_audio.audio_played[self.time_remaining] = True
 
         # Update 
-        if visibility_delay and time_morethan_zero and time_countdown:
+        if (game_dt * 1000 >= self.visible_delay + 1000 and
+                self.time_remaining > 0 and 
+                count_dt * 1000 >= 1000):
             # Update Time Value
             self.time_remaining -= 1
 

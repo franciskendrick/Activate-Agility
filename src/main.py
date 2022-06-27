@@ -31,6 +31,9 @@ def init_game():
     # Initialize Game Objects
     game.init_objects(player.maximum_stats)
 
+    # Reset Countdown Audio Variables
+    countdown_audio.reset_audioplayed()
+
     # Time 
     start_of_game = time.perf_counter()
     start_of_gamesession = start_of_game
@@ -48,6 +51,9 @@ def restart_game():
     game.reset_objects()
     game.reset_gamestate_soundvars()
     game.reset_abilityready_soundvars(player)
+    
+    # Reset Countdown Audio Variables
+    countdown_audio.reset_audioplayed()
 
     # Player
     player.init_teleportation()
@@ -230,7 +236,7 @@ def game_loop():
             sound.play_abilityready()
 
         # Game
-        game.update(player.stats)
+        game.update(player.stats, countdown_audio)
 
         # Cursor
         cursor.update()

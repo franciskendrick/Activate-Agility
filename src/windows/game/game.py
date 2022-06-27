@@ -59,10 +59,10 @@ class Game:
         display.blit(resized_display, self.rect)
 
     # Update ------------------------------------------------------ #
-    def update(self, player_status):
+    def update(self, player_status, countdown_audio):
         self.player_gauge.update(player_status)
         self.specialcolor_visual_identifier.update()
-        self.countdown.update()
+        self.countdown.update(countdown_audio)
 
     # Functions --------------------------------------------------- #
     def reset_objects(self):

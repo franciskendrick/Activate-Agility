@@ -13,7 +13,7 @@ resources_path = os.path.abspath(
 
 class CountdownAudio:
     # Initialize -------------------------------------------------- #
-    def __init__(self):
+    def __init__(self, options_toggleable_btns):
         # Audios
         self.one_audio = pygame.mixer.Sound(
             f"{resources_path}/naturalreaders_1.mp3")
@@ -35,20 +35,26 @@ class CountdownAudio:
             2: False,
             3: False
         }
+        
+        # Is Playing Variable
+        self.playing = options_toggleable_btns["sound"][1]
 
     # Play -------------------------------------------------------- #
     def play_one(self):
-        self.one_audio.play()
+        if self.playing:
+            self.one_audio.play()
 
     def play_two(self):
-        self.two_audio.play()
+        if self.playing:
+            self.two_audio.play()
 
     def play_three(self):
-        self.three_audio.play()
+        if self.playing:
+            self.three_audio.play()
 
     # Update ------------------------------------------------------ #
-    def update(self):
-        pass
+    def update(self, options_toggleable_btns):
+        self.playing = options_toggleable_btns["sound"][1]
 
     # Reset ------------------------------------------------------- #
     def reset_audioplayed(self):

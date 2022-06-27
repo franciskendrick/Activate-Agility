@@ -14,6 +14,7 @@ resources_path = os.path.abspath(
 class Sound:
     # Initialize -------------------------------------------------- #
     def __init__(self, options_toggleable_btns):
+        # Audios
         self.button_click_sound = pygame.mixer.Sound(
             f"{resources_path}/ES_Switch Click 5 - SFX Producer.mp3")
 
@@ -35,6 +36,7 @@ class Sound:
         self.apparition_sound = pygame.mixer.Sound(
             f"{resources_path}/youtube_Apparition.mp3")
 
+        # Is Playing Variable
         self.playing = options_toggleable_btns["sound"][1]
 
     # Play -------------------------------------------------------- #

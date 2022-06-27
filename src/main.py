@@ -373,7 +373,7 @@ def options_loop(from_loop):
             "menu": [init_game, menu_loop],
             "animation": [placeholder],
             "music": [music.update],
-            "sound": [placeholder],
+            "sound": [sound.update],
             None: [placeholder]
         }
     else:  # from menu or gameover
@@ -386,7 +386,7 @@ def options_loop(from_loop):
             "menu": [init_game, menu_loop],
             "fullscreen": [placeholder],
             "music": [music.update],
-            "sound": [placeholder],
+            "sound": [sound.update],
             None: [placeholder]
         }
 
@@ -416,7 +416,7 @@ def options_loop(from_loop):
             # Options Toggleable Buttons
             btn_pressed = options.toggleable_buttons.get_button_pressed(event, sound)
             functions = btn_switchcase[btn_pressed]
-            if btn_pressed == "music":
+            if btn_pressed == "music" or btn_pressed == "sound":
                 functions[0](options.toggleable_buttons.buttons)
             else:
                 for function in functions:
@@ -593,7 +593,7 @@ if __name__ == "__main__":
 
     # Initialize Audios
     music = Music()
-    sound = Sound()
+    sound = Sound(options.toggleable_buttons.buttons)
 
     # Execute
     menu_loop()

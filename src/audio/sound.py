@@ -13,7 +13,7 @@ resources_path = os.path.abspath(
 
 class Sound:
     # Initialize -------------------------------------------------- #
-    def __init__(self):
+    def __init__(self, options_toggleable_btns):
         self.button_click_sound = pygame.mixer.Sound(
             f"{resources_path}/ES_Switch Click 5 - SFX Producer.mp3")
 
@@ -35,31 +35,41 @@ class Sound:
         self.apparition_sound = pygame.mixer.Sound(
             f"{resources_path}/youtube_Apparition.mp3")
 
+        self.playing = options_toggleable_btns["sound"][1]
+
     # Play -------------------------------------------------------- #
     def play_button_click(self):
-        self.button_click_sound.play()
+        if self.playing:
+            self.button_click_sound.play()
 
     def play_pause(self):
-        self.pause_sound.play()
+        if self.playing:
+            self.pause_sound.play()
 
     def play_gameover(self):
-        self.gameover_sound.play()
+        if self.playing:
+            self.gameover_sound.play()
 
     def play_lost(self):
-        self.lost_sound.play()
+        if self.playing:
+            self.lost_sound.play()
 
     def play_win(self):
-        self.win_sound.play()
+        if self.playing:
+            self.win_sound.play()
 
     def play_abilityready(self):
-        self.abilityready_sound.play()
+        if self.playing:
+            self.abilityready_sound.play()
 
     def play_disapparition(self):
-        self.disapparition_sound.play()
+        if self.playing:
+            self.disapparition_sound.play()
 
     def play_apparition(self):
-        self.apparition_sound.play()
+        if self.playing:
+            self.apparition_sound.play()
 
     # Update ------------------------------------------------------ #
-    def update(self):
-        pass
+    def update(self, options_toggleable_btns):
+        self.playing = options_toggleable_btns["sound"][1]

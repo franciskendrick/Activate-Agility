@@ -7,7 +7,7 @@ from windows.options import Options
 from windows.gameover import GameOver
 from windows.paused import Paused
 from cursors import NormalCursor, SkillCrosshair, TransitionAnimation
-from audio import Music, Sound
+from audio import Music, Sound, CountdownAudio
 import pygame
 import time
 import sys
@@ -594,6 +594,7 @@ if __name__ == "__main__":
     # Initialize Audios
     music = Music()
     sound = Sound(options.toggleable_buttons.buttons)
+    countdown_audio = CountdownAudio()
 
     # Execute
     menu_loop()

@@ -17,7 +17,7 @@ with open(f"{resources_path}/game.json") as json_file:
     game_data = json.load(json_file)
 
 
-class SpecialColorVisualIdentifier:
+class SpecialColorIdentifier:
     # Initialize -------------------------------------------------- #
     def __init__(self, specialtile_color):
         self.init(specialtile_color)

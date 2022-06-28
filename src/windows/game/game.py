@@ -1,7 +1,7 @@
 from windows.windows import window
 from .tiles import Tiles
 from .player_gauge import PlayerGauge
-from .color_visual_identifier import SpecialColorVisualIdentifier
+from .speical_color_identifier import SpecialColorIdentifier
 from .countdown import Countdown
 from .score import Score
 from .high_score import HighScore
@@ -22,7 +22,7 @@ class Game:
     def init_objects(self, maximum_stats):
         # Initialize Game Objects
         self.tiles = Tiles()
-        self.specialcolor_visual_identifier = SpecialColorVisualIdentifier(
+        self.specialcolor_visual_identifier = SpecialColorIdentifier(
             self.tiles.specialtile_color)
         self.player_gauge = PlayerGauge(maximum_stats)
         self.countdown = Countdown()

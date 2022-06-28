@@ -14,7 +14,38 @@ resources_path = os.path.abspath(
 class SpecialColorAudioIdentifier:
     # Initialize -------------------------------------------------- #
     def __init__(self):
-        pass
+        # Audios
+        self.blue_audio = pygame.mixer.Sound(
+            f"{resources_path}/naturalreaders_Blue.mp3")
+        self.green_audio = pygame.mixer.Sound(
+            f"{resources_path}/naturalreaders_Green.mp3")
+        self.purple_audio = pygame.mixer.Sound(
+            f"{resources_path}/naturalreaders_Purple.mp3")
+        self.red_audio = pygame.mixer.Sound(
+            f"{resources_path}/naturalreaders_Red.mp3")
+        self.white_audio = pygame.mixer.Sound(
+            f"{resources_path}/naturalreaders_White.mp3")
+        self.yellow_audio = pygame.mixer.Sound(
+            f"{resources_path}/naturalreaders_Yellow.mp3")
+
+    # Play -------------------------------------------------------- #
+    def play_blue(self):
+        self.blue_audio.play()
+    
+    def play_green(self):
+        self.green_audio.play()
+
+    def play_purple(self):
+        self.purple_audio.play()
+
+    def play_red(self):
+        self.red_audio.play()
+
+    def play_white(self):
+        self.white_audio.play()
+    
+    def play_yellow(self):
+        self.yellow_audio.play()
 
     # Update ------------------------------------------------------ #
     def update(self):

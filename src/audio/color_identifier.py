@@ -13,7 +13,7 @@ resources_path = os.path.abspath(
 
 class SpecialColorAudioIdentifier:
     # Initialize -------------------------------------------------- #
-    def __init__(self):
+    def __init__(self, options_toggleable_btns):
         # Audios
         self.blue_audio = pygame.mixer.Sound(
             f"{resources_path}/naturalreaders_Blue.mp3")
@@ -38,25 +38,34 @@ class SpecialColorAudioIdentifier:
             5: self.play_white
         }
 
+        # Is Playing Variable
+        self.playing = options_toggleable_btns["sound"][1]
+
     # Play -------------------------------------------------------- #
     def play_blue(self):
-        self.blue_audio.play()
+        if self.playing:
+            self.blue_audio.play()
     
     def play_green(self):
-        self.green_audio.play()
+        if self.playing:
+            self.green_audio.play()
 
     def play_purple(self):
-        self.purple_audio.play()
+        if self.playing:
+            self.purple_audio.play()
 
     def play_red(self):
-        self.red_audio.play()
+        if self.playing:
+            self.red_audio.play()
 
     def play_white(self):
-        self.white_audio.play()
+        if self.playing:
+            self.white_audio.play()
     
     def play_yellow(self):
-        self.yellow_audio.play()
+        if self.playing:
+            self.yellow_audio.play()
 
     # Update ------------------------------------------------------ #
-    def update(self):
-        pass
+    def update(self, options_toggleable_btns):
+        self.playing = options_toggleable_btns["sound"][1]

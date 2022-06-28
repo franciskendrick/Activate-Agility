@@ -383,7 +383,10 @@ def options_loop(from_loop):
             "menu": [init_game, menu_loop],
             "animation": [placeholder],
             "music": [music.update],
-            "sound": [sound.update, countdown_audio.update],
+            "sound": [
+                sound.update, 
+                countdown_audio.update, 
+                speicalcolor_audio_identifier.update],
             None: [placeholder]
         }
     else:  # from menu or gameover
@@ -396,7 +399,10 @@ def options_loop(from_loop):
             "menu": [init_game, menu_loop],
             "fullscreen": [placeholder],
             "music": [music.update],
-            "sound": [sound.update, countdown_audio.update],
+            "sound": [
+                sound.update, 
+                countdown_audio.update, 
+                speicalcolor_audio_identifier.update],
             None: [placeholder]
         }
 
@@ -604,9 +610,12 @@ if __name__ == "__main__":
 
     # Initialize Audios 
     music = Music()
-    sound = Sound(options.toggleable_buttons.buttons)
-    countdown_audio = CountdownAudio(options.toggleable_buttons.buttons)
-    speicalcolor_audio_identifier = SpecialColorAudioIdentifier()
+    sound = Sound(
+        options.toggleable_buttons.buttons)
+    countdown_audio = CountdownAudio(
+        options.toggleable_buttons.buttons)
+    speicalcolor_audio_identifier = SpecialColorAudioIdentifier(
+        options.toggleable_buttons.buttons)
 
     # Execute
     menu_loop()

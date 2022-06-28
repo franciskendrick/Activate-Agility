@@ -1,3 +1,4 @@
+from audio.color_identifier import SpecialColorAudioIdentifier
 from player import Player
 from windows.windows import window, background
 from windows.gameover import GameOver
@@ -236,7 +237,10 @@ def game_loop():
             sound.play_abilityready()
 
         # Game
-        game.update(player.stats, countdown_audio)
+        game.update(
+            player.stats, 
+            countdown_audio, 
+            speicalcolor_audio_identifier)
 
         # Cursor
         cursor.update()
@@ -598,10 +602,11 @@ if __name__ == "__main__":
     crosshair = SkillCrosshair()
     cursor_transition = TransitionAnimation()
 
-    # Initialize Audios
+    # Initialize Audios 
     music = Music()
     sound = Sound(options.toggleable_buttons.buttons)
     countdown_audio = CountdownAudio(options.toggleable_buttons.buttons)
+    speicalcolor_audio_identifier = SpecialColorAudioIdentifier()
 
     # Execute
     menu_loop()

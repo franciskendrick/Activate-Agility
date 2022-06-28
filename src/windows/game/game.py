@@ -1,7 +1,7 @@
 from windows.windows import window
 from .tiles import Tiles
 from .player_gauge import PlayerGauge
-from .speical_color_identifier import SpecialColorIdentifier
+from .special_color_identifier import SpecialColorIdentifier
 from .countdown import Countdown
 from .score import Score
 from .high_score import HighScore
@@ -22,7 +22,7 @@ class Game:
     def init_objects(self, maximum_stats):
         # Initialize Game Objects
         self.tiles = Tiles()
-        self.specialcolor_visual_identifier = SpecialColorIdentifier(
+        self.speical_color_identifier = SpecialColorIdentifier(
             self.tiles.specialtile_color)
         self.player_gauge = PlayerGauge(maximum_stats)
         self.countdown = Countdown()
@@ -38,7 +38,7 @@ class Game:
     
     def init_startofgame(self, start_of_game):
         self.countdown.init_startofgame(start_of_game)
-        self.specialcolor_visual_identifier.init_startofgame(start_of_game)
+        self.speical_color_identifier.init_startofgame(start_of_game)
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
@@ -47,7 +47,7 @@ class Game:
 
         # Draw Game Window on Game Display
         self.tiles.draw(self.display)
-        self.specialcolor_visual_identifier.draw(self.display)
+        self.speical_color_identifier.draw(self.display)
         self.player_gauge.draw(self.display)
         self.countdown.draw(self.display)
         self.score.draw(self.display)
@@ -59,15 +59,15 @@ class Game:
         display.blit(resized_display, self.rect)
 
     # Update ------------------------------------------------------ #
-    def update(self, player_status, countdown_audio):
+    def update(self, player_status, countdown_audio, speicalcolor_audio_identifier):
         self.player_gauge.update(player_status)
-        self.specialcolor_visual_identifier.update()
+        self.speical_color_identifier.update(speicalcolor_audio_identifier)
         self.countdown.update(countdown_audio)
 
     # Functions --------------------------------------------------- #
     def reset_objects(self):
         self.tiles.init()
-        self.specialcolor_visual_identifier.init(
+        self.speical_color_identifier.init(
             self.tiles.specialtile_color)
         self.countdown.init()
 

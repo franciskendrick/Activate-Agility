@@ -52,13 +52,15 @@ class SpecialColorIdentifier:
             display.blit(indicator, self.position)
 
     # Update ------------------------------------------------------ #
-    def update(self):
-        self.update_visibility()
-
-    def update_visibility(self):
+    def update(self, sound):
         dt = time.perf_counter() - self.start_of_game
-        if not self.is_visible and dt * 1000 >= 500:
+        if not self.is_visible and dt * 1000 >= 250:
+            # Update Visibility
             self.is_visible = True
+
+            # Play Sound
+            play_audio = sound.audioplaying_switchcase[self.specialtile_index]
+            play_audio()
 
     def update_colorindex(self, special_idx):
         self.specialtile_index = special_idx

@@ -28,6 +28,16 @@ class SpecialColorAudioIdentifier:
         self.yellow_audio = pygame.mixer.Sound(
             f"{resources_path}/naturalreaders_Yellow.mp3")
 
+        # Audio Switchcase
+        self.audioplaying_switchcase = {
+            0: self.play_red,
+            1: self.play_yellow,
+            2: self.play_green,
+            3: self.play_blue,
+            4: self.play_purple,
+            5: self.play_white
+        }
+
     # Play -------------------------------------------------------- #
     def play_blue(self):
         self.blue_audio.play()

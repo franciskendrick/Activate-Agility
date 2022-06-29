@@ -71,20 +71,18 @@ class Buttons:
             display.blit(img, rect)
     
     # Functions --------------------------------------------------- #
-    def get_button_pressed(self, event, sound):
-        if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-            for (name, button) in self.buttons.items():
-                *_, hitbox = button
+    def button_down_detection(self, sound):
+        for (name, button) in self.buttons.items():
+            *_, hitbox = button
 
-                mouse_pos = pygame.mouse.get_pos()
-                if hitbox.collidepoint(mouse_pos):
-                    sound.play_button_click()
-                    return name
+            mouse_pos = pygame.mouse.get_pos()
+            if hitbox.collidepoint(mouse_pos):
+                sound.play_button_click()
+                return name
 
-    def handle_mousemotion(self, event):
-        if event.type == pygame.MOUSEMOTION:
-            for button in self.buttons.values():
-                *_, hitbox = button
+    def button_over_detection(self):
+        for button in self.buttons.values():
+            *_, hitbox = button
 
-                mouse_pos = pygame.mouse.get_pos()
-                button[0] = True if hitbox.collidepoint(mouse_pos) else False
+            mouse_pos = pygame.mouse.get_pos()
+            button[0] = True if hitbox.collidepoint(mouse_pos) else False

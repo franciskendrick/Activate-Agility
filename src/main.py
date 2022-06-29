@@ -321,8 +321,7 @@ def menu_loop():
     # Initialize Menu's Buttons Switchcase
     btn_switchcase = {
         "play": [init_game, game_loop],
-        "options": options_loop,
-        None: [placeholder]
+        "options": options_loop
     }
 
     # Loop
@@ -336,14 +335,19 @@ def menu_loop():
                     options.toggleable_buttons.buttons)
                 run = False
 
-            # Menu Buttons
-            btn_pressed = menu.buttons.get_button_pressed(event, sound)
-            if btn_pressed != "options":
-                for function in btn_switchcase[btn_pressed]:
-                    function()
-            else:
-                btn_switchcase[btn_pressed]("menu")
-            menu.buttons.handle_mousemotion(event)
+            # Menu Buttons Down Detection
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                btn_pressed = menu.buttons.button_down_detection(sound)
+                if btn_pressed != None:
+                    if btn_pressed != "options":
+                        for function in btn_switchcase[btn_pressed]:
+                            function()
+                    else:
+                        btn_switchcase[btn_pressed]("menu")
+
+            # Menu Buttons Over Detection
+            if event.type == pygame.MOUSEMOTION:
+                menu.buttons.button_over_detection()
             
         # Cursor
         cursor.update()
@@ -371,40 +375,23 @@ def options_loop(from_loop):
         "menu": [init_game, menu_loop],
         "gameover": [gameover_loop]
     }
+    btn_switchcase = {
+        "back": backbtn_switchcase[from_loop],
+        "menu": [init_game, menu_loop],
+        "fullscreen": [placeholder],
+        "music": [music.update],
+        "sound": [
+            sound.update, 
+            countdown_audio.update, 
+            speicalcolor_audio_identifier.update]
+    }
     if from_loop == "pause":  # from pause
-        btn_switchcase = {
-            "back": backbtn_switchcase[from_loop],
-            "play": {
-                "pause": [
-                    game.countdown.restart_countdown_time, 
-                    restart_startofgame,
-                    game_loop]
-            },
-            "menu": [init_game, menu_loop],
-            "animation": [placeholder],
-            "music": [music.update],
-            "sound": [
-                sound.update, 
-                countdown_audio.update, 
-                speicalcolor_audio_identifier.update],
-            None: [placeholder]
-        }
+        btn_switchcase["play"] = [
+            game.countdown.restart_countdown_time, 
+            restart_startofgame,
+            game_loop]
     else:  # from menu or gameover
-        btn_switchcase = {
-            "back": backbtn_switchcase[from_loop],
-            "play": {
-                "menu": [init_game, game_loop],
-                "gameover": [init_game, game_loop]
-            },
-            "menu": [init_game, menu_loop],
-            "fullscreen": [placeholder],
-            "music": [music.update],
-            "sound": [
-                sound.update, 
-                countdown_audio.update, 
-                speicalcolor_audio_identifier.update],
-            None: [placeholder]
-        }
+        btn_switchcase["play"] = [init_game, game_loop]
 
     # Loop
     run = True
@@ -417,29 +404,36 @@ def options_loop(from_loop):
                     options.toggleable_buttons.buttons)
                 run = False
 
-            # Options Redirect Buttons
-            btn_pressed = options.redirect_buttons.get_button_pressed(event, sound)
-            functions = btn_switchcase[btn_pressed]
-            functions = functions[from_loop] if btn_pressed == "play" else functions
-            if isfrom_paused and btn_pressed == "back":
-                functions[0]("options")
-            else:
-                for function in functions:
-                    function()
+            # Options Buttons Down Detection
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                # Redirect Buttons
+                btn_pressed = options.redirect_buttons.button_down_detection(sound)
+                if btn_pressed != None:
+                    functions = btn_switchcase[btn_pressed]
+                    if isfrom_paused and btn_pressed == "back":
+                        functions[0]("options")
+                    else:
+                        for function in functions:
+                            function()
 
-            options.redirect_buttons.handle_mousemotion(event)
+                # Toggleable Buttons
+                btn_pressed = options.toggleable_buttons.button_down_detection(sound)
+                if btn_pressed != None:
+                    functions = btn_switchcase[btn_pressed]
+                    if btn_pressed == "music" or btn_pressed == "sound":
+                        for function in functions:
+                            function(options.toggleable_buttons.buttons)
+                    else:
+                        for function in functions:
+                            function()
 
-            # Options Toggleable Buttons
-            btn_pressed = options.toggleable_buttons.get_button_pressed(event, sound)
-            functions = btn_switchcase[btn_pressed]
-            if btn_pressed == "music" or btn_pressed == "sound":
-                for function in functions:
-                    function(options.toggleable_buttons.buttons)
-            else:
-                for function in functions:
-                    function()
+            # Options Buttons Over Detection
+            if event.type == pygame.MOUSEMOTION:
+                # Redirect Buttons
+                options.redirect_buttons.button_over_detection()
 
-            options.toggleable_buttons.handle_mousemotion(event)
+                # Toggleable Buttons
+                options.toggleable_buttons.button_over_detection()
         
         # Cursor
         cursor.update()
@@ -485,14 +479,19 @@ def gameover_loop():
                     options.toggleable_buttons.buttons)
                 run = False
 
-            # GameOver Buttons
-            btn_pressed = gameover.buttons.get_button_pressed(event, sound)
-            if btn_pressed != "options":
-                for function in btn_switchcase[btn_pressed]:
-                    function()
-            else:
-                btn_switchcase[btn_pressed]("gameover")
-            gameover.buttons.handle_mousemotion(event)
+            # GameOver Buttons Down Detection
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                btn_pressed = gameover.buttons.button_down_detection(sound)
+                if btn_pressed != None:
+                    if btn_pressed != "options":
+                        for function in btn_switchcase[btn_pressed]:
+                            function()
+                    else:
+                        btn_switchcase[btn_pressed]("gameover")
+
+            # GameOver Buttons Over Detection
+            if event.type == pygame.MOUSEMOTION:
+                gameover.buttons.button_over_detection()
 
         # Cursor
         cursor.update()
@@ -554,14 +553,19 @@ def paused_loop(from_loop):
                     # Game Loop
                     game_loop()
 
-            # Paused Buttons
-            btn_pressed = paused.buttons.get_button_pressed(event, sound)
-            if btn_pressed != "options":
-                for function in btn_switchcase[btn_pressed]:
-                    function()
-            else:
-                btn_switchcase[btn_pressed]("pause")
-            paused.buttons.handle_mousemotion(event)
+            # Pause Buttons Down Detection
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                btn_pressed = paused.buttons.button_down_detection(sound)
+                if btn_pressed != None:
+                    if btn_pressed != "options":
+                        for function in btn_switchcase[btn_pressed]:
+                            function()
+                    else:
+                        btn_switchcase[btn_pressed]("pause")
+            
+            # Pause Buttons Over Detection
+            if event.type == pygame.MOUSEMOTION:
+                paused.buttons.button_over_detection()
         
         # Cursor
         cursor.update()
@@ -583,8 +587,7 @@ if __name__ == "__main__":
     win_size = (
         int(window.rect.width * window.enlarge),
         int(window.rect.height * window.enlarge))
-    win = pygame.display.set_mode(
-        win_size, pygame.FULLSCREEN, 32)
+    win = pygame.display.set_mode(win_size, 32)
     display = pygame.Surface(window.rect.size)
     pygame.display.set_caption("Activate: Agility")
     clock = pygame.time.Clock()

@@ -360,14 +360,18 @@ class Player:
     def move_x(self, vel):
         handle_hitbox = self.hitbox.copy()
         handle_hitbox.x += vel
-        if not edge_collision(handle_hitbox):
+        if not edge_collision(handle_hitbox):  # hitbox is not colliding with room's edges
             self.rect.x += vel
+        elif handle_hitbox.centerx > window.room_rect.centerx:  # player is in the right side of the room
+            self.rect.right = window.room_rect.right
 
     def move_y(self, vel):
         handle_hitbox = self.hitbox.copy()
         handle_hitbox.y += vel
-        if not edge_collision(handle_hitbox):
+        if not edge_collision(handle_hitbox):  # hitbox is not colliding with room's edges
             self.rect.y += vel
+        elif handle_hitbox.centery > window.room_rect.centery:  # player is in the right side of the room
+            self.rect.bottom = window.room_rect.bottom
 
     # Rectagnle & Hitbox
     def get_hitbox_pos_from_rect(self, x=None, y=None):

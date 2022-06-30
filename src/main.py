@@ -15,10 +15,6 @@ import sys
 
 
 # Functions ------------------------------------------------------- #
-def placeholder():  # !!!
-    pass
-
-
 def init_game():
     global player
     global start_of_game, start_of_gamesession, end_of_game
@@ -208,8 +204,12 @@ def game_loop():
     # Loop
     run = True
     while run:
+        # Framerate Independence
+        window.update_deltatime()
+
+        # Event Loop
         for event in pygame.event.get():
-            # Quit
+            # Quit Detection
             if event.type == pygame.QUIT:
                 window.update_gameinfo(
                     game.highscore.value,
@@ -327,8 +327,12 @@ def menu_loop():
     # Loop
     run = True
     while run:
+        # Framerate Independence
+        window.update_deltatime()
+
+        # Event Loop
         for event in pygame.event.get():
-            # Quit
+            # Quit Detection
             if event.type == pygame.QUIT:
                 window.update_gameinfo(
                     game.highscore.value,
@@ -378,7 +382,7 @@ def options_loop(from_loop):
     btn_switchcase = {
         "back": backbtn_switchcase[from_loop],
         "menu": [init_game, menu_loop],
-        "fullscreen": [placeholder],
+        "fullscreen": [],
         "music": [music.update],
         "sound": [
             sound.update, 
@@ -396,8 +400,12 @@ def options_loop(from_loop):
     # Loop
     run = True
     while run:
+        # Framerate Independence
+        window.update_deltatime()
+
+        # Event Loop
         for event in pygame.event.get():
-            # Quit
+            # Quit Detection
             if event.type == pygame.QUIT:
                 window.update_gameinfo(
                     game.highscore.value,
@@ -464,15 +472,18 @@ def gameover_loop():
     btn_switchcase = {
         "play": [init_game, game_loop],
         "options": options_loop,
-        "menu": [init_game, menu_loop],
-        None: [placeholder]
+        "menu": [init_game, menu_loop]
     }
     
     # Loop
     run = True
     while run:
+        # Framerate Independence
+        window.update_deltatime()
+
+        # Event Loop
         for event in pygame.event.get():
-            # Quit
+            # Quit Detection
             if event.type == pygame.QUIT:
                 window.update_gameinfo(
                     game.highscore.value,
@@ -525,15 +536,18 @@ def paused_loop(from_loop):
             game_loop],
         "restart": [init_game, game_loop],
         "options": options_loop,
-        "menu": [init_game, menu_loop],
-        None: [placeholder]
+        "menu": [init_game, menu_loop]
     }
 
     # Loop
     run = True
     while run:
+        # Framerate Independence
+        window.update_deltatime()
+
+        # Event Loop
         for event in pygame.event.get():
-            # Quit
+            # Quit Detection
             if event.type == pygame.QUIT:
                 window.update_gameinfo(
                     game.highscore.value,

@@ -1,4 +1,5 @@
 from functions import clip_set_to_list_on_yaxis
+from windows.windows import window
 import pygame
 import json
 import os
@@ -35,13 +36,18 @@ class Tiles:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
+        # Get Multiplier
+        dt = round(window.delta_time)
+        dt_multiplier = round(3 / dt) if dt > 0 else 0
+        multiplier = dt_multiplier if dt_multiplier > 0 else 3
+
         # Cancel Update
-        if self.idx >= self.frame_limit * 3:
-            self.idx = (self.frame_limit * 3) - 1
+        if self.idx >= self.frame_limit * multiplier:
+            self.idx = (self.frame_limit * multiplier) - 1
             self.update = False
 
         # Draw
-        img = self.frames[self.idx // 3]
+        img = self.frames[self.idx // multiplier]
         display.blit(img, self.position)
 
         # Update

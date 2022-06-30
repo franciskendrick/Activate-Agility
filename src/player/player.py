@@ -171,14 +171,19 @@ class Player:
     # Draw -------------------------------------------------------- #
     def draw(self, display):
         images = self.images[self.state][self.direction]
+        
+        # Get Multiplier
+        dt = round(window.delta_time)
+        dt_multiplier = round(5 / dt) if dt > 0 else 0
+        multiplier = dt_multiplier if dt_multiplier > 0 else 5 
 
         # Reset
-        if self.idx >= len(images) * 5:
+        if self.idx >= len(images) * multiplier:
             self.idx = 0
         
         # Draw Player
         if not self.start_sizedecrease:
-            img = images[self.idx // 5]
+            img = images[self.idx // multiplier]
             display.blit(img, self.rect)
 
         # Draw Teleport
@@ -265,11 +270,16 @@ class Player:
 
         # If Player is Teleporting
         if self.is_teleporting:
+            # Get Multiplier
+            dt = round(window.delta_time)
+            dt_multiplier = round(3 / dt) if dt > 0 else 0
+            multiplier = dt_multiplier if dt_multiplier > 0 else 3
+
             # Disapparition ----------------------------------------------------------- #
             particles_d_idx = self.t_particles.disapparition_idx
 
             # Teleport Player to Destination
-            if particles_d_idx == 6 * 3:
+            if particles_d_idx == 6 * multiplier:
                 # Teleport Player's Hitbox Center to Destination Position
                 hitbox_x, hitbox_y = self.get_hitbox_pos_from_rect(
                     *self.destination_position)
@@ -283,11 +293,11 @@ class Player:
                 self.destination_position = None
 
             # Toggle On Start Player's Size Decrease
-            if particles_d_idx >= 3 * 3 and not self.t_sizedecrease.has_disapparated:
+            if particles_d_idx >= 3 * multiplier and not self.t_sizedecrease.has_disapparated:
                 self.start_sizedecrease = True
 
             # Toggle On Start Player's Disapparition Sound
-            if particles_d_idx >= 5 * 3 and not self.disapparition_played:
+            if particles_d_idx >= 5 * multiplier and not self.disapparition_played:
                 sound.play_disapparition()
                 self.disapparition_played = True
 
@@ -295,13 +305,13 @@ class Player:
             particles_a_idx = self.t_particles.apparated_idx
 
             # Toggle On Start Player's Size Increase
-            if (particles_a_idx >= 0 * 3 and 
+            if (particles_a_idx >= 0 * multiplier and 
                     self.t_sizedecrease.has_disapparated and 
                     not self.t_sizedecrease.has_apparated):
                 self.start_sizeincrease = True
 
             # Toggle On Start Player's Apparition
-            if (particles_a_idx >= 0 * 3 and 
+            if (particles_a_idx >= 0 * multiplier and 
                     self.t_sizedecrease.has_disapparated and 
                     not self.apparition_played):
                 sound.play_apparition()
@@ -359,17 +369,17 @@ class Player:
 
     def move_x(self, vel):
         handle_hitbox = self.hitbox.copy()
-        handle_hitbox.x += vel
+        handle_hitbox.x += vel * window.delta_time
         if not edge_collision(handle_hitbox):  # hitbox is not colliding with room's edges
-            self.rect.x += vel
+            self.rect.x += vel * round(window.delta_time)
         elif handle_hitbox.centerx > window.room_rect.centerx:  # player is in the right side of the room
             self.rect.right = window.room_rect.right
 
     def move_y(self, vel):
         handle_hitbox = self.hitbox.copy()
-        handle_hitbox.y += vel
+        handle_hitbox.y += vel * window.delta_time
         if not edge_collision(handle_hitbox):  # hitbox is not colliding with room's edges
-            self.rect.y += vel
+            self.rect.y += vel * round(window.delta_time)
         elif handle_hitbox.centery > window.room_rect.centery:  # player is in the right side of the room
             self.rect.bottom = window.room_rect.bottom
 

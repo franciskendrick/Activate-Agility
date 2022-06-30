@@ -1,3 +1,4 @@
+from windows.windows import window
 import pygame
 import json
 import os
@@ -69,28 +70,35 @@ class Animation:
         
     # Draw -------------------------------------------------------- #
     def draw(self, display):
+        # Get Multiplier
+        dt = round(window.delta_time)
+        dt_multiplier = round(3 / dt) if dt > 0 else 0
+        multiplier = dt_multiplier if dt_multiplier > 0 else 3
+
         # Cancel Update
-        if self.idx >= self.frame_limit * 3:
-            self.idx = (self.frame_limit * 3) - 1
+        if self.idx >= self.frame_limit * multiplier:
+            self.idx = (self.frame_limit * multiplier) - 1
             self.update = False
 
         # Draw
-        self.draw_dropdown(display)
-        self.draw_toggleablebuttons(display)
+        self.draw_dropdown(display, multiplier)
+        self.draw_toggleablebuttons(display, multiplier)
 
         # Update
         if self.update:
             self.idx += 1
 
-    def draw_dropdown(self, display):
-        position = self.dropdown_positions[self.idx // 3]
+    def draw_dropdown(self, display, multiplier):
+        position = self.dropdown_positions[self.idx // multiplier]
         if position != None:
             display.blit(self.dropdown_image, position)
 
-    def draw_toggleablebuttons(self, display):
-        for (img, positions) in zip(self.toggleable_btns_images.values(), self.toggleable_btns_positions.values()):
+    def draw_toggleablebuttons(self, display, multiplier):
+        for (img, positions) in zip(
+                self.toggleable_btns_images.values(), 
+                self.toggleable_btns_positions.values()):
             # Get Position
-            pos = positions[self.idx // 3]
+            pos = positions[self.idx // multiplier]
 
             # Draw
             if pos != None:

@@ -1,3 +1,4 @@
+from windows.windows import window
 import pygame
 import json
 import os
@@ -56,8 +57,13 @@ class Tiles:
     def draw(self, display):
         animation = self.animations[self.animation_idx]
 
+        # Get Multiplier
+        dt = round(window.delta_time)
+        dt_multiplier = round(3 / dt) if dt > 0 else 0
+        multiplier = dt_multiplier if dt_multiplier > 0 else 3
+
         # Reset Frame Index
-        if self.frame_idx >= len(animation) * 3:
+        if self.frame_idx >= len(animation) * multiplier:
             self.frame_idx = 0
             self.animation_idx += 1
 
@@ -66,7 +72,7 @@ class Tiles:
                 self.animation_idx = 0
         
         # Draw
-        img = animation[self.frame_idx // 3]
+        img = animation[self.frame_idx // multiplier]
         display.blit(img, self.position)
 
         # Update

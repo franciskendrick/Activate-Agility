@@ -1,4 +1,5 @@
 from functions import clip_set_to_list_on_xaxis
+from windows.windows import window
 import pygame
 import random
 import os
@@ -99,7 +100,7 @@ class Tiles:
     def update_tiles_to_winstate(self):
         # Turn All Tiles to Special Color
         for x, row in enumerate(self.tiles):
-            for y, (_, _, pos) in enumerate(row):
+            for y, (*_, pos) in enumerate(row):
                 image = self.images[self.specialtile_color]
                 self.tiles[x][y] = (self.specialtile_color, image, pos)
 
@@ -107,7 +108,7 @@ class Tiles:
         color = 6
         for (x, y) in self.specialtile_position:
             # Get Position
-            _, _, position = self.tiles[x][y]
+            *_, position = self.tiles[x][y]
             
             # Get Image
             image = self.images[color]
@@ -118,13 +119,18 @@ class Tiles:
     # Lost Dissipation
     def update_tiles_to_lossdissipation(self):
         if not self.dissipated:
-            # Dissipate Tiles 12 at a Time
-            for _ in range(12):
+            # Get Multiplier
+            dt = round(window.delta_time)
+            dt_multiplier = round(30 / dt) if dt > 0 else 0
+            multiplier = dt_multiplier if dt_multiplier > 0 else 30
+            
+            # Dissipate Tiles 360 / 30 (or 12) at a Time
+            for _ in range(360 // multiplier):
                 # Get Random Tile Coordinates
                 (x, y) = random.choice(self.coordinates)
 
                 # Get Position
-                _, _, position = self.tiles[x][y]
+                *_, position = self.tiles[x][y]
 
                 # Get Images
                 image = self.images[self.specialtile_color]

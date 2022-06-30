@@ -1,4 +1,5 @@
 import pygame
+import time
 import json
 import os
 
@@ -35,6 +36,8 @@ class Window:
 
         # Framerate
         self.framerate = 30
+        self.last_time = time.perf_counter()
+        self.update_deltatime()
 
     # Update ------------------------------------------------------ #
     def update_gameinfo(self, highscore_value, options_toggleable_btns):
@@ -52,6 +55,11 @@ class Window:
         # Append
         with open(f"{resources_path}/gamestatus.json", "w") as json_file:
             json.dump(handle_gamestatus, json_file)
+
+    def update_deltatime(self):
+        self.delta_time = time.perf_counter() - self.last_time
+        self.delta_time *= 30
+        self.last_time = time.perf_counter()
 
 
 window = Window()

@@ -1,4 +1,5 @@
 from functions import clip_set_to_list_on_xaxis
+from windows.windows import window
 import pygame
 import json
 import os
@@ -66,14 +67,19 @@ class TeleportationParticles:
     def draw_disapparition(self, display):
         if not self.has_disapparated:
             images = self.images["disapparition"]
+
+            # Get Multiplier
+            dt = round(window.delta_time)
+            dt_multiplier = round(3 / dt) if dt > 0 else 0
+            multiplier = dt_multiplier if dt_multiplier > 0 else 3
         
             # Cancel Updates
-            if self.disapparition_idx >= self.disapparation_flimit * 3:
-                self.disapparition_idx = (self.disapparation_flimit * 3) - 1
+            if self.disapparition_idx >= self.disapparation_flimit * multiplier:
+                self.disapparition_idx = (self.disapparation_flimit * multiplier) - 1
                 self.has_disapparated = True
 
             # Draw
-            img = images[self.disapparition_idx // 3]
+            img = images[self.disapparition_idx // multiplier]
             position = self.positions["disapparation"]
             display.blit(img, position)
 
@@ -81,16 +87,22 @@ class TeleportationParticles:
             self.disapparition_idx += 1
 
     def draw_apparition(self, display):
-        if not self.has_apparated and self.disapparition_idx >= 7 * 3:
+        # Get Multiplier
+        dt = round(window.delta_time)
+        dt_multiplier = round(3 / dt) if dt > 0 else 0
+        multiplier = dt_multiplier if dt_multiplier > 0 else 3
+
+        # Draw
+        if not self.has_apparated and self.disapparition_idx >= 7 * multiplier:
             images = self.images["apparition"]
 
             # Cancel Update
-            if self.apparated_idx >= self.apparated_flimit * 3:
-                self.apparated_idx = (self.apparated_flimit * 3) - 1
+            if self.apparated_idx >= self.apparated_flimit * multiplier:
+                self.apparated_idx = (self.apparated_flimit * multiplier) - 1
                 self.has_apparated = True
             
             # Draw
-            img = images[self.apparated_idx // 3]
+            img = images[self.apparated_idx // multiplier]
             position = self.positions["apparition"]
             display.blit(img, position)
 

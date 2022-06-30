@@ -1,4 +1,5 @@
 from functions import clip_set_to_list_on_yaxis
+from windows.windows import window
 import pygame
 import json
 import os
@@ -59,25 +60,30 @@ class Animation:
 
     # Draw -------------------------------------------------------- #
     def draw(self, display):
+        # Get Multiplier
+        dt = round(window.delta_time)
+        dt_multiplier = round(3 / dt) if dt > 0 else 0
+        multiplier = dt_multiplier if dt_multiplier > 0 else 3
+
         # Cancel Update
-        if self.idx >= self.frame_limit * 3:
-            self.idx = (self.frame_limit * 3) - 1
+        if self.idx >= self.frame_limit * multiplier:
+            self.idx = (self.frame_limit * multiplier) - 1
             self.update = False
 
         # Draw
-        self.draw_title(display)
-        self.draw_buttons(display)
+        self.draw_title(display, multiplier)
+        self.draw_buttons(display, multiplier)
 
         # Update
         if self.update:
             self.idx += 1
 
-    def draw_title(self, display):
-        position = self.title_positions[self.idx // 3]
+    def draw_title(self, display, multiplier):
+        position = self.title_positions[self.idx // multiplier]
         if position != None:
             display.blit(self.title_image, position)
 
-    def draw_buttons(self, display):
-        position = self.buttons_positions[self.idx // 3]
+    def draw_buttons(self, display, multiplier):
+        position = self.buttons_positions[self.idx // multiplier]
         if position != None:
             display.blit(self.buttons_image, position)

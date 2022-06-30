@@ -50,7 +50,7 @@ class TransitionAnimation:
         if pygame.mouse.get_focused():  # checks if mouse is in the window
             # Animation is Finished
             if self.idx >= self.frame_limit:
-                self.idx = self.frame_limit - 1
+                self.idx = (self.frame_limit) - 1
                 self.is_finished = True
 
             # Draw

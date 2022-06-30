@@ -1,4 +1,5 @@
 from functions import clip_set_to_list_on_yaxis
+from windows.windows import window
 import pygame
 import json
 import os
@@ -67,12 +68,17 @@ class Title:
         display.blit(*self.board)
 
     def draw_title(self, display):
+        # Get Multiplier
+        dt = round(window.delta_time)
+        dt_multiplier = round(5 / dt) if dt > 0 else 0
+        multiplier = dt_multiplier if dt_multiplier > 0 else 5
+
         # Reset
-        if self.idx >= len(self.frames) * 5:
+        if self.idx >= len(self.frames) * multiplier:
             self.idx = 0
 
         # Draw
-        img, rect = self.frames[self.idx // 5]
+        img, rect = self.frames[self.idx // multiplier]
         display.blit(img, rect)
 
         # Update

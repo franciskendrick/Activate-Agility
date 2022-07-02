@@ -11,4 +11,4 @@ This project was created using Python 3.x, and a Python library, [Pygame](https:
 - pygame
 
 ## **How to Use:**
-- Run _main.py_.
+- Run _scr/main.py_.
